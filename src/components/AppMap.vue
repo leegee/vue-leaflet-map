@@ -9,6 +9,8 @@
       @update:zoom="zoomUpdate"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
+
+      <ControlDrawer />
     </l-map>
   </div>
 </template>
@@ -21,11 +23,18 @@
   top: 0;
   left: 0;
 }
+
+.leaflet-control-attribution {
+  position: fixed;
+  top: 0;
+  right: 0;
+}
 </style>
 
 <script>
 import { latLng } from "leaflet";
 import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
+import ControlDrawer from "./controls/ControlDrawer";
 
 export default {
   name: "AppMap",
@@ -35,6 +44,7 @@ export default {
     LMarker,
     LPopup,
     LTooltip,
+    ControlDrawer,
   },
   data() {
     return {

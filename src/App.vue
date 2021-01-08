@@ -1,11 +1,14 @@
 <template>
-  <header>
-    <nav>
-      <router-link to="/"> Home </router-link> |
-      <router-link to="/help"> Help </router-link>
-      <router-view />
-    </nav>
-  </header>
+  <main>
+    <header>
+      <nav>
+        <router-link to="/"> Home </router-link> |
+        <router-link to="/help"> Help </router-link>
+      </nav>
+    </header>
+
+    <router-view></router-view />
+  </main>
 </template>
 
 <style scoped>

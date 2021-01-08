@@ -5,3 +5,10 @@
 
 @import 'variables';
 @import 'scaffolding';
+
+html {
+  --app-bg: #121212;
+  --app-fg: #dae0e0;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+}
