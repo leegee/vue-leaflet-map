@@ -64,7 +64,10 @@ export default {
   methods: {
     updateBounds(bounds) {
       this.currentBounds = bounds;
-      this.$store.dispatch("mapUpdateBounds", bounds.getNorthEast(), bounds.getSouthWest());
+      this.$store.dispatch("mapUpdateBounds", {
+        ne: bounds.getNorthEast(),
+        sw: bounds.getSouthWest(),
+      });
     },
     updateZoom(zoom) {
       this.currentZoom = zoom;

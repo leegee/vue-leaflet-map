@@ -1,4 +1,9 @@
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 import AppMap from '@/components/AppMap';
+
+Vue.use(VueRouter);
+
 const AppHelp = () => import('@/components/AppHelp');
 const ControlDrawer = () => import("@/components/controls/ControlDrawer");
 
@@ -20,4 +25,9 @@ const routes = [
     }
 ];
 
-export default routes;
+export default new VueRouter({
+    routes,
+    linkActiveClass: 'active',
+    mode: 'history'
+});
+
