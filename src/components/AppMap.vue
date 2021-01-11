@@ -5,11 +5,11 @@
       :center="center"
       :options="mapOptions"
       style="height: 100%; width: 100%"
-      @update:center="centerUpdate"
-      @update:zoom="zoomUpdate"
+      @update:center="updateCenter"
+      @update:zoom="updateZoom"
+      @update:bounds="updateBounds"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
-
       <ControlDrawer />
     </l-map>
   </div>
@@ -62,10 +62,14 @@ export default {
     };
   },
   methods: {
-    zoomUpdate(zoom) {
+    updateBounds(bounds) {
+      this.currentBounds = bounds;
+      this.$store.dispatch("mapUpdateBounds", bounds.getNorthEast(), bounds.getSouthWest());
+    },
+    updateZoom(zoom) {
       this.currentZoom = zoom;
     },
-    centerUpdate(center) {
+    updateCenter(center) {
       this.currentCenter = center;
     },
   },

@@ -22,13 +22,17 @@ const store = new Vuex.Store({
         count: 0,
         drawer: {
             open: false
+        },
+        map: {
+            bounds: []
         }
-    },
-    actions: {
     },
     mutations: {
         drawerOpen: state => state.drawer.open = true,
         drawerClose: state => state.drawer.open = false,
+    },
+    actions: {
+        mapUpdateBounds: (state, ne, sw) => state.map.bounds = [ne, sw],
     }
 });
 
