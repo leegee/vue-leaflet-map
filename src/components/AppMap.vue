@@ -8,6 +8,7 @@
       @update:center="updateCenter"
       @update:zoom="updateZoom"
       @update:bounds="updateBounds"
+      @leaflet:load="loadEnd"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
       <ControlDrawer />
@@ -32,6 +33,9 @@
 </style>
 
 <script>
+import { debounce } from "debounce";
+import { mapState } from "vuex";
+
 import { latLng } from "leaflet";
 import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
 import ControlDrawer from "./controls/ControlDrawer";
@@ -61,13 +65,18 @@ export default {
       showMap: true,
     };
   },
+
   methods: {
+    loadEnd() {
+      this.$store.dispatch("mapUpdateData");
+    },
     updateBounds(bounds) {
       this.currentBounds = bounds;
-      this.$store.dispatch("mapUpdateBounds", {
+      this.$store.commit("mapUpdateBounds", {
         ne: bounds.getNorthEast(),
         sw: bounds.getSouthWest(),
       });
+      this.$store.dispatch("mapUpdateData");
     },
     updateZoom(zoom) {
       this.currentZoom = zoom;
