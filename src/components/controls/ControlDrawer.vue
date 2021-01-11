@@ -12,19 +12,17 @@
   position: fixed;
   width: 100vw;
   height: var(--closed-height);
-  max-height: var(--closed-height);
+  transition: height 0.3s;
   bottom: 0;
   left: 0;
   background: var(--app-bg);
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
   transform-origin: bottom;
-  transition: max-height 0.3s;
 }
 #control-drawer.open {
   height: 90vh;
-  max-height: 90vh;
-  transition: max-height 0.3s;
+  transition: height 0.3s;
 }
 header {
   height: var(--closed-height);
