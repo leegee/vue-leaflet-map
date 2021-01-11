@@ -1,10 +1,13 @@
 {
   "name": "lee-vue-leaflet",
   "version": "0.0.1",
-  "description": "Initial vue/leaflet/webpack 5",
+  "description": "vue/leaflet/webpack 5/modular data feed",
   "main": "index.js",
-  "author": "Tania Rascia",
+  "author": "Lee Goddard",
   "license": "MIT",
+  "repository": {
+    "url": "git@github.com:leegee/lee-vue-leaflet-wp5-init.git"
+  },
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack serve --config config/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js"
@@ -42,6 +45,7 @@
     "webpack-merge": "^5.2.0"
   },
   "dependencies": {
+    "debounce": "^1.2.0",
     "leaflet": "^1.7.1",
     "vue": "^2.6.12",
     "vue-router": "^3.4.9",
