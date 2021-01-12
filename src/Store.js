@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { get } from './Api';
+import * as api from './Api';
 
 Vue.use(Vuex)
 
@@ -13,22 +13,29 @@ export default new Vuex.Store({
     drawer: {
       open: false
     },
+    markerData: {},
     map: {
-      bounds: []
+      bounds: {
+        ne: null,
+        sw: null
+      }
     }
   },
   mutations: {
     drawerOpen: state => state.drawer.open = true,
     drawerClose: state => state.drawer.open = false,
-    mapUpdateBounds: (state, { ne, sw }) => state.map.bounds = [ne, sw],
-    mapUpdateData: (state, data) => state.data = data,
+    mapUpdateData: (state, { markerData }) => {
+      console.log('Store.mapUpdateData', markerData);
+      state.markerData = markerData;
+    },
+    mapUpdateBounds: (state, { ne, sw }) => {
+      state.map.bounds = { ne, sw };
+    },
   },
   actions: {
-    mapUpdateData: (context) => {
-
-      get().then(
-        (data) => context.commit('mapUpdateData', { data })
-      );
+    mapUpdateData: async (context) => {
+      const markerData = await api.getBoundingBox(context.state.map.bounds);
+      context.commit('mapUpdateData', { markerData });
     },
   },
 });
