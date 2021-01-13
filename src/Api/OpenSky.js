@@ -50,6 +50,7 @@ function _formatForGetBoundBox(json) {
       lat: json.states[i][6],
       lng: json.states[i][5],
       label: json.states[i][1],
+      rotate: json.states[i][10],
     };
   }
 

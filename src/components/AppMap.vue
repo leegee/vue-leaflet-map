@@ -31,13 +31,35 @@
   top: 0;
   right: 0;
 }
+
+.leaflet-div-icon {
+  background: unset;
+  border: unset;
+}
+
+.marker-pin {
+  background: transparent url("../images/icons/arrow-up.svg") no-repeat center;
+  border: 1pt solid red;
+  border-radius: 50%;
+  min-width: 24pt;
+  min-height: 24pt;
+}
 </style>
 
 <script>
 import { mapState } from "vuex";
 
-import { latLng } from "leaflet";
-import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
+import { latLng, divIcon } from "leaflet";
+
+import {
+  LMap,
+  LTileLayer,
+  LMarker,
+  LPopup,
+  LIcon,
+  LTooltip,
+} from "vue2-leaflet";
+
 import ControlDrawer from "./controls/ControlDrawer";
 
 const _markers = {};
@@ -48,6 +70,7 @@ export default {
     LMap,
     LTileLayer,
     LMarker,
+    LIcon,
     LPopup,
     LTooltip,
     ControlDrawer,
@@ -111,7 +134,6 @@ export default {
     },
 
     updateMarkers: (self, markerData) => {
-      console.log("***", this, self);
       Object.keys(markerData).forEach((markerId) => {
         if (_markers.hasOwnProperty(markerId)) {
           // Update marker
@@ -123,7 +145,21 @@ export default {
               lat: markerData[markerId].lat,
               lng: markerData[markerId].lng,
             },
-            {}
+            {
+              icon: divIcon({
+                // shadowUrl: "leaf-shadow.png",
+                // iconUrl: "/assets/icons/arrow-up.svg",
+                html:
+                  "<div class='marker-pin' style='transform: rotate(" +
+                  markerData[markerId].rotate +
+                  "deg)'></div>",
+                iconSize: [20, 20], // size of the icon
+                shadowSize: [0, 0], // size of the shadow
+                iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
+                shadowAnchor: [0, 0], // the same for the shadow
+                popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor
+              }),
+            }
           );
           marker.addTo(self.$refs.map.mapObject);
         }
@@ -131,17 +167,4 @@ export default {
     },
   },
 };
-
-/*
-greenIcon = L.icon({
-    iconUrl: 'leaf-green.png',
-    shadowUrl: 'leaf-shadow.png',
-
-    iconSize:     [38, 95], // size of the icon
-    shadowSize:   [50, 64], // size of the shadow
-    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-    shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-});
-*/
 </script>
