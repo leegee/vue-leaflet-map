@@ -4,6 +4,7 @@
       <div id="handle"></div>
     </header>
     <h1>{{ title }}</h1>
+    <div v-html='html'></div>
   </l-control>
 </template>
 
@@ -57,7 +58,7 @@ export default {
     LControl,
   },
 
-  props: ["show", "title", "lat", "lng"],
+  props: ["show", "title", "lat", "lng", "html"],
 
   emit: ["drawerClosed"],
 

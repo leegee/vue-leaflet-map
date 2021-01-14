@@ -52,6 +52,7 @@ function _formatForGetBoundBox(json) {
       lng: json.states[i][5],
       label: id,
       rotate: json.states[i][10],
+      html: '<p align=center>HTML here</p>',
     };
   }
 

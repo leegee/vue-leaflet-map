@@ -16,6 +16,7 @@
         ref="controlDrawer"
         :show="drawerShow"
         :title="drawerTitle"
+        :html="drawerHtml"
         :lat="null"
         :lng="null"
         @drawerClosed='drawerClosed'
@@ -93,6 +94,7 @@ export default {
       showMap: true,
       drawerShow: false,
       drawerTitle: null,
+      drawerHtml: null,
       drawerLat: null,
       drawerLng: null,
     };
@@ -142,6 +144,7 @@ export default {
 
     showMarkerDetails(markerId) {
       this.$data.drawerTitle = _markersOnMap[markerId].options.fromApi.label;
+      this.$data.drawerHtml = _markersOnMap[markerId].options.fromApi.html;
       this.$data.drawerShow = true;
     },
 
