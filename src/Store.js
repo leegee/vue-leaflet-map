@@ -5,8 +5,6 @@ import * as api from './Api';
 
 Vue.use(Vuex)
 
-const MAP_UPDATE_MS = 1000;
-
 export default new Vuex.Store({
   state: {
     count: 0,
