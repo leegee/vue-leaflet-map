@@ -2,18 +2,20 @@
   <l-control id="control-drawer" ref="drawer">
     <header v-on:mousedown.stop.prevent="close">
       <div id="handle"></div>
+      <h1>{{ title }}</h1>
     </header>
-    <h1>{{ title }}</h1>
-    <div v-html="html"></div>
+    <main>
+      <div v-html="html"></div>
+    </main>
   </l-control>
 </template>
 
 <style scoped>
 #control-drawer {
-  --closed-height: 0rem;
+  --header-height: 2rem;
   position: fixed;
   width: 100vw;
-  height: var(--closed-height);
+  height: 0;
   transition: height 0.3s;
   bottom: 0;
   left: 0;
@@ -28,11 +30,12 @@
   transition: height 0.3s;
 }
 header {
-  height: var(--closed-height);
-  min-height: var(--closed-height);
-  max-height: var(--closed-height);
+  height: var(--header-height);
+  min-height: var(--header-height);
+  max-height: var(--header-height);
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
+  text-align: center;
 }
 #handle {
   opacity: 0.5;
@@ -45,6 +48,11 @@ header {
   border-radius: 4pt;
   margin-left: 30vw;
   width: 40vw;
+}
+main {
+  width: auto;
+  margin: 0 auto;
+  margin-top: var(--header-height);
 }
 </style>
 
