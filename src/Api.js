@@ -7,5 +7,3 @@
 // }
 
 export * from './Api/OpenSky';
-
-// https://opensky-network.org/apidoc/rest.html

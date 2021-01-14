@@ -113,7 +113,6 @@ export default {
 
   methods: {
     loadEnd() {
-      console.log("AppMap.loadEnd");
       this.updateBounds(this.$refs.map.mapObject.getBounds());
       if (UPDATE_MS) {
         const self = this;
@@ -153,20 +152,20 @@ export default {
 
     updateMarkers: (self, markerData) => {
       // Drop old markers:
-      // console.log("On map: ", Object.keys(_markersOnMap).join(", "));
-      // console.log("New   : ", Object.keys(markerData).join(", "));
+      // console.debug("On map: ", Object.keys(_markersOnMap).join(", "));
+      // console.debug("New   : ", Object.keys(markerData).join(", "));
 
       Object.keys(markerData).forEach((markerId) => {
         // Update marker
         if (_markersOnMap.hasOwnProperty(markerId)) {
-          // console.log("Update", markerId);
+          // console.debug("Update", markerId);
           _markersOnMap[markerId]
             .setLatLng([markerData[markerId].lat, markerData[markerId].lng])
             .update();
         }
         // New markers
         else {
-          // console.log("New", markerId);
+          // console.debug("New", markerId);
           _markersOnMap[markerId] = new L.marker(
             {
               lat: markerData[markerId].lat,
@@ -189,7 +188,7 @@ export default {
       Object.keys(_markersOnMap).forEach((mapMarkerId) => {
         // If its on the map but not in the current list, remove:
         if (!markerData.hasOwnProperty(mapMarkerId)) {
-          // console.log("Drop mapMarkerId", mapMarkerId);
+          // console.debug("Drop mapMarkerId", mapMarkerId);
           self.$refs.map.mapObject.removeLayer(_markersOnMap[mapMarkerId]);
         }
       });
