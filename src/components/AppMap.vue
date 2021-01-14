@@ -116,8 +116,9 @@ export default {
       console.log("AppMap.loadEnd");
       this.updateBounds(this.$refs.map.mapObject.getBounds());
       if (UPDATE_MS) {
+        const self = this;
         setInterval(
-          () => this.updateBounds(this.$refs.map.mapObject.getBounds()),
+          () => self.updateBounds(self.$refs.map.mapObject.getBounds()),
           UPDATE_MS
         );
       }
