@@ -1,8 +1,9 @@
 <template>
   <l-control id="control-drawer" ref="drawer">
-    <header v-on:mousedown.stop.prevent="open">
+    <header v-on:mousedown.stop.prevent="close">
       <div id="handle"></div>
     </header>
+    <h1>{{ title }}</h1>
   </l-control>
 </template>
 
@@ -16,18 +17,21 @@
   bottom: 0;
   left: 0;
   background: var(--app-bg);
+  color: var(--app-fg);
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
   transform-origin: bottom;
 }
 #control-drawer.open {
-  height: 90vh;
+  height: 50vh;
   transition: height 0.3s;
 }
 header {
   height: var(--closed-height);
   min-height: var(--closed-height);
   max-height: var(--closed-height);
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
 }
 #handle {
   opacity: 0.5;
@@ -52,19 +56,34 @@ export default {
   components: {
     LControl,
   },
+
+  props: ["show", "title", "lat", "lng"],
+
+  emit: ["drawerClosed"],
+
   data() {
     return {};
   },
+
+  watch: {
+    show(newValue) {
+      if (newValue) {
+        this.open();
+      } else {
+        this.close();
+      }
+    },
+  },
+
   methods: {
     open: function () {
-      if (this.$store.state.drawer.open) {
-        this.$store.commit("drawerClose");
-        this.$refs.drawer.$el.classList.remove("open");
-      } else {
-        this.$store.commit("drawerOpen");
-        console.log(this.$refs);
-        this.$refs.drawer.$el.classList.add("open");
-      }
+      this.$store.commit("drawerOpen");
+      this.$refs.drawer.$el.classList.add("open");
+    },
+    close: function () {
+      this.$store.commit("drawerClose");
+      this.$refs.drawer.$el.classList.remove("open");
+      this.$emit("drawerClosed");
     },
   },
 };

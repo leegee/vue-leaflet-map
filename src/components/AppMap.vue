@@ -12,7 +12,14 @@
       @leaflet:load="loadEnd"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
-      <ControlDrawer />
+      <ControlDrawer
+        ref="controlDrawer"
+        :show="drawerShow"
+        :title="drawerTitle"
+        :lat="null"
+        :lng="null"
+        @drawerClosed='drawerClosed'
+      />
     </l-map>
   </div>
 </template>
@@ -38,8 +45,9 @@
 }
 
 .marker-pin {
-  background: transparent url("../images/icons/arrow-up.svg") no-repeat center;
-  border: 1pt solid red;
+  background: transparent url("../images/icons/arrow-up.svg") cover no-repeat;
+  border: 2px solid black;
+  color: black;
   border-radius: 50%;
   min-width: 24pt;
   min-height: 24pt;
@@ -51,18 +59,13 @@ import { mapState } from "vuex";
 
 import { latLng, divIcon } from "leaflet";
 
-import {
-  LMap,
-  LTileLayer,
-  LMarker,
-  LPopup,
-  LIcon,
-  LTooltip,
-} from "vue2-leaflet";
+import { LMap, LTileLayer, LMarker, LIcon, LTooltip } from "vue2-leaflet";
 
 import ControlDrawer from "./controls/ControlDrawer";
 
-const _markers = {};
+const UPDATE_MS = false;
+
+const _markersOnMap = {};
 
 export default {
   name: "AppMap",
@@ -71,7 +74,6 @@ export default {
     LTileLayer,
     LMarker,
     LIcon,
-    LPopup,
     LTooltip,
     ControlDrawer,
   },
@@ -89,6 +91,10 @@ export default {
         zoomSnap: 0.5,
       },
       showMap: true,
+      drawerShow: false,
+      drawerTitle: null,
+      drawerLat: null,
+      drawerLng: null,
     };
   },
 
@@ -100,20 +106,21 @@ export default {
 
   watch: {
     markerData(markerData) {
-      if (markerData) {
-        console.log(
-          `%cmarkerData computed ${JSON.stringify(markerData)}`,
-          "color:yellow"
-        );
-        this.updateMarkers(this, markerData);
-      }
+      this.updateMarkers(this, markerData);
     },
   },
 
   methods: {
     loadEnd() {
       console.log("AppMap.loadEnd");
-      this.updateBounds(this.$refs.map.mapObject.getBounds());
+      if (!UPDATE_MS) {
+        this.updateBounds(this.$refs.map.mapObject.getBounds());
+      } else {
+        setInterval(
+          () => this.updateBounds(this.$refs.map.mapObject.getBounds()),
+          UPDATE_MS
+        );
+      }
     },
     async updateBounds(bounds) {
       console.log("AppMap.updateBounds: ", bounds);
@@ -133,35 +140,55 @@ export default {
       this.currentCenter = center;
     },
 
+    showMarkerDetails(markerId) {
+      this.$data.drawerTitle = _markersOnMap[markerId].options.fromApi.label;
+      this.$data.drawerShow = true;
+    },
+
+    drawerClosed(){
+      this.$data.drawerShow = false;
+    },
+
     updateMarkers: (self, markerData) => {
+      // Drop old markers:
+      // console.log("On map: ", Object.keys(_markersOnMap).join(", "));
+      // console.log("New   : ", Object.keys(markerData).join(", "));
+
       Object.keys(markerData).forEach((markerId) => {
-        if (_markers.hasOwnProperty(markerId)) {
-          // Update marker
-          // marker.setLatLng(e.latlng);
-        } else {
-          _markers[markerId] = markerData[markerId];
-          const marker = new L.marker(
+        // Update marker
+        if (_markersOnMap.hasOwnProperty(markerId)) {
+          // console.log("Update", markerId);
+          _markersOnMap[markerId]
+            .setLatLng([markerData[markerId].lat, markerData[markerId].lng])
+            .update();
+        }
+        // New markers
+        else {
+          // console.log("New", markerId);
+          _markersOnMap[markerId] = new L.marker(
             {
               lat: markerData[markerId].lat,
               lng: markerData[markerId].lng,
             },
             {
+              fromApi: markerData[markerId],
               icon: divIcon({
-                // shadowUrl: "leaf-shadow.png",
-                // iconUrl: "/assets/icons/arrow-up.svg",
                 html:
                   "<div class='marker-pin' style='transform: rotate(" +
                   markerData[markerId].rotate +
                   "deg)'></div>",
-                iconSize: [20, 20], // size of the icon
-                shadowSize: [0, 0], // size of the shadow
-                iconAnchor: [0, 0], // point of the icon which will correspond to marker's location
-                shadowAnchor: [0, 0], // the same for the shadow
-                popupAnchor: [0, 0], // point from which the popup should open relative to the iconAnchor
               }),
             }
-          );
-          marker.addTo(self.$refs.map.mapObject);
+          ).on("click", () => self.showMarkerDetails(markerId));
+          _markersOnMap[markerId].addTo(self.$refs.map.mapObject);
+        }
+      });
+
+      Object.keys(_markersOnMap).forEach((mapMarkerId) => {
+        // If its on the map but not in the current list, remove:
+        if (!markerData.hasOwnProperty(mapMarkerId)) {
+          // console.log("Drop mapMarkerId", mapMarkerId);
+          self.$refs.map.mapObject.removeLayer(_markersOnMap[mapMarkerId]);
         }
       });
     },

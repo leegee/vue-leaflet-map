@@ -46,10 +46,11 @@ function _formatForGetBoundBox(json) {
   const rv = {};
 
   for (let i = 0; i < json.states.length; i++) {
-    rv[json.states[i][1]] = {
+    const id = json.states[i][1].trim();
+    rv[id] = {
       lat: json.states[i][6],
       lng: json.states[i][5],
-      label: json.states[i][1],
+      label: id,
       rotate: json.states[i][10],
     };
   }
