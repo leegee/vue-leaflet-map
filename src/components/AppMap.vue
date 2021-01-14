@@ -63,7 +63,7 @@ import { LMap, LTileLayer, LMarker, LIcon, LTooltip } from "vue2-leaflet";
 
 import ControlDrawer from "./controls/ControlDrawer";
 
-const UPDATE_MS = false;
+const UPDATE_MS = 15000;
 
 const _markersOnMap = {};
 
@@ -114,9 +114,8 @@ export default {
   methods: {
     loadEnd() {
       console.log("AppMap.loadEnd");
-      if (!UPDATE_MS) {
-        this.updateBounds(this.$refs.map.mapObject.getBounds());
-      } else {
+      this.updateBounds(this.$refs.map.mapObject.getBounds());
+      if (UPDATE_MS) {
         setInterval(
           () => this.updateBounds(this.$refs.map.mapObject.getBounds()),
           UPDATE_MS
