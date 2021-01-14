@@ -10,6 +10,7 @@
       @update:zoom="updateZoom"
       @update:bounds="updateBounds"
       @leaflet:load="loadEnd"
+      @click="drawerClosed"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
       <ControlDrawer
@@ -17,9 +18,7 @@
         :show="drawerShow"
         :title="drawerTitle"
         :html="drawerHtml"
-        :lat="null"
-        :lng="null"
-        @drawerClosed='drawerClosed'
+        @drawerClosed="drawerClosed"
       />
     </l-map>
   </div>
@@ -46,7 +45,7 @@
 }
 
 .marker-pin {
-  background: transparent url("../images/icons/arrow-up.svg") cover no-repeat;
+  background: transparent url("../images/icons/arrow-up.svg") center no-repeat;
   border: 2px solid black;
   color: black;
   border-radius: 50%;
@@ -148,7 +147,7 @@ export default {
       this.$data.drawerShow = true;
     },
 
-    drawerClosed(){
+    drawerClosed() {
       this.$data.drawerShow = false;
     },
 

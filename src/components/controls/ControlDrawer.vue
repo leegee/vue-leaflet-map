@@ -4,13 +4,13 @@
       <div id="handle"></div>
     </header>
     <h1>{{ title }}</h1>
-    <div v-html='html'></div>
+    <div v-html="html"></div>
   </l-control>
 </template>
 
 <style scoped>
 #control-drawer {
-  --closed-height: 2rem;
+  --closed-height: 0rem;
   position: fixed;
   width: 100vw;
   height: var(--closed-height);
@@ -49,7 +49,6 @@ header {
 </style>
 
 <script>
-import { latLng } from "leaflet";
 import { LControl } from "vue2-leaflet";
 
 export default {
@@ -58,7 +57,7 @@ export default {
     LControl,
   },
 
-  props: ["show", "title", "lat", "lng", "html"],
+  props: ["show", "title", "html"],
 
   emit: ["drawerClosed"],
 
