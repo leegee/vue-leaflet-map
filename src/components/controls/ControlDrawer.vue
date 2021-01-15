@@ -92,13 +92,12 @@ export default {
   },
 
   mounted() {
-    this.componentLoader()
-      .then((comp) => {
-        this.component = () => this.componentLoader();
-      })
-      .catch(() => {
-        this.component = () => import("@/components/templates/Error");
-      });
+    this.componentLoader().then((comp) => {
+      this.component = () => this.componentLoader();
+    });
+    // .catch(() => {
+    // this.component = () => import("@/components/templates/Error");
+    // });
   },
   methods: {
     open: function () {

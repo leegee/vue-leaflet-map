@@ -27,7 +27,7 @@ export async function getBoundingBox(bounds) {
   console.log('OpenSky.getBoundingBox fetch', url);
 
   if (RUNNING) {
-    controller.abort();
+    // controller.abort();
   }
 
   try {
@@ -39,6 +39,7 @@ export async function getBoundingBox(bounds) {
       rv = _formatForGetBoundBox(json);
     } else {
       console.error('Nothing in the json', json);
+      this.$emit('error', { msg: "The API returned an invalid response" });
     }
     RUNNING = false;
   } catch (e) {
@@ -46,7 +47,7 @@ export async function getBoundingBox(bounds) {
     if (e.name === "AbortError") {
       console.log('I aborted');
     } else {
-      console.warn(e);
+      throw new APIError("The API returned an invalid response");
     }
   }
 

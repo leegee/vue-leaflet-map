@@ -46,6 +46,6 @@ export const store = new Vuex.Store({
     mapUpdateData: async (context) => {
       const markerData = await api.getBoundingBox(context.state.map.bounds);
       context.commit('mapUpdateData', { markerData });
-    },
+    }
   },
 });

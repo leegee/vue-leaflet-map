@@ -123,9 +123,10 @@ export default {
         ne: bounds.getNorthEast(),
         sw: bounds.getSouthWest(),
       });
-      const markerData = await this.$store.dispatch("mapUpdateData", bounds);
-      if (null !== markerData) {
-        this.$store.markerData;
+      try {
+        this.$store.dispatch("mapUpdateData", bounds);
+      } catch (e) {
+        this.$emit('error', e);
       }
     },
     updateZoom(zoom) {
