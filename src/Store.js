@@ -1,11 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import * as api from './Api';
+// import * as api from './Api';
+
+let api;
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+export function setApi(_api) {
+  api = _api;
+}
+
+export const store = new Vuex.Store({
   state: {
     count: 0,
     drawer: {

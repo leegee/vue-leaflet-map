@@ -8,7 +8,11 @@ import Vue from 'vue';
 
 import App from './App';
 import router from './Router';
-import store from './Store';
+import { store, setApi } from './Store';
+
+import * as api from './implementations/OpenSky/Api';
+
+setApi(api);
 
 new Vue({
     el: '#app',

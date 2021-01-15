@@ -1,6 +1,9 @@
 // https://opensky-network.org/apidoc/rest.html
 
-const baseUrl = 'https://opensky-network.org/api';
+const controller = new AbortController();
+const { signal } = controller;
+
+const BASE_URL = 'https://opensky-network.org/api';
 
 /**
  * @returns Promise<[] || null>
@@ -17,12 +20,14 @@ export async function getBoundingBox(bounds) {
     lomax: bounds.ne.lng,
   });
 
-  const url = baseUrl + '/states/all?' + params.toString();
+  const url = BASE_URL + '/states/all?' + params.toString();
 
   console.log('OpenSky.getBoundingBox fetch', url);
 
+  controller.abort();
+
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { signal });
     const json = await res.json();
     if (json && json.states !== null) {
       rv = _formatForGetBoundBox(json);
@@ -30,7 +35,11 @@ export async function getBoundingBox(bounds) {
       console.error('Nothing in the json', json);
     }
   } catch (e) {
-    console.warn(e);
+    if (e.name === "AbortError") {
+      console.log('I aborted');
+    } else {
+      console.warn(e);
+    }
   }
 
   return rv;

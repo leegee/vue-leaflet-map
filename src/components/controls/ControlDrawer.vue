@@ -5,7 +5,7 @@
       <h1>{{ title }}</h1>
     </header>
     <main>
-      <div v-html="html"></div>
+      <component :is="componentLoader" :options="options"></component>
     </main>
   </l-control>
 </template>
@@ -65,7 +65,7 @@ export default {
     LControl,
   },
 
-  props: ["show", "title", "html"],
+  props: ["show", "title", "type", "options"],
 
   emit: ["drawerClosed"],
 
@@ -75,6 +75,7 @@ export default {
 
   watch: {
     show(newValue) {
+      console.debug("newValue,this", newValue, this);
       if (newValue) {
         this.open();
       } else {
@@ -83,6 +84,22 @@ export default {
     },
   },
 
+  computed: {
+    componentLoader() {
+      return () =>
+        import("@/apis/" + this.$props.type + "/ItemInControlDrawer");
+    },
+  },
+
+  mounted() {
+    this.componentLoader()
+      .then((comp) => {
+        this.component = () => this.componentLoader();
+      })
+      .catch(() => {
+        this.component = () => import("@/components/templates/Error");
+      });
+  },
   methods: {
     open: function () {
       this.$store.commit("drawerOpen");

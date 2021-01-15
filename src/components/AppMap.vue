@@ -15,6 +15,7 @@
       <l-tile-layer :url="url" :attribution="attribution" />
       <ControlDrawer
         ref="controlDrawer"
+        type="OpenSky"
         :show="drawerShow"
         :title="drawerTitle"
         :html="drawerHtml"
@@ -63,7 +64,7 @@ import { LMap, LTileLayer, LMarker, LIcon, LTooltip } from "vue2-leaflet";
 
 import ControlDrawer from "./controls/ControlDrawer";
 
-const UPDATE_MS = 15000;
+const UPDATE_MS = 0; // 15000;
 
 const _markersOnMap = {};
 
@@ -154,6 +155,10 @@ export default {
       // Drop old markers:
       // console.debug("On map: ", Object.keys(_markersOnMap).join(", "));
       // console.debug("New   : ", Object.keys(markerData).join(", "));
+
+      if (!markerData) {
+        return;
+      }
 
       Object.keys(markerData).forEach((markerId) => {
         // Update marker
