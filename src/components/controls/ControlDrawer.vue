@@ -2,10 +2,10 @@
   <l-control id="control-drawer" ref="drawer">
     <header v-on:mousedown.stop.prevent="close">
       <div id="handle"></div>
-      <h1>{{ title }}</h1>
+      <h1>{{ $store.state.drawer.details.label }}</h1>
     </header>
     <main>
-      <component :is="componentLoader" :options="options"></component>
+      <component :is="componentLoader"></component>
     </main>
   </l-control>
 </template>
@@ -50,9 +50,9 @@ header {
   width: 40vw;
 }
 main {
+  padding: 2rem;
   width: auto;
   margin: 0 auto;
-  margin-top: var(--header-height);
 }
 </style>
 
@@ -65,7 +65,7 @@ export default {
     LControl,
   },
 
-  props: ["show", "title", "type", "options"],
+  props: ["show", "type", "title"],
 
   emit: ["drawerClosed"],
 
@@ -102,7 +102,6 @@ export default {
   },
   methods: {
     open: function () {
-      this.$store.commit("drawerOpen");
       this.$refs.drawer.$el.classList.add("open");
     },
     close: function () {

@@ -5,6 +5,8 @@ const { signal } = controller;
 
 const BASE_URL = 'https://opensky-network.org/api';
 
+let RUNNING = false;
+
 /**
  * @returns Promise<[] || null>
  */
@@ -24,9 +26,13 @@ export async function getBoundingBox(bounds) {
 
   console.log('OpenSky.getBoundingBox fetch', url);
 
-  controller.abort();
+  if (RUNNING) {
+    controller.abort();
+  }
 
   try {
+    RUNNING = true;
+    console.debug('GET', url);
     const res = await fetch(url, { signal });
     const json = await res.json();
     if (json && json.states !== null) {
@@ -34,7 +40,9 @@ export async function getBoundingBox(bounds) {
     } else {
       console.error('Nothing in the json', json);
     }
+    RUNNING = false;
   } catch (e) {
+    RUNNING = false;
     if (e.name === "AbortError") {
       console.log('I aborted');
     } else {
@@ -61,16 +69,15 @@ function _formatForGetBoundBox(json) {
       lng: json.states[i][5],
       label: id,
       rotate: json.states[i][10],
-      html: '<p align=center>HTML here</p>',
+      openskyState: json.states[i]
     };
   }
 
-  console.log('OpenSky._formatForGetBoundBox', rv);
   return rv;
 }
 
 /*
-Sample response `state`:
+Sample response `state`: openskyState
 [
   0 "4bc842",      transponder
   1 "PGT1182 ",    callsign

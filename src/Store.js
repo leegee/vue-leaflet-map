@@ -15,7 +15,8 @@ export const store = new Vuex.Store({
   state: {
     count: 0,
     drawer: {
-      open: false
+      open: false,
+      details: {},
     },
     markerData: {},
     map: {
@@ -26,10 +27,12 @@ export const store = new Vuex.Store({
     }
   },
   mutations: {
-    drawerOpen: state => state.drawer.open = true,
     drawerClose: state => state.drawer.open = false,
+    drawerOpen: (state, payload) => {
+      state.drawer.details = payload;
+      state.drawer.open = true;
+    },
     mapUpdateData: (state, { markerData }) => {
-      console.log('Store.mapUpdateData', markerData);
       state.markerData = markerData;
     },
     mapUpdateBounds: (state, { ne, sw }) => {
@@ -37,6 +40,9 @@ export const store = new Vuex.Store({
     },
   },
   actions: {
+    drawerOpen: (context, payload) => {
+      context.commit('drawerOpen', payload);
+    },
     mapUpdateData: async (context) => {
       const markerData = await api.getBoundingBox(context.state.map.bounds);
       context.commit('mapUpdateData', { markerData });

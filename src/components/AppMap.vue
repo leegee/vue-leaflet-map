@@ -17,8 +17,6 @@
         ref="controlDrawer"
         type="OpenSky"
         :show="drawerShow"
-        :title="drawerTitle"
-        :html="drawerHtml"
         @drawerClosed="drawerClosed"
       />
     </l-map>
@@ -93,10 +91,6 @@ export default {
       },
       showMap: true,
       drawerShow: false,
-      drawerTitle: null,
-      drawerHtml: null,
-      drawerLat: null,
-      drawerLng: null,
     };
   },
 
@@ -141,12 +135,6 @@ export default {
       this.currentCenter = center;
     },
 
-    showMarkerDetails(markerId) {
-      this.$data.drawerTitle = _markersOnMap[markerId].options.fromApi.label;
-      this.$data.drawerHtml = _markersOnMap[markerId].options.fromApi.html;
-      this.$data.drawerShow = true;
-    },
-
     drawerClosed() {
       this.$data.drawerShow = false;
     },
@@ -185,7 +173,7 @@ export default {
                   "deg)'></div>",
               }),
             }
-          ).on("click", () => self.showMarkerDetails(markerId));
+          ).on("click", () => self.drawerOpen(markerId));
           _markersOnMap[markerId].addTo(self.$refs.map.mapObject);
         }
       });
@@ -197,6 +185,14 @@ export default {
           self.$refs.map.mapObject.removeLayer(_markersOnMap[mapMarkerId]);
         }
       });
+    },
+
+    drawerOpen(markerId) {
+      this.$store.dispatch(
+        "drawerOpen",
+        _markersOnMap[markerId].options.fromApi
+      );
+      this.$data.drawerShow = true; // TODO use store
     },
   },
 };
