@@ -10,7 +10,7 @@ import App from './App';
 import router from './Router';
 import { store, setApi } from './Store';
 
-import * as api from './implementations/OpenSky/Api';
+import * as api from './apis/OpenSky/Api';
 
 setApi(api);
 
