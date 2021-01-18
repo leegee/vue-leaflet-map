@@ -94,15 +94,9 @@ export default {
     };
   },
 
-  computed: {
-    markerData() {
-      return this.$store.state.markerData;
-    },
-  },
-
   watch: {
-    markerData(markerData) {
-      this.updateMarkers(this, markerData);
+    "$store.state.markerData": function () {
+      this.updateMarkers(this, this.$store.state.markerData);
     },
   },
 
@@ -127,7 +121,7 @@ export default {
       try {
         this.$store.dispatch("mapUpdateData", bounds);
       } catch (e) {
-        this.$emit('error', e);
+        this.$emit("error", e);
       }
     },
     updateZoom(zoom) {
