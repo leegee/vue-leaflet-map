@@ -13,11 +13,16 @@
       @click="drawerClosed"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
+
       <ControlDrawer
         ref="controlDrawer"
         :show="drawerShow"
         @drawerClosed="drawerClosed"
       />
+
+      <l-control position="bottomleft">
+        <button @click="focusUser(17)">⌂</button>
+      </l-control>
     </l-map>
     <slot></slot>
   </div>
@@ -31,6 +36,11 @@
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+#focusUserButton {
+  font-size: 14pt;
+  font-weight: 900;
 }
 
 .leaflet-control-attribution {
@@ -49,7 +59,7 @@
 <script>
 import { latLng, divIcon, latLngBounds } from "leaflet";
 
-import { LMap, LTileLayer, LMarker, LIcon, LTooltip } from "vue2-leaflet";
+import { LMap, LTileLayer, LControl } from "vue2-leaflet";
 
 import ControlDrawer from "./controls/ControlDrawer";
 
@@ -60,13 +70,12 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    LMarker,
-    LIcon,
-    LTooltip,
     ControlDrawer,
+    LControl,
   },
   data() {
     return {
+      userMarker: null, // State from browser, not Vuex
       leafletMapOptions: {},
       zoom: 8,
       url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -81,6 +90,16 @@ export default {
       showMap: true,
       drawerShow: false,
     };
+  },
+
+  mounted() {
+    if (navigator.geolocation) {
+      this.focusUser();
+      this.setUserMarker();
+      setInterval(() => this.updateUser(), this.$store.state.user.updateMs);
+    } else {
+      this.$refs.focusUserButton.style.display = "none";
+    }
   },
 
   watch: {
@@ -157,7 +176,9 @@ export default {
                 html:
                   "<div class='marker-pin' style='transform: rotate(" +
                   markerData[markerId].rotate +
-                  "deg)'></div>",
+                  "deg)'></div><div class='marker-label'>" +
+                  markerData[markerId].label +
+                  "</div>",
               }),
             }
           ).on("click", (e) => self.drawerOpen(markerId, e));
@@ -187,6 +208,41 @@ export default {
 
     focusMarker(self, label) {
       this.drawerOpen(label);
+    },
+
+    focusUser(zoom = 16) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.$refs.map.mapObject.setZoom(zoom);
+        this.$refs.map.mapObject.panTo([
+          position.coords.latitude,
+          position.coords.longitude,
+        ]);
+      });
+    },
+
+    updateUser() {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.userMarker
+          .setLatLng([position.coords.latitude, position.coords.longitude])
+          .update();
+      });
+    },
+
+    setUserMarker() {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.userMarker = new L.marker(
+          {
+            lat: position.latitude,
+            lng: position.longitude,
+          },
+          {
+            icon: divIcon({
+              html: "<div class='user-marker-pin'></div>",
+            }),
+          }
+        ).on("click", (e) => this.drawerOpen(markerId, e));
+        this.userMarker.addTo(this.$refs.map.mapObject);
+      });
     },
   },
 };

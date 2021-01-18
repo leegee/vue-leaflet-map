@@ -7,7 +7,8 @@ let api;
 
 export function setApi(_api) {
   api = _api;
-  store.state.map.updateMs = api.UPDATE_MS;
+  store.state.map.updateMs = api.UPDATE_MAP_MS || 16 * 1000;
+  store.state.user.updateMs = api.UPDATE_USER_MS || 10 * 1000;
 }
 
 export const store = new Vuex.Store({
@@ -18,6 +19,9 @@ export const store = new Vuex.Store({
       details: {},
     },
     markerData: {},
+    user: {
+      updateMs: 0,
+    },
     map: {
       updateMs: 0,
       focusMarkerLabel: null,
@@ -41,7 +45,7 @@ export const store = new Vuex.Store({
     },
     focusMarkerByLabel: (state, markerLabel) => {
       state.map.focusMarkerLabel = markerLabel;
-    }
+    },
   },
   actions: {
     focusMarkerByLabel: (context, markerLabel) => {
@@ -53,6 +57,6 @@ export const store = new Vuex.Store({
     mapUpdateData: async (context) => {
       const markerData = await api.getBoundingBox(context.state.map.bounds);
       context.commit('mapUpdateData', { markerData });
-    }
+    },
   },
 });

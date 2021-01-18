@@ -6,6 +6,8 @@
   border-radius: 50%;
   min-width: 24pt;
   min-height: 24pt;
+  left: -12pt;
+  position: relative;
 }
 
 // .marker-pin:after {
@@ -13,3 +15,13 @@
 //   color: black;
 //   font-size: 24pt;
 // }
+
+.marker-label {
+  background: white;
+  color: black;
+  font-size: 10pt;
+  display: inline-block;
+  padding: 2pt 4pt;
+  border-radius: 6pt;
+  transform: translate(-50%, 0%);
+}
