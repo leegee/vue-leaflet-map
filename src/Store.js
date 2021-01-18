@@ -7,6 +7,7 @@ let api;
 
 export function setApi(_api) {
   api = _api;
+  store.state.map.updateMs = api.UPDATE_MS;
 }
 
 export const store = new Vuex.Store({
@@ -18,6 +19,7 @@ export const store = new Vuex.Store({
     },
     markerData: {},
     map: {
+      updateMs: 0,
       focusMarkerLabel: null,
       bounds: {
         ne: null,

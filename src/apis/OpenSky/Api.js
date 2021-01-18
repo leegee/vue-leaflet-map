@@ -7,6 +7,8 @@ const BASE_URL = 'https://opensky-network.org/api';
 
 let RUNNING = false;
 
+export const UPDATE_MS = 16000;
+
 /**
  * @returns Promise<[] || null>
  */

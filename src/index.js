@@ -10,16 +10,16 @@ import App from './App';
 import router from './Router';
 import { store, setApi } from './Store';
 
-import('./apis/' + process.env.implementation + '/marker.scss').then(_ => {
-    import('./apis/' + process.env.implementation + '/Api').then(api => {
+import('./apis/' + process.env.implementation + '/marker.scss');
 
-        setApi(api);
+import('./apis/' + process.env.implementation + '/Api').then(api => {
 
-        new Vue({
-            el: '#app',
-            render: h => h(App),
-            router,
-            store,
-        });
+    setApi(api);
+
+    new Vue({
+        el: '#app',
+        render: h => h(App),
+        router,
+        store,
     });
 });
