@@ -8,6 +8,8 @@ const VueLoaderPlugin      = require('vue-loader/lib/plugin');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const isDev                = process.env.NODE_ENV === 'development';
 
+const IMPLEMENTATION = 'OpenSky';
+
 module.exports = {
   entry: {
     main: [paths.src + '/index.js']
@@ -30,7 +32,7 @@ module.exports = {
   // Customize the webpack build process
   plugins: [
     new webpack.EnvironmentPlugin({
-      implementation: 'OpenSky'
+      implementation: IMPLEMENTATION
     }),
     new CleanWebpackPlugin(),
 
