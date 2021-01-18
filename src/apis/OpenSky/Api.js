@@ -38,8 +38,7 @@ export async function getBoundingBox(bounds) {
     if (json && json.states !== null) {
       rv = _formatForGetBoundBox(json);
     } else {
-      console.error('Nothing in the json', json);
-      this.$emit('error', { msg: "The API returned an invalid response" });
+      throw new APIError("The API returned an invalid response");
     }
     RUNNING = false;
   } catch (e) {
