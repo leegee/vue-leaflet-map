@@ -75,7 +75,6 @@ export default {
 
   watch: {
     show(newValue) {
-      console.debug("newValue,this", newValue, this);
       if (newValue) {
         this.open();
       } else {
@@ -95,9 +94,6 @@ export default {
     this.componentLoader().then((comp) => {
       this.component = () => this.componentLoader();
     });
-    // .catch(() => {
-    // this.component = () => import("@/components/templates/Error");
-    // });
   },
   methods: {
     open: function () {
