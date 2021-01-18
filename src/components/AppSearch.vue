@@ -9,7 +9,7 @@
     <main>
       <div class="table" v:if="$store.state.markerData">
         <div
-          class="tr"
+          class="row"
           v-for="row in $store.state.markerData"
           v-bind:key="row.label"
         >
@@ -22,7 +22,7 @@
 
 <style lang="scss" scoped>
 .table,
-.tr {
+.row {
   width: 100%;
   border-collapse: collapse;
 }
