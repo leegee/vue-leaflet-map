@@ -11,7 +11,6 @@
 
       <router-view></router-view>
     </main>
-    <aside @error="showError"></aside>
   </div>
 </template>
 
@@ -39,12 +38,3 @@ header nav a {
 }
 </style>
 
-<script>
-export default {
-  methods: {
-    showError: ({msg}) => {
-      alert(msg);
-    },
-  },
-}
-</script>
