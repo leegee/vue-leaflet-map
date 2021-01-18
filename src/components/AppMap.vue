@@ -35,8 +35,9 @@
 
 .leaflet-control-attribution {
   position: fixed;
-  top: 0;
+  bottom: 0;
   right: 0;
+  display: none;
 }
 
 .leaflet-div-icon {
