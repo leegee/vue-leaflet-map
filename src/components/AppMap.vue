@@ -161,7 +161,7 @@ export default {
                   "deg)'></div>",
               }),
             }
-          ).on("click", () => self.drawerOpen(markerId));
+          ).on("click", (e) => self.drawerOpen(markerId, e));
           _markersOnMap[markerId].addTo(self.$refs.map.mapObject);
         }
       });
@@ -175,17 +175,19 @@ export default {
       });
     },
 
-    drawerOpen(markerId) {
+    drawerOpen(markerId, e) {
       this.$store.dispatch(
         "drawerOpen",
         _markersOnMap[markerId].options.fromApi
       );
       this.$data.drawerShow = true; // TODO use store
+      this.$refs.map.mapObject.setZoom(14);
+      const latLng = _markersOnMap[markerId].getLatLng();
+      this.$refs.map.mapObject.panTo([latLng.lat - 0.009, latLng.lng]);
     },
 
     focusMarker(self, label) {
-      self.$refs.map.mapObject.setZoom(15);
-      self.$refs.map.mapObject.panTo(_markersOnMap[label].getLatLng());
+      this.drawerOpen(label);
     },
   },
 };
