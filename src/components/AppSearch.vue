@@ -10,10 +10,10 @@
       <div class="table" v:if="$store.state.markerData">
         <div
           class="tr"
-          v-for="i in $store.state.markerData"
-          v-bind:key="i.label"
+          v-for="row in $store.state.markerData"
+          v-bind:key="row.label"
         >
-          <component :is="componentLoader" :rowData="i"></component>
+          <component :is="componentLoader" :rowData="row"></component>
         </div>
       </div>
     </main>
