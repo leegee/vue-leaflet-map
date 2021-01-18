@@ -1,7 +1,8 @@
 <template>
   <div>
     <main>
-      <AppMap :implementation="getImplementation()"></AppMap>
+      <AppMap></AppMap>
+      <!-- state.map.focusMarkerLabel -->
       <header>
         <nav>
           <router-link to="/search">🔍</router-link>
@@ -42,24 +43,9 @@ header nav a {
 <script>
 import AppMap from "@/components/AppMap";
 
-let implementation;
-
 export default {
-  setIplementation: (_implementation) => {
-    implementation = _implementation;
-  },
   components: {
     AppMap,
-  },
-  data() {
-    return {
-      implementation: implementation,
-    };
-  },
-  methods: {
-    getImplementation: () => {
-      return implementation;
-    },
   },
 };
 </script>

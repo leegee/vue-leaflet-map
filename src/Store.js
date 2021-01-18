@@ -1,11 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-// import * as api from './Api';
+Vue.use(Vuex)
 
 let api;
-
-Vue.use(Vuex)
 
 export function setApi(_api) {
   api = _api;
@@ -20,6 +18,7 @@ export const store = new Vuex.Store({
     },
     markerData: {},
     map: {
+      focusMarkerLabel: null,
       bounds: {
         ne: null,
         sw: null
@@ -38,8 +37,14 @@ export const store = new Vuex.Store({
     mapUpdateBounds: (state, { ne, sw }) => {
       state.map.bounds = { ne, sw };
     },
+    focusMarkerByLabel: (state, markerLabel) => {
+      state.map.focusMarkerLabel = markerLabel;
+    }
   },
   actions: {
+    focusMarkerByLabel: (context, markerLabel) => {
+      context.commit('focusMarkerByLabel', markerLabel);
+    },
     drawerOpen: (context, payload) => {
       context.commit('drawerOpen', payload);
     },

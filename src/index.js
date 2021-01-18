@@ -12,7 +12,6 @@ import { store, setApi } from './Store';
 
 import('./apis/' + process.env.implementation + '/marker.scss').then(_ => {
     import('./apis/' + process.env.implementation + '/Api').then(api => {
-        App.setIplementation(process.env.implementation);
 
         setApi(api);
 

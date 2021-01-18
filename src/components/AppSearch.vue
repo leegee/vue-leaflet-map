@@ -12,6 +12,7 @@
           class="row"
           v-for="row in $store.state.markerData"
           v-bind:key="row.label"
+          @click="rowClicked(row.label)"
         >
           <component :is="componentLoader" :rowData="row"></component>
         </div>
@@ -45,6 +46,12 @@ export default {
     this.componentLoader().then((comp) => {
       this.component = () => this.componentLoader();
     });
+  },
+
+  methods: {
+    rowClicked: function (markerLabel) {
+      this.$store.dispatch('focusMarkerByLabel', markerLabel);
+    },
   },
 };
 </script>
