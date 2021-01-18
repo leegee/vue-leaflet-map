@@ -1,7 +1,7 @@
 <template>
   <div>
     <main>
-      <AppMap></AppMap>
+      <AppMap :implementation="getImplementation()"></AppMap>
       <header>
         <nav>
           <router-link to="/search">🔍</router-link>
@@ -41,9 +41,25 @@ header nav a {
 
 <script>
 import AppMap from "@/components/AppMap";
+
+let implementation;
+
 export default {
+  setIplementation: (_implementation) => {
+    implementation = _implementation;
+  },
   components: {
     AppMap,
+  },
+  data() {
+    return {
+      implementation: implementation,
+    };
+  },
+  methods: {
+    getImplementation: () => {
+      return implementation;
+    },
   },
 };
 </script>

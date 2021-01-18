@@ -29,6 +29,9 @@ module.exports = {
 
   // Customize the webpack build process
   plugins: [
+    new webpack.EnvironmentPlugin({
+      implementation: 'OpenSky'
+    }),
     new CleanWebpackPlugin(),
 
     new CopyWebpackPlugin({

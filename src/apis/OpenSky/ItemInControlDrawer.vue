@@ -6,8 +6,6 @@ export default Vue.component("ItemInControlDrawer", {
     return {};
   },
   render: function (createElement) {
-    console.log("ItemInControlDrawer.render", this.$store.state.drawer);
-
     return !this.$store.state.drawer.details.openskyState
       ? ""
       : createElement("div", [

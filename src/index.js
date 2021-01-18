@@ -10,14 +10,17 @@ import App from './App';
 import router from './Router';
 import { store, setApi } from './Store';
 
-import * as api from './apis/OpenSky/Api';
-import './apis/OpenSky/marker.scss';
+import('./apis/' + process.env.implementation + '/marker.scss').then(_ => {
+    import('./apis/' + process.env.implementation + '/Api').then(api => {
+        App.setIplementation(process.env.implementation);
 
-setApi(api);
+        setApi(api);
 
-new Vue({
-    el: '#app',
-    render: h => h(App),
-    router,
-    store,
+        new Vue({
+            el: '#app',
+            render: h => h(App),
+            router,
+            store,
+        });
+    });
 });

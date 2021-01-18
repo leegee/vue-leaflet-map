@@ -65,7 +65,7 @@ export default {
     LControl,
   },
 
-  props: ["show", "type", "title"],
+  props: ["show", "title"],
 
   emit: ["drawerClosed"],
 
@@ -86,15 +86,15 @@ export default {
   computed: {
     componentLoader() {
       return () =>
-        import("@/apis/" + this.$props.type + "/ItemInControlDrawer");
+        import("@/apis/" + process.env.implementation + "/ItemInControlDrawer");
     },
   },
-
   mounted() {
     this.componentLoader().then((comp) => {
       this.component = () => this.componentLoader();
     });
   },
+
   methods: {
     open: function () {
       this.$refs.drawer.$el.classList.add("open");

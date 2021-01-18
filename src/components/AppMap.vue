@@ -15,7 +15,6 @@
       <l-tile-layer :url="url" :attribution="attribution" />
       <ControlDrawer
         ref="controlDrawer"
-        type="OpenSky"
         :show="drawerShow"
         @drawerClosed="drawerClosed"
       />
@@ -44,12 +43,9 @@
   background: unset;
   border: unset;
 }
-
 </style>
 
 <script>
-import { mapState } from "vuex";
-
 import { latLng, divIcon } from "leaflet";
 
 import { LMap, LTileLayer, LMarker, LIcon, LTooltip } from "vue2-leaflet";

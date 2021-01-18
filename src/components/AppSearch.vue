@@ -7,27 +7,45 @@
       </h1>
     </header>
     <main>
-      <table v:if="$store.state.markerData">
-        <tr v-for="i in $store.state.markerData" v-bind:key="i.label">
-          <th>{{ i.label }}</th>
-          <td>{{ i.lat }}</td>
-          <td>{{ i.lng }}</td>
-          <td>{{ i.openskyState[2] }}</td>
-        </tr>
-      </table>
+      <div class="table" v:if="$store.state.markerData">
+        <div
+          class="tr"
+          v-for="i in $store.state.markerData"
+          v-bind:key="i.label"
+        >
+          <component :is="componentLoader" :rowData="i"></component>
+        </div>
+      </div>
     </main>
   </div>
 </template>
 
-<script>
-export default {
-  name: "AppSearch",
-};
-</script>
-
 <style lang="scss" scoped>
-table {
+.table,
+.tr {
   width: 100%;
   border-collapse: collapse;
 }
 </style>
+
+<script>
+export default {
+  name: "AppSearch",
+
+  computed: {
+    componentLoader() {
+      return () =>
+        import(
+          "@/apis/" + process.env.implementation + "/ItemInAppSearchTable"
+        );
+    },
+  },
+
+  mounted() {
+    this.componentLoader().then((comp) => {
+      this.component = () => this.componentLoader();
+    });
+  },
+};
+</script>
+
