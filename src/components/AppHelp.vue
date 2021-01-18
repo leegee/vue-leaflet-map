@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id='help'>
     <header>
       <h1>Help!</h1>
     </header>
@@ -14,9 +14,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.title {
-  h1 {
-    color: pink;
-  }
-}
 </style>
