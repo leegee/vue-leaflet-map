@@ -64,7 +64,7 @@ import ControlDrawer from "./controls/ControlDrawer";
 
 const UPDATE_MS = 0; // 15000;
 
-const _markersOnMap = {};
+let _markersOnMap = {};
 
 export default {
   name: "AppMap",
@@ -108,6 +108,7 @@ export default {
 
   methods: {
     loadEnd() {
+      _markersOnMap = {};
       this.updateBounds(this.$refs.map.mapObject.getBounds());
       if (UPDATE_MS) {
         const self = this;
