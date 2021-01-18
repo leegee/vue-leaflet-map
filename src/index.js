@@ -11,6 +11,7 @@ import router from './Router';
 import { store, setApi } from './Store';
 
 import * as api from './apis/OpenSky/Api';
+import './apis/OpenSky/marker.scss';
 
 setApi(api);
 

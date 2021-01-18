@@ -45,14 +45,6 @@
   border: unset;
 }
 
-.marker-pin {
-  background: transparent url("../images/icons/arrow-up.svg") center no-repeat;
-  border: 2px solid black;
-  color: black;
-  border-radius: 50%;
-  min-width: 24pt;
-  min-height: 24pt;
-}
 </style>
 
 <script>

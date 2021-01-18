@@ -4,7 +4,6 @@
       <AppMap></AppMap>
       <header>
         <nav>
-          <router-link to="/">🗺</router-link>
           <router-link to="/search">🔍</router-link>
           <router-link to="/help">ℹ</router-link>
         </nav>
