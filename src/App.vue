@@ -1,6 +1,7 @@
 <template>
   <div>
     <main>
+      <AppMap></AppMap>
       <header>
         <nav>
           <router-link to="/">🗺</router-link>
@@ -22,8 +23,9 @@ header nav {
   left: 0;
   font-size: 12pt;
   background-color: white;
-  box-shadow: 1px 2px gray;
-  border-radius: 4pt;
+  box-shadow: 1px 1px gray;
+  border-radius: 2pt;
+  margin: 10pt;
 }
 header nav a {
   padding: 2pt;
@@ -38,3 +40,11 @@ header nav a {
 }
 </style>
 
+<script>
+import AppMap from "@/components/AppMap";
+export default {
+  components: {
+    AppMap,
+  },
+};
+</script>

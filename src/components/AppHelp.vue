@@ -1,7 +1,10 @@
 <template>
-  <div id='help'>
+  <div id="help" class="fullscreen">
     <header>
-      <h1>Help!</h1>
+      <h1>
+        Help
+        <router-link to="/" class="exit-fullscreen"></router-link>
+      </h1>
     </header>
     <main></main>
   </div>

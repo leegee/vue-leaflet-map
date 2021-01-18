@@ -1,7 +1,10 @@
 <template>
-  <div id="search">
+  <div id="search" class="fullscreen">
     <header>
-      <h1>Search</h1>
+      <h1>
+        Search
+        <router-link to="/" class="exit-fullscreen"></router-link>
+      </h1>
     </header>
     <main>
       <table v:if="$store.state.markerData">
@@ -23,9 +26,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#search {
-  margin: 1rem;
-}
 table {
   width: 100%;
   border-collapse: collapse;
