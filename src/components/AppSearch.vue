@@ -30,6 +30,8 @@
 </style>
 
 <script>
+import router from "../Router";
+
 export default {
   name: "AppSearch",
 
@@ -50,7 +52,8 @@ export default {
 
   methods: {
     rowClicked: function (markerLabel) {
-      this.$store.dispatch('focusMarkerByLabel', markerLabel);
+      this.$store.dispatch("focusMarkerByLabel", markerLabel);
+      router.push("/");
     },
   },
 };

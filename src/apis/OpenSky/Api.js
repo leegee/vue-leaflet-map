@@ -38,7 +38,8 @@ export async function getBoundingBox(bounds) {
     if (json && json.states !== null) {
       rv = _formatForGetBoundBox(json);
     } else {
-      throw new APIError("The API returned an invalid response");
+      console.log(json);
+      throw new Error("The API returned an invalid response");
     }
     RUNNING = false;
   } catch (e) {
@@ -46,7 +47,7 @@ export async function getBoundingBox(bounds) {
     if (e.name === "AbortError") {
       console.log('I aborted');
     } else {
-      throw new APIError("The API returned an invalid response");
+      throw new Error("The API returned an invalid response");
     }
   }
 

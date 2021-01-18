@@ -46,7 +46,7 @@
 </style>
 
 <script>
-import { latLng, divIcon } from "leaflet";
+import { latLng, divIcon, latLngBounds } from "leaflet";
 
 import { LMap, LTileLayer, LMarker, LIcon, LTooltip } from "vue2-leaflet";
 
@@ -87,6 +87,9 @@ export default {
   watch: {
     "$store.state.markerData": function () {
       this.updateMarkers(this, this.$store.state.markerData);
+    },
+    "$store.state.map.focusMarkerLabel": function () {
+      this.focusMarker(this, this.$store.state.map.focusMarkerLabel);
     },
   },
 
@@ -178,6 +181,11 @@ export default {
         _markersOnMap[markerId].options.fromApi
       );
       this.$data.drawerShow = true; // TODO use store
+    },
+
+    focusMarker(self, label) {
+      self.$refs.map.mapObject.setZoom(15);
+      self.$refs.map.mapObject.panTo(_markersOnMap[label].getLatLng());
     },
   },
 };

@@ -2,7 +2,6 @@
   <div>
     <main>
       <AppMap></AppMap>
-      <!-- state.map.focusMarkerLabel -->
       <header>
         <nav>
           <router-link to="/search">🔍</router-link>
