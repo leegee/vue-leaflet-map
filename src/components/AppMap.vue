@@ -53,8 +53,6 @@ import { LMap, LTileLayer, LMarker, LIcon, LTooltip } from "vue2-leaflet";
 
 import ControlDrawer from "./controls/ControlDrawer";
 
-let UPDATE_MS = 0; // 15000;
-
 let _markersOnMap = {};
 
 export default {
