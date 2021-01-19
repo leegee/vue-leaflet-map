@@ -7,7 +7,8 @@ const BASE_URL = 'https://opensky-network.org/api';
 
 let RUNNING = false;
 
-export const UPDATE_MS = 1000 * 16;
+export const MAP_ZOOM = 12;
+export const UPDATE_MAP_MS = 0; // 1000 * 16;
 export const UPDATE_USER_MS = 1000 * 30;
 
 /**

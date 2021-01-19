@@ -7,6 +7,8 @@
       </h1>
     </header>
     <main>
+      <input type="search" id="search-input" v-model="searchInput" />
+
       <div class="table" v:if="$store.state.markerData">
         <div
           class="row"
@@ -14,7 +16,11 @@
           v-bind:key="row.label"
           @click="rowClicked(row.label)"
         >
-          <component :is="componentLoader" :rowData="row"></component>
+          <component
+            :is="componentLoader"
+            :rowData="row"
+            v-show="!row.hidden"
+          ></component>
         </div>
       </div>
     </main>
@@ -22,18 +28,36 @@
 </template>
 
 <style lang="scss" scoped>
+#search-input {
+  width: calc(100vw - 2rem);
+  border-radius: 1em;
+  font-size: 14pt;
+  text-align: center;
+  outline: 0;
+}
+.table {
+  margin-top: 2rem;
+}
 .table,
 .row {
-  width: 100%;
+  width: calc(100vw - 2rem);
   border-collapse: collapse;
 }
 </style>
 
 <script>
 import router from "../Router";
+import { debounce } from "../debounce";
 
 export default {
   name: "AppSearch",
+
+  data() {
+    return {
+      searchInput: null,
+      searchFor: null,
+    };
+  },
 
   computed: {
     componentLoader() {
@@ -41,6 +65,16 @@ export default {
         import(
           "@/apis/" + process.env.implementation + "/ItemInAppSearchTable"
         );
+    },
+  },
+
+  watch: {
+    searchInput: debounce(function (value) {
+      this.searchFor = value;
+    }, 100),
+
+    searchFor: function () {
+      this.$store.dispatch("markerMatch", this.searchFor.toLowerCase());
     },
   },
 

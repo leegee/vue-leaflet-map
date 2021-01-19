@@ -46,6 +46,9 @@ export const store = new Vuex.Store({
     focusMarkerByLabel: (state, markerLabel) => {
       state.map.focusMarkerLabel = markerLabel;
     },
+    markerHide: (state, { label, hide }) => {
+      state.markerData[label].hidden = hide;
+    },
   },
   actions: {
     focusMarkerByLabel: (context, markerLabel) => {
@@ -57,6 +60,18 @@ export const store = new Vuex.Store({
     mapUpdateData: async (context) => {
       const markerData = await api.getBoundingBox(context.state.map.bounds);
       context.commit('mapUpdateData', { markerData });
+    },
+    markerMatch: (context, target) => {
+      console.log('enter with ', target);
+      target = target ? target.toLowerCase() : null;
+      Object.keys(context.state.markerData).forEach((label) => {
+        context.commit('markerHide', {
+          label,
+          hide: target
+            ? label.toLowerCase().indexOf(target) === -1
+            : false
+        });
+      });
     },
   },
 });

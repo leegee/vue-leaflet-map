@@ -18,6 +18,9 @@ span {
   display: inline-block;
   width: 20%;
 }
+.hidden {
+  display: none;
+}
 </style>
 
 <script>

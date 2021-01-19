@@ -54,6 +54,15 @@
   background: unset;
   border: unset;
 }
+
+.user-marker-pin {
+  width: 1em;
+  height: 1em;
+  display: inline-block;;
+}
+.user-marker-pin:after {
+  content: 'ME';
+}
 </style>
 
 <script>
@@ -80,9 +89,7 @@ export default {
       zoom: 8,
       url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution: "",
-      currentZoom: 8,
       center: latLng(47.6008, 19.3605),
-      currentCenter: latLng(47.6008, 19.3605),
       showParagraph: false,
       mapOptions: {
         zoomSnap: 0.5,
@@ -94,7 +101,7 @@ export default {
 
   mounted() {
     if (navigator.geolocation) {
-      this.focusUser();
+      this.focusUser(8);
       this.setUserMarker();
       setInterval(() => this.updateUser(), this.$store.state.user.updateMs);
     } else {
@@ -230,10 +237,11 @@ export default {
 
     setUserMarker() {
       navigator.geolocation.getCurrentPosition((position) => {
+        console.log('xxx', position.coords);
         this.userMarker = new L.marker(
           {
-            lat: position.latitude,
-            lng: position.longitude,
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
           },
           {
             icon: divIcon({
