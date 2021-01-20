@@ -97,29 +97,9 @@
   text-align: center;
 }
 
-/*
-header nav {
-  z-index: 99;
-  position: fixed;
-  bottom: 0;
-  right: left;
-  font-size: 12pt;
-  background-color: white;
-  box-shadow: 1px 1px gray;
-  border-radius: 2pt;
-  margin: 10pt;
+.leaflet-control-layers-list {
+  font-weight: normal;
 }
-header nav a {
-  padding: 2pt;
-  display: inline-block;
-  text-decoration: none;
-  margin: 2pt 8pt;
-  border: 1px solid #4444;
-  width: 1.5rem;
-  height: 1.5rem;
-  text-align: center;
-  border-radius: 50%;
-} */
 </style>
 
 <script>
@@ -166,12 +146,9 @@ export default {
     }
     if (this.$store.state.map.updateMs) {
       const self = this;
-      setInterval(
-        () => self.updateBounds(self.$refs.map.mapObject.getBounds()),
-        this.$store.state.map.updateMs
-      );
+      setInterval(() => self.updateBounds(), this.$store.state.map.updateMs);
     }
-    this.updateBounds(this.$refs.map.mapObject.getBounds());
+    this.updateBounds();
   },
 
   watch: {
@@ -195,6 +172,7 @@ export default {
     ),
 
     async _updateBounds(bounds) {
+      bounds = bounds || this.$refs.map.mapObject.getBounds();
       console.log("AppMap.updateBounds: ", bounds);
       this.$store.commit("mapUpdateBounds", {
         ne: bounds.getNorthEast(),
@@ -215,12 +193,10 @@ export default {
 
     /* Easier in code than markup */
     updateMarkers: (self, markerData) => {
-      // console.debug("On map: ", Object.keys(MarkersOnMap).join(", "));
-      // console.debug("New   : ", Object.keys(markerData).join(", "));
+      markerData = markerData || {};
 
-      if (!markerData) {
-        markerData = {};
-      }
+      console.debug("On map: ", Object.keys(MarkersOnMap).length);
+      console.debug("New   : ", Object.keys(markerData).length);
 
       Object.keys(markerData).forEach((markerId) => {
         // Update marker
@@ -277,6 +253,7 @@ export default {
           LayersOnMap[
             MarkersOnMap[mapMarkerId].options.fromApi.layer
           ].removeLayer(MarkersOnMap[mapMarkerId]);
+          delete MarkersOnMap[mapMarkerId];
         }
       });
 
