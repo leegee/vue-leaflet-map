@@ -3,6 +3,7 @@
     <span>{{ rowData.label }}</span>
     <span>{{ rowData.lat }}</span>
     <span>{{ rowData.lng }}</span>
+    <span>{{ rowData.openskyState[13] }}</span>
     <span>{{ rowData.openskyState[2] }}</span>
   </div>
 </template>
@@ -16,7 +17,8 @@
 }
 span {
   display: inline-block;
-  width: 20%;
+  width: calc(100% / 6);
+  vertical-align: middle;
 }
 .hidden {
   display: none;

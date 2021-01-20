@@ -27,6 +27,15 @@ export default Vue.component("ItemInControlDrawer", {
               ", " +
               this.$store.state.drawer.details.lng
           ),
+
+          createElement(
+            "p",
+            "Altitude (geometric, barometric): " +
+              this.$store.state.drawer.details.openskyState[13] +
+              ", " +
+              this.$store.state.drawer.details.openskyState[7]
+          ),
+
           createElement(
             "p",
             "Tracking Degrees: " +
