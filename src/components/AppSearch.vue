@@ -37,6 +37,7 @@
 }
 .table {
   margin-top: 2rem;
+  font-size: 10pt;
 }
 .table,
 .row {
