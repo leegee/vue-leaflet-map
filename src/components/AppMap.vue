@@ -191,7 +191,9 @@ export default {
               fromApi: markerData[markerId],
               icon: divIcon({
                 html:
-                  "<div class='marker-pin' style='transform: rotate(" +
+                  "<div class='marker-pin " +
+                  (markerData[markerId].class || "") +
+                  "' style='transform: rotate(" +
                   markerData[markerId].rotate +
                   "deg)'></div><div class='marker-label'>" +
                   markerData[markerId].label +

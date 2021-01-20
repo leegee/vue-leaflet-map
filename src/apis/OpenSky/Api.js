@@ -20,6 +20,7 @@ export const UPDATE_USER_MS = 1000 * 30;
  *     label: String,
  *     rotate: Decimal,
  *     layer: String,
+ *     class: String || undefined,
  *     ...
  * }] || null>
  */
@@ -37,7 +38,7 @@ export async function getBoundingBox(bounds) {
 
   const url = BASE_URL + '/states/all?' + params.toString();
 
-  console.log('OpenSky.getBoundingBox fetch', url);
+  console.debug('OpenSky.getBoundingBox fetch', url);
 
   if (RUNNING) {
     // REQ_CONTROLLER.abort();
@@ -46,7 +47,9 @@ export async function getBoundingBox(bounds) {
   try {
     RUNNING = true;
     console.debug('GET', url);
+
     const res = await fetch(url, { signal });
+
     RUNNING = false;
     const json = await res.json();
     if (json && json.states !== null) {
