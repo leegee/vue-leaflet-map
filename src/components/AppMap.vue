@@ -105,7 +105,6 @@ export default {
   mounted() {
     ControlLayers = control.layers(null);
     ControlLayers.addTo(this.$refs.map.mapObject);
-
     if (!navigator.geolocation) {
       this.$refs.focusUserButton.style.display = "none";
     }
@@ -128,6 +127,8 @@ export default {
           () => self.updateBounds(self.$refs.map.mapObject.getBounds()),
           this.$store.state.map.updateMs
         );
+      } else {
+        this.updateBounds(this.$refs.map.mapObject.getBounds());
       }
     },
 
