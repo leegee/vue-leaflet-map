@@ -236,10 +236,11 @@ export default {
     },
 
     drawerOpen(markerId, e) {
-      this.$store.dispatch(
-        "drawerOpen",
-        MarkersOnMap[markerId].options.fromApi
-      );
+      this.$store.dispatch("drawerOpen", {
+        details: MarkersOnMap[markerId].options.fromApi,
+        center: this.$refs.map.mapObject.getCenter(),
+        zoom: this.$refs.map.mapObject.getZoom(),
+      });
       this.$data.drawerShow = true; // TODO use store
       this.$refs.map.mapObject.setZoom(14);
       const latLng = MarkersOnMap[markerId].getLatLng();

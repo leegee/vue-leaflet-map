@@ -81,9 +81,7 @@ function _formatForGetBoundBox(json) {
 
   for (let i = 0; i < json.states.length; i++) {
     const id = json.states[i][1].trim();
-    const htmlClass = 'opensky_' + (Math.ceil(json.states[i][13] / 1500) + 1);
-
-    console.info(htmlClass);
+    const htmlClass = 'opensky_' + (json.states[i][8] ? '0' : (Math.ceil(json.states[i][13] / 1500) + 1));
 
     rv[id] = {
       lat: json.states[i][6],

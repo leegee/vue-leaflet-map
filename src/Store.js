@@ -13,7 +13,6 @@ export function setApi(_api) {
 
 export const store = new Vuex.Store({
   state: {
-    count: 0,
     drawer: {
       open: false,
       details: {},
@@ -36,10 +35,10 @@ export const store = new Vuex.Store({
   mutations: {
     drawerClose: state => state.drawer.open = false,
     drawerOpen: (state, payload) => {
-      state.drawer.details = payload;
+      state.drawer.details = payload.details;
       state.drawer.open = true;
-      state.drawer.lastZoom = state.map.zoom;
-      state.drawer.lastCenter = state.map.center;
+      state.drawer.lastZoom = payload.zoom;
+      state.drawer.lastCenter = payload.center;
     },
     mapUpdateData: (state, { markerData }) => {
       state.markerData = markerData;
