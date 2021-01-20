@@ -20,8 +20,6 @@
         @drawerClosed="drawerClosed"
       />
 
-      <!-- <l-control-layers position="topright"></l-control-layers> -->
-
       <l-control position="bottomright">
         <button id="focusUserButton" @click="focusUser(17)">⌂</button>
       </l-control>
@@ -226,11 +224,12 @@ export default {
         }
       });
 
-      // Remove unused control layers:
+      // Remove unused layers and control layers:
       Object.keys(LayersOnMap).forEach((layerName) => {
         if (Object.keys(LayersOnMap[layerName]._layers).length === 0) {
           // console.debug("Drop layer", layerName);
           self.$refs.map.mapObject.removeLayer(LayersOnMap[layerName]);
+          ControlLayers.removeLayer(LayersOnMap[layerName]);
         }
       });
     },
