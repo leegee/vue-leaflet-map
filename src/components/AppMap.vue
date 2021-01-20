@@ -164,15 +164,15 @@ export default {
     loadEnd() {},
 
     updateBounds: debounce(
-      function (e) {
-        this._updateBounds(e);
+      function () {
+        this._updateBounds();
       },
       1000,
       true
     ),
 
-    async _updateBounds(bounds) {
-      bounds = bounds || this.$refs.map.mapObject.getBounds();
+    async _updateBounds() {
+      const bounds = this.$refs.map.mapObject.getBounds();
       console.log("AppMap.updateBounds: ", bounds);
       this.$store.commit("mapUpdateBounds", {
         ne: bounds.getNorthEast(),
