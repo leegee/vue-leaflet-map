@@ -8,7 +8,6 @@ let api;
 export function setApi(_api) {
   api = _api;
   store.state.map.updateMs = api.UPDATE_MAP_MS;
-  store.state.user.updateMs = api.UPDATE_USER_MS;
 }
 
 export const store = new Vuex.Store({
