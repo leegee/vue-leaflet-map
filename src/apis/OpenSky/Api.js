@@ -12,7 +12,14 @@ export const UPDATE_MAP_MS = 0; // 1000 * 16;
 export const UPDATE_USER_MS = 1000 * 30;
 
 /**
- * @returns Promise<[] || null>
+ * @returns Promise<[{
+ *     lat: Decimal,
+ *     lng: Decimal,
+ *     label: String,
+ *     rotate: Decimal,
+ *     layer: String,
+ *     ...
+ * }] || null>
  */
 export async function getBoundingBox(bounds) {
   let rv = null;
@@ -58,6 +65,7 @@ export async function getBoundingBox(bounds) {
   return rv;
 }
 
+
 function _formatForGetBoundBox(json) {
   console.log('OpenSky._formatForGetBoundBox', json.states);
 
@@ -83,7 +91,7 @@ function _formatForGetBoundBox(json) {
 }
 
 /*
-Sample response `state`: openskyState
+Sample response `state`, added as openskyState
 [
   0 "4bc842",      transponder
   1 "PGT1182 ",    callsign
