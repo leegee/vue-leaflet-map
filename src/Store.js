@@ -23,6 +23,8 @@ export const store = new Vuex.Store({
       updateMs: 0,
     },
     map: {
+      zoom: null,
+      center: null,
       updateMs: 0,
       focusMarkerLabel: null,
       bounds: {
@@ -36,6 +38,8 @@ export const store = new Vuex.Store({
     drawerOpen: (state, payload) => {
       state.drawer.details = payload;
       state.drawer.open = true;
+      state.drawer.lastZoom = state.map.zoom;
+      state.drawer.lastCenter = state.map.center;
     },
     mapUpdateData: (state, { markerData }) => {
       state.markerData = markerData;
@@ -49,6 +53,8 @@ export const store = new Vuex.Store({
     markerHide: (state, { label, hide }) => {
       state.markerData[label].hidden = hide;
     },
+    mapZoom: (state, zoom) => state.map.zoom = zoom,
+    mapCenter: (state, center) => state.map.center = center,
   },
   actions: {
     focusMarkerByLabel: (context, markerLabel) => {

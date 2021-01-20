@@ -147,14 +147,10 @@ export default {
       }
     },
     updateZoom(zoom) {
-      this.currentZoom = zoom;
+      this.$store.commit("mapZoom", zoom);
     },
     updateCenter(center) {
-      this.currentCenter = center;
-    },
-
-    drawerClosed() {
-      this.$data.drawerShow = false;
+      this.$store.commit("mapCenter", center);
     },
 
     /* Easier in code than markup */
@@ -232,6 +228,12 @@ export default {
       this.$refs.map.mapObject.setZoom(14);
       const latLng = _markersOnMap[markerId].getLatLng();
       this.$refs.map.mapObject.panTo([latLng.lat - 0.009, latLng.lng]);
+    },
+
+    drawerClosed() {
+      this.$data.drawerShow = false;
+      this.$refs.map.mapObject.setZoom(this.$store.state.drawer.lastZoom);
+      this.$refs.map.mapObject.panTo(this.$store.state.drawer.lastCenter);
     },
 
     focusMarker(self, label) {
