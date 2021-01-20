@@ -22,8 +22,8 @@
 
       <!-- <l-control-layers position="topright"></l-control-layers> -->
 
-      <l-control position="bottomleft">
-        <button @click="focusUser(17)">⌂</button>
+      <l-control position="bottomright">
+        <button id="focusUserButton" @click="focusUser(17)">⌂</button>
       </l-control>
     </l-map>
     <slot></slot>
@@ -43,6 +43,7 @@
 #focusUserButton {
   font-size: 14pt;
   font-weight: 900;
+  width: 2em;
 }
 
 .leaflet-control-attribution {
@@ -192,7 +193,7 @@ export default {
               icon: divIcon({
                 html:
                   "<div class='marker-pin " +
-                  (markerData[markerId].class || "") +
+                  (markerData[markerId].htmlClass || "") +
                   "' style='transform: rotate(" +
                   markerData[markerId].rotate +
                   "deg)'></div><div class='marker-label'>" +

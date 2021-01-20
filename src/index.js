@@ -10,7 +10,7 @@ import App from './App';
 import router from './Router';
 import { store, setApi } from './Store';
 
-import('./apis/' + process.env.implementation + '/marker.scss');
+import('./apis/' + process.env.implementation + '/style.scss');
 
 import('./apis/' + process.env.implementation + '/Api').then(api => {
 

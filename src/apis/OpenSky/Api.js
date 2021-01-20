@@ -20,7 +20,7 @@ export const UPDATE_USER_MS = 1000 * 30;
  *     label: String,
  *     rotate: Decimal,
  *     layer: String,
- *     class: String || undefined,
+ *     htmlClass: String || undefined,
  *     ...
  * }] || null>
  */
@@ -70,7 +70,6 @@ export async function getBoundingBox(bounds) {
   return rv;
 }
 
-
 function _formatForGetBoundBox(json) {
   console.log('OpenSky._formatForGetBoundBox', json.states);
 
@@ -82,6 +81,10 @@ function _formatForGetBoundBox(json) {
 
   for (let i = 0; i < json.states.length; i++) {
     const id = json.states[i][1].trim();
+    const htmlClass = 'opensky_' + (Math.ceil(json.states[i][13] / 1500) + 1);
+
+    console.info(htmlClass);
+
     rv[id] = {
       lat: json.states[i][6],
       lng: json.states[i][5],
@@ -89,6 +92,7 @@ function _formatForGetBoundBox(json) {
       rotate: json.states[i][10],
       layer: json.states[i][2],
       openskyState: json.states[i],
+      htmlClass,
     };
   }
 
