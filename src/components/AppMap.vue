@@ -171,8 +171,6 @@ export default {
         return;
       }
 
-      const visibleLayers = [];
-
       Object.keys(markerData).forEach((markerId) => {
         // Update marker
         if (MarkersOnMap.hasOwnProperty(markerId)) {
@@ -205,8 +203,6 @@ export default {
 
           if (-1 === LayerNames.indexOf(markerData[markerId].layer)) {
             LayerNames.push(markerData[markerId].layer);
-            visibleLayers.push(markerData[markerId].layer);
-            console.log("ADD TO ", visibleLayers);
             LayersOnMap[markerData[markerId].layer] = layerGroup();
             LayersOnMap[markerData[markerId].layer].addTo(
               self.$refs.map.mapObject
@@ -221,24 +217,21 @@ export default {
         }
       });
 
-      console.log("VISIBLELAYERS ", visibleLayers);
-
       // If marker on the map but not in the current list, remove:
       Object.keys(MarkersOnMap).forEach((mapMarkerId) => {
         if (!markerData.hasOwnProperty(mapMarkerId)) {
           // console.debug("Drop mapMarkerId", mapMarkerId);
-          self.$refs.map.mapObject.removeLayer(MarkersOnMap[mapMarkerId]);
+          LayersOnMap[
+            MarkersOnMap[mapMarkerId].options.fromApi.layer
+          ].removeLayer(MarkersOnMap[mapMarkerId]);
         }
       });
 
-      console.log("VISIBLELAYERS 2", visibleLayers, LayerNames);
-
       // Remove unused control layers:
-      LayerNames.forEach((layerName) => {
-        console.log("TEST", layerName, visibleLayers.indexOf(layerName));
-        if (-1 === visibleLayers.indexOf(layerName)) {
-          console.log("REMOVE");
-          // LayersOnMap[layerName].remove();
+      Object.keys(LayersOnMap).forEach((layerName) => {
+        if (Object.keys(LayersOnMap[layerName]._layers).length === 0) {
+          // console.debug("Drop layer", layerName);
+          self.$refs.map.mapObject.removeLayer(LayersOnMap[layerName]);
         }
       });
     },

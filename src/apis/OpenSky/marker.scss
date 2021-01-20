@@ -1,20 +1,11 @@
 .marker-pin {
-  /* ✈ */
-  background: transparent url("@/images/icons/arrow-up.svg") center no-repeat;
-  border: 2px solid black;
-  color: black;
-  border-radius: 50%;
+  background: transparent url("./plane.svg") center no-repeat;
   min-width: 24pt;
   min-height: 24pt;
-  left: -12pt;
   position: relative;
+  left: -12pt;
+  top: -12pt;
 }
-
-// .marker-pin:after {
-//   content: '✈';
-//   color: black;
-//   font-size: 24pt;
-// }
 
 .marker-label {
   background: white;
@@ -23,5 +14,5 @@
   display: inline-block;
   padding: 2pt 4pt;
   border-radius: 6pt;
-  transform: translate(-50%, 0%);
+  transform: translate(-50%, -50%);
 }
