@@ -20,8 +20,27 @@
         @drawerClosed="drawerClosed"
       />
 
+      <l-control position="bottomleft">
+        <div class="app-control leaflet-control">
+          <router-link to="/search"
+            ><button class="leaflet-control">🔍</button></router-link
+          >
+          <router-link to="/help"
+            ><button class="leaflet-control">ℹ</button></router-link
+          >
+        </div>
+      </l-control>
+
       <l-control position="bottomright">
-        <button id="focusUserButton" @click="focusUser(17)">⌂</button>
+        <div class="app-control leaflet-control">
+          <button
+            id="focusUserButton"
+            class="leaflet-control"
+            @click="focusUser(17)"
+          >
+            ⌂
+          </button>
+        </div>
       </l-control>
     </l-map>
     <slot></slot>
@@ -36,12 +55,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-}
-
-#focusUserButton {
-  font-size: 14pt;
-  font-weight: 900;
-  width: 2em;
 }
 
 .leaflet-control-attribution {
@@ -62,6 +75,51 @@
 .user-marker-pin:after {
   content: "ME";
 }
+
+.app-control {
+  background: white;
+  border-radius: 2pt;
+}
+.leaflet-control {
+  font-size: 12pt;
+  font-weight: 900;
+  border: none;
+}
+.app-control.leaflet-control {
+  margin: 0;
+  display: flex;
+}
+.app-control.leaflet-control button.leaflet-control {
+  background: white !important;
+  overflow: hidden;
+  padding: 4pt;
+  margin: 4pt;
+  text-align: center;
+}
+
+/*
+header nav {
+  z-index: 99;
+  position: fixed;
+  bottom: 0;
+  right: left;
+  font-size: 12pt;
+  background-color: white;
+  box-shadow: 1px 1px gray;
+  border-radius: 2pt;
+  margin: 10pt;
+}
+header nav a {
+  padding: 2pt;
+  display: inline-block;
+  text-decoration: none;
+  margin: 2pt 8pt;
+  border: 1px solid #4444;
+  width: 1.5rem;
+  height: 1.5rem;
+  text-align: center;
+  border-radius: 50%;
+} */
 </style>
 
 <script>
@@ -106,6 +164,14 @@ export default {
     if (!navigator.geolocation) {
       this.$refs.focusUserButton.style.display = "none";
     }
+    if (this.$store.state.map.updateMs) {
+      const self = this;
+      setInterval(
+        () => self.updateBounds(self.$refs.map.mapObject.getBounds()),
+        this.$store.state.map.updateMs
+      );
+    }
+    this.updateBounds(this.$refs.map.mapObject.getBounds());
   },
 
   watch: {
@@ -118,17 +184,7 @@ export default {
   },
 
   methods: {
-    loadEnd() {
-      if (this.$store.state.map.updateMs) {
-        const self = this;
-        setInterval(
-          () => self.updateBounds(self.$refs.map.mapObject.getBounds()),
-          this.$store.state.map.updateMs
-        );
-      } else {
-        this.updateBounds(this.$refs.map.mapObject.getBounds());
-      }
-    },
+    loadEnd() {},
 
     updateBounds: debounce(
       function (e) {
@@ -235,21 +291,31 @@ export default {
     },
 
     drawerOpen(markerId, e) {
+      this.$data.drawerShow = true; // TODO use store?
       this.$store.dispatch("drawerOpen", {
         details: MarkersOnMap[markerId].options.fromApi,
         center: this.$refs.map.mapObject.getCenter(),
         zoom: this.$refs.map.mapObject.getZoom(),
       });
-      this.$data.drawerShow = true; // TODO use store
+      document.querySelector(".leaflet-bottom.leaflet-left").style.display =
+        "none";
+      document.querySelector(".leaflet-bottom.leaflet-right").style.display =
+        "none";
       this.$refs.map.mapObject.setZoom(14);
       const latLng = MarkersOnMap[markerId].getLatLng();
       this.$refs.map.mapObject.panTo([latLng.lat - 0.009, latLng.lng]);
     },
 
     drawerClosed() {
-      this.$data.drawerShow = false;
-      this.$refs.map.mapObject.setZoom(this.$store.state.drawer.lastZoom);
-      this.$refs.map.mapObject.panTo(this.$store.state.drawer.lastCenter);
+      if (this.$store.state.drawer.open) {
+        document.querySelector(".leaflet-bottom.leaflet-left").style.display =
+          "block";
+        document.querySelector(".leaflet-bottom.leaflet-right").style.display =
+          "block";
+        this.$data.drawerShow = false;
+        this.$refs.map.mapObject.setZoom(this.$store.state.drawer.lastZoom);
+        this.$refs.map.mapObject.panTo(this.$store.state.drawer.lastCenter);
+      }
     },
 
     focusMarker(self, label) {
