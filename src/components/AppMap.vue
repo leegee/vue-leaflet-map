@@ -163,12 +163,11 @@ export default {
 
     /* Easier in code than markup */
     updateMarkers: (self, markerData) => {
-      // Drop old markers:
       // console.debug("On map: ", Object.keys(MarkersOnMap).join(", "));
       // console.debug("New   : ", Object.keys(markerData).join(", "));
 
       if (!markerData) {
-        return;
+        markerData = {};
       }
 
       Object.keys(markerData).forEach((markerId) => {
