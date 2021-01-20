@@ -41,7 +41,7 @@ export async function getBoundingBox(bounds) {
   console.debug('OpenSky.getBoundingBox fetch', url);
 
   if (RUNNING) {
-    // REQ_CONTROLLER.abort();
+    REQ_CONTROLLER.abort();
   }
 
   try {
