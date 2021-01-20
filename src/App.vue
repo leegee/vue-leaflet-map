@@ -1,43 +1,10 @@
 <template>
-  <div>
-    <main>
-      <AppMap></AppMap>
-      <header>
-        <nav>
-          <router-link to="/search">🔍</router-link>
-          <router-link to="/help">ℹ</router-link>
-        </nav>
-      </header>
-
+  <AppMap>
+    <transition>
       <router-view></router-view>
-    </main>
-  </div>
+    </transition>
+  </AppMap>
 </template>
-
-<style scoped>
-header nav {
-  z-index: 99;
-  position: fixed;
-  bottom: 0;
-  right: left;
-  font-size: 12pt;
-  background-color: white;
-  box-shadow: 1px 1px gray;
-  border-radius: 2pt;
-  margin: 10pt;
-}
-header nav a {
-  padding: 2pt;
-  display: inline-block;
-  text-decoration: none;
-  margin: 2pt 8pt;
-  border: 1px solid #4444;
-  width: 1.5rem;
-  height: 1.5rem;
-  text-align: center;
-  border-radius: 50%;
-}
-</style>
 
 <script>
 import AppMap from "@/components/AppMap";
@@ -48,3 +15,15 @@ export default {
   },
 };
 </script>
+
+<style>
+.v-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.v-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
