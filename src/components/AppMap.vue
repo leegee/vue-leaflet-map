@@ -106,11 +106,7 @@ export default {
     ControlLayers = control.layers(null);
     ControlLayers.addTo(this.$refs.map.mapObject);
 
-    if (navigator.geolocation) {
-      this.focusUser(8);
-      this.setUserMarker();
-      setInterval(() => this.updateUser(), this.$store.state.user.updateMs);
-    } else {
+    if (!navigator.geolocation) {
       this.$refs.focusUserButton.style.display = "none";
     }
   },
