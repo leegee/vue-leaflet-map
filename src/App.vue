@@ -18,8 +18,8 @@
 header nav {
   z-index: 99;
   position: fixed;
-  top: 0;
-  right: 0;
+  bottom: 0;
+  right: left;
   font-size: 12pt;
   background-color: white;
   box-shadow: 1px 1px gray;

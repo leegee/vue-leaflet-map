@@ -12,13 +12,15 @@
       @leaflet:load="loadEnd"
       @click="drawerClosed"
     >
-      <l-tile-layer :url="url" :attribution="attribution" />
+      <l-tile-layer :url="url" :attribution="attribution" ref="tileLayer" />
 
       <ControlDrawer
         ref="controlDrawer"
         :show="drawerShow"
         @drawerClosed="drawerClosed"
       />
+
+      <!-- <l-control-layers position="topright"></l-control-layers> -->
 
       <l-control position="bottomleft">
         <button @click="focusUser(17)">⌂</button>
@@ -44,9 +46,6 @@
 }
 
 .leaflet-control-attribution {
-  position: fixed;
-  bottom: 0;
-  right: 0;
   display: none;
 }
 
@@ -58,21 +57,24 @@
 .user-marker-pin {
   width: 1em;
   height: 1em;
-  display: inline-block;;
+  display: inline-block;
 }
+
 .user-marker-pin:after {
-  content: 'ME';
+  content: "ME";
 }
 </style>
 
 <script>
-import { latLng, divIcon, latLngBounds } from "leaflet";
+import { latLng, divIcon, latLngBounds, layerGroup, control } from "leaflet";
 
-import { LMap, LTileLayer, LControl } from "vue2-leaflet";
+import { LMap, LTileLayer, LControl, LControlLayers } from "vue2-leaflet";
 
 import ControlDrawer from "./controls/ControlDrawer";
 
 let _markersOnMap = {};
+let _layersOnMap = {};
+let controlLayers;
 
 export default {
   name: "AppMap",
@@ -81,25 +83,28 @@ export default {
     LTileLayer,
     ControlDrawer,
     LControl,
+    LControlLayers,
   },
   data() {
     return {
       userMarker: null, // State from browser, not Vuex
-      leafletMapOptions: {},
       zoom: 8,
       url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution: "",
       center: latLng(47.6008, 19.3605),
       showParagraph: false,
+      leafletMapOptions: {},
       mapOptions: {
         zoomSnap: 0.5,
       },
-      showMap: true,
       drawerShow: false,
     };
   },
 
   mounted() {
+    controlLayers = control.layers(null);
+    controlLayers.addTo(this.$refs.map.mapObject);
+
     if (navigator.geolocation) {
       this.focusUser(8);
       this.setUserMarker();
@@ -152,6 +157,7 @@ export default {
       this.$data.drawerShow = false;
     },
 
+    /* Easier in code than markup */
     updateMarkers: (self, markerData) => {
       // Drop old markers:
       // console.debug("On map: ", Object.keys(_markersOnMap).join(", "));
@@ -172,6 +178,7 @@ export default {
         // New markers
         else {
           // console.debug("New", markerId);
+
           _markersOnMap[markerId] = new L.marker(
             {
               lat: markerData[markerId].lat,
@@ -189,7 +196,21 @@ export default {
               }),
             }
           ).on("click", (e) => self.drawerOpen(markerId, e));
-          _markersOnMap[markerId].addTo(self.$refs.map.mapObject);
+
+          if (!_layersOnMap.hasOwnProperty[markerData[markerId].layer]) {
+            _layersOnMap[markerData[markerId].layer] = layerGroup();
+            _layersOnMap[markerData[markerId].layer].addTo(
+              self.$refs.map.mapObject
+            );
+            controlLayers.addOverlay(
+              _layersOnMap[markerData[markerId].layer],
+              markerData[markerId].layer
+            );
+          }
+
+          _markersOnMap[markerId].addTo(
+            _layersOnMap[markerData[markerId].layer]
+          );
         }
       });
 
@@ -237,7 +258,6 @@ export default {
 
     setUserMarker() {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log('xxx', position.coords);
         this.userMarker = new L.marker(
           {
             lat: position.coords.latitude,

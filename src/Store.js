@@ -7,8 +7,8 @@ let api;
 
 export function setApi(_api) {
   api = _api;
-  store.state.map.updateMs = api.UPDATE_MAP_MS || 16 * 1000;
-  store.state.user.updateMs = api.UPDATE_USER_MS || 10 * 1000;
+  store.state.map.updateMs = api.UPDATE_MAP_MS;
+  store.state.user.updateMs = api.UPDATE_USER_MS;
 }
 
 export const store = new Vuex.Store({

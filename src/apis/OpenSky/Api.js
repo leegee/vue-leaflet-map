@@ -1,7 +1,7 @@
 // https://opensky-network.org/apidoc/rest.html
 
-const controller = new AbortController();
-const { signal } = controller;
+const REQ_CONTROLLER = new AbortController();
+const { signal } = REQ_CONTROLLER;
 
 const BASE_URL = 'https://opensky-network.org/api';
 
@@ -31,21 +31,20 @@ export async function getBoundingBox(bounds) {
   console.log('OpenSky.getBoundingBox fetch', url);
 
   if (RUNNING) {
-    // controller.abort();
+    // REQ_CONTROLLER.abort();
   }
 
   try {
     RUNNING = true;
     console.debug('GET', url);
     const res = await fetch(url, { signal });
+    RUNNING = false;
     const json = await res.json();
     if (json && json.states !== null) {
       rv = _formatForGetBoundBox(json);
     } else if (json !== null) {
-      console.log(json);
-      throw new Error("The API returned an invalid response");
+      throw new Error("The API returned no JSON");
     }
-    RUNNING = false;
   } catch (e) {
     RUNNING = false;
     if (e.name === "AbortError") {
@@ -74,7 +73,8 @@ function _formatForGetBoundBox(json) {
       lng: json.states[i][5],
       label: id,
       rotate: json.states[i][10],
-      openskyState: json.states[i]
+      layer: json.states[i][2],
+      openskyState: json.states[i],
     };
   }
 
