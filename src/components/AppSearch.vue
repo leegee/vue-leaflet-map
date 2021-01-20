@@ -47,7 +47,7 @@
 
 <script>
 import router from "../Router";
-import { debounce } from "../debounce";
+import { debounce } from "debounce";
 
 export default {
   name: "AppSearch",

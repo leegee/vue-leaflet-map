@@ -42,7 +42,8 @@ export async function getBoundingBox(bounds) {
     const json = await res.json();
     if (json && json.states !== null) {
       rv = _formatForGetBoundBox(json);
-    } else if (json !== null) {
+    } else if (json.states !== null) {
+      console.error(json);
       throw new Error("The API returned no JSON");
     }
   } catch (e) {

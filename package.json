@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "core-js": "^3.8.2",
+    "debounce": "^1.2.0",
     "leaflet": "^1.7.1",
     "leaflet-rotatedmarker": "^0.2.0",
     "regenerator-runtime": "^0.13.7",

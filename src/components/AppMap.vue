@@ -67,14 +67,14 @@
 
 <script>
 import { latLng, divIcon, latLngBounds, layerGroup, control } from "leaflet";
-
 import { LMap, LTileLayer, LControl, LControlLayers } from "vue2-leaflet";
-
+import { debounce } from "debounce";
 import ControlDrawer from "./controls/ControlDrawer";
 
-let _markersOnMap = {};
-let _layersOnMap = {};
-let controlLayers;
+let MarkersOnMap = {};
+let LayersOnMap = {};
+let LayerNames = [];
+let ControlLayers;
 
 export default {
   name: "AppMap",
@@ -102,8 +102,8 @@ export default {
   },
 
   mounted() {
-    controlLayers = control.layers(null);
-    controlLayers.addTo(this.$refs.map.mapObject);
+    ControlLayers = control.layers(null);
+    ControlLayers.addTo(this.$refs.map.mapObject);
 
     if (navigator.geolocation) {
       this.focusUser(8);
@@ -125,7 +125,6 @@ export default {
 
   methods: {
     loadEnd() {
-      this.updateBounds(this.$refs.map.mapObject.getBounds());
       if (this.$store.state.map.updateMs) {
         const self = this;
         setInterval(
@@ -134,7 +133,16 @@ export default {
         );
       }
     },
-    async updateBounds(bounds) {
+
+    updateBounds: debounce(
+      function (e) {
+        this._updateBounds(e);
+      },
+      1000,
+      true
+    ),
+
+    async _updateBounds(bounds) {
       console.log("AppMap.updateBounds: ", bounds);
       this.$store.commit("mapUpdateBounds", {
         ne: bounds.getNorthEast(),
@@ -156,18 +164,20 @@ export default {
     /* Easier in code than markup */
     updateMarkers: (self, markerData) => {
       // Drop old markers:
-      // console.debug("On map: ", Object.keys(_markersOnMap).join(", "));
+      // console.debug("On map: ", Object.keys(MarkersOnMap).join(", "));
       // console.debug("New   : ", Object.keys(markerData).join(", "));
 
       if (!markerData) {
         return;
       }
 
+      const visibleLayers = [];
+
       Object.keys(markerData).forEach((markerId) => {
         // Update marker
-        if (_markersOnMap.hasOwnProperty(markerId)) {
+        if (MarkersOnMap.hasOwnProperty(markerId)) {
           // console.debug("Update", markerId);
-          _markersOnMap[markerId]
+          MarkersOnMap[markerId]
             .setLatLng([markerData[markerId].lat, markerData[markerId].lng])
             .update();
         }
@@ -175,7 +185,7 @@ export default {
         else {
           // console.debug("New", markerId);
 
-          _markersOnMap[markerId] = new L.marker(
+          MarkersOnMap[markerId] = new L.marker(
             {
               lat: markerData[markerId].lat,
               lng: markerData[markerId].lng,
@@ -193,28 +203,42 @@ export default {
             }
           ).on("click", (e) => self.drawerOpen(markerId, e));
 
-          if (!_layersOnMap.hasOwnProperty[markerData[markerId].layer]) {
-            _layersOnMap[markerData[markerId].layer] = layerGroup();
-            _layersOnMap[markerData[markerId].layer].addTo(
+          if (-1 === LayerNames.indexOf(markerData[markerId].layer)) {
+            LayerNames.push(markerData[markerId].layer);
+            visibleLayers.push(markerData[markerId].layer);
+            console.log("ADD TO ", visibleLayers);
+            LayersOnMap[markerData[markerId].layer] = layerGroup();
+            LayersOnMap[markerData[markerId].layer].addTo(
               self.$refs.map.mapObject
             );
-            controlLayers.addOverlay(
-              _layersOnMap[markerData[markerId].layer],
+            ControlLayers.addOverlay(
+              LayersOnMap[markerData[markerId].layer],
               markerData[markerId].layer
             );
           }
 
-          _markersOnMap[markerId].addTo(
-            _layersOnMap[markerData[markerId].layer]
-          );
+          MarkersOnMap[markerId].addTo(LayersOnMap[markerData[markerId].layer]);
         }
       });
 
-      Object.keys(_markersOnMap).forEach((mapMarkerId) => {
-        // If its on the map but not in the current list, remove:
+      console.log("VISIBLELAYERS ", visibleLayers);
+
+      // If marker on the map but not in the current list, remove:
+      Object.keys(MarkersOnMap).forEach((mapMarkerId) => {
         if (!markerData.hasOwnProperty(mapMarkerId)) {
           // console.debug("Drop mapMarkerId", mapMarkerId);
-          self.$refs.map.mapObject.removeLayer(_markersOnMap[mapMarkerId]);
+          self.$refs.map.mapObject.removeLayer(MarkersOnMap[mapMarkerId]);
+        }
+      });
+
+      console.log("VISIBLELAYERS 2", visibleLayers, LayerNames);
+
+      // Remove unused control layers:
+      LayerNames.forEach((layerName) => {
+        console.log("TEST", layerName, visibleLayers.indexOf(layerName));
+        if (-1 === visibleLayers.indexOf(layerName)) {
+          console.log("REMOVE");
+          // LayersOnMap[layerName].remove();
         }
       });
     },
@@ -222,11 +246,11 @@ export default {
     drawerOpen(markerId, e) {
       this.$store.dispatch(
         "drawerOpen",
-        _markersOnMap[markerId].options.fromApi
+        MarkersOnMap[markerId].options.fromApi
       );
       this.$data.drawerShow = true; // TODO use store
       this.$refs.map.mapObject.setZoom(14);
-      const latLng = _markersOnMap[markerId].getLatLng();
+      const latLng = MarkersOnMap[markerId].getLatLng();
       this.$refs.map.mapObject.panTo([latLng.lat - 0.009, latLng.lng]);
     },
 
