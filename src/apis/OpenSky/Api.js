@@ -1,4 +1,6 @@
-// https://opensky-network.org/apidoc/rest.html
+/**
+ * Implementation for https://opensky-network.org/apidoc/rest.html
+ */
 
 const REQ_CONTROLLER = new AbortController();
 const { signal } = REQ_CONTROLLER;
