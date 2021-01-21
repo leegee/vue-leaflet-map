@@ -8,13 +8,29 @@
 }
 
 .marker-label {
-  background: white;
-  color: black;
+  background: var(--marker-label-bg);
+  color: var(--marker-label-fg);
   font-size: 10pt;
   display: inline-block;
   padding: 2pt 4pt;
   border-radius: 6pt;
   transform: translate(-50%, -50%);
+  position: relative;
+}
+
+.marker-label:after {
+  --triangle: 6px;
+  content: "";
+  height: 0;
+  width: 0;
+  border-left: var(--triangle) solid transparent;
+  border-right: var(--triangle) solid transparent;
+  border-bottom: var(--triangle) solid var(--marker-label-bg);
+  position: absolute;
+  top: calc(-1 * var(--triangle));
+  left: calc(50% - (var(--triangle)));
+  margin: 0 0 0 (calc(var(--triangle) /2));
+  z-index: 100;
 }
 
 .opensky_0 {
@@ -47,17 +63,17 @@
 }
 
 .opensky_7 {
-  opacity: 0.4;
+  opacity: 0.45;
 }
 
 .opensky_8 {
-  opacity: 0.3;
+  opacity: 0.4;
 }
 
 .opensky_9 {
-  opacity: 0.2;
+  opacity: 0.35;
 }
 
 .opensky_10 {
-  opacity: 0.1;
+  opacity: 0.3;
 }
