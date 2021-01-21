@@ -16,6 +16,7 @@
   border-radius: 6pt;
   transform: translate(-50%, -50%);
   position: relative;
+  filter: drop-shadow(0 1px 1pt #00000044);
 }
 
 .marker-label:after {
