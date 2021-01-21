@@ -7,7 +7,11 @@ let api;
 
 export function setApi(_api) {
   api = _api;
-  store.state.map.updateMs = api.UPDATE_MAP_MS;
+  store.state.map = Object.assign(store.state.map, {
+    updateMs: api.updateMs,
+    zoomLevelHideLabels: api.zoomLevelHideLabels,
+    zoom: api.zoom,
+  });
 }
 
 export const store = new Vuex.Store({
@@ -21,6 +25,8 @@ export const store = new Vuex.Store({
       updateMs: 0,
     },
     map: {
+      zoomLevelHideLabels: 7,
+      updateMs: 60 * 1000,
       zoom: null,
       center: null,
       updateMs: 0,

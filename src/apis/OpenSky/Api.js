@@ -9,8 +9,13 @@ const BASE_URL = 'https://opensky-network.org/api';
 
 let RUNNING = false;
 
-export const MAP_ZOOM = 12;
-export const UPDATE_MAP_MS = 1000 * 30;
+export const initialState = {
+  map: {
+    zoom: 12,
+    zoomLevelHideLabels: 10,
+    updateMs: 0,
+  }
+};
 
 /**
  * @returns Promise<[{

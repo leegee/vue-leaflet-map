@@ -147,11 +147,11 @@ export default {
   },
 
   watch: {
-    "$store.state.markerData": function () {
-      this.updateMarkers(this, this.$store.state.markerData);
+    "$store.state.markerData": function (value) {
+      this.updateMarkers(this, value);
     },
-    "$store.state.map.focusMarkerLabel": function () {
-      this.focusMarker(this, this.$store.state.map.focusMarkerLabel);
+    "$store.state.map.focusMarkerLabel": function (value) {
+      this.focusMarker(this, value);
     },
   },
 
@@ -187,6 +187,7 @@ export default {
     },
 
     updateZoom(zoom) {
+      console.log(zoom);
       this.$store.commit("mapZoom", zoom);
     },
     updateCenter(center) {
@@ -232,7 +233,8 @@ export default {
                   (newMarkerData[markerId].htmlClass || "") +
                   "' style='transform: rotate(" +
                   newMarkerData[markerId].rotate +
-                  "deg)'></div><div class='marker-label'>" +
+                  "deg)'></div>" +
+                  "<div class='marker-label'>" +
                   newMarkerData[markerId].label +
                   "</div>",
               }),
@@ -262,10 +264,14 @@ export default {
       // If marker on the map but not in the current list, remove:
       Object.keys(MarkersOnMap).forEach((markerId) => {
         if (!newMarkerData.hasOwnProperty(markerId)) {
-          console.debug("Drop markerId %s from layer %s", markerId, MarkersOnMap[markerId].options.fromApi.layer);
-          LayersOnMap[
+          console.debug(
+            "Drop markerId %s from layer %s",
+            markerId,
             MarkersOnMap[markerId].options.fromApi.layer
-          ].removeLayer(MarkersOnMap[markerId]);
+          );
+          LayersOnMap[MarkersOnMap[markerId].options.fromApi.layer].removeLayer(
+            MarkersOnMap[markerId]
+          );
           delete LayerNames[MarkersOnMap[markerId].options.fromApi.layer];
           delete MarkersOnMap[markerId];
         }
