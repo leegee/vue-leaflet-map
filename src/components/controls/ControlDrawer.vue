@@ -13,46 +13,71 @@
 <style scoped>
 #control-drawer {
   --header-height: 2rem;
-  position: fixed;
-  width: 100vw;
-  height: 0;
-  transition: height 0.3s;
-  bottom: 0;
-  left: 0;
   background: var(--app-bg);
   color: var(--app-fg);
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-  transform-origin: bottom;
+  position: fixed;
 }
-#control-drawer.open {
-  height: 50vh;
-  transition: height 0.3s;
+@media (orientation: landscape) {
+  #control-drawer {
+    width: 0;
+    transition: width 0.3s;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform-origin: left;
+    padding: 1rem;
+    margin: 0;
+  }
+  #control-drawer.open {
+    width: 20vw;
+    transition: width 0.3s;
+  }
+
+  #handle {
+    display: none;
+  }
 }
-header {
-  height: var(--header-height);
-  min-height: var(--header-height);
-  max-height: var(--header-height);
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-  text-align: center;
-}
-#handle {
-  opacity: 0.5;
-  background: var(--app-bg);
-  border: 1pt solid var(--app-fg);
-  text-align: center;
-  padding: 1pt;
-  margin: 2pt;
-  max-height: 1pt;
-  border-radius: 4pt;
-  margin-left: 30vw;
-  width: 40vw;
-}
-main {
-  padding: 2rem;
-  width: auto;
-  margin: 0 auto;
+
+@media (orientation: portrait) {
+  #control-drawer {
+    width: 100vw;
+    height: 0;
+    transition: height 0.3s;
+    bottom: 0;
+    left: 0;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    transform-origin: bottom;
+  }
+  #control-drawer.open {
+    height: 50vh;
+    transition: height 0.3s;
+  }
+  header {
+    height: var(--header-height);
+    min-height: var(--header-height);
+    max-height: var(--header-height);
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    text-align: center;
+  }
+  #handle {
+    opacity: 0.5;
+    background: var(--app-bg);
+    border: 1pt solid var(--app-fg);
+    text-align: center;
+    padding: 1pt;
+    margin: 2pt;
+    max-height: 1pt;
+    border-radius: 4pt;
+    margin-left: 30vw;
+    width: 40vw;
+  }
+  main {
+    padding: 2rem;
+    width: auto;
+    margin: 0 auto;
+  }
 }
 </style>
 
