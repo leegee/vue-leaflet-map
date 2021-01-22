@@ -16,11 +16,7 @@
       <l-tile-layer :url="url" :attribution="attribution" ref="tileLayer" />
       <v-marker-cluster ref="clusterRef"></v-marker-cluster>
 
-      <ControlDrawer
-        ref="controlDrawer"
-        :show="drawerShow"
-        @drawerClosed="drawerClosed"
-      />
+      <ControlDrawer ref="controlDrawer" :show="drawerShow" />
 
       <l-control position="bottomleft">
         <div class="app-control leaflet-control">
@@ -156,7 +152,7 @@ export default {
     clustered: {
       type: Boolean,
       default: true,
-    }
+    },
   },
 
   mounted() {
@@ -392,6 +388,10 @@ export default {
         ).on("click", (e) => this.drawerOpen(markerId, e));
         this.userMarker.addTo(this.$refs.map.mapObject);
       });
+    },
+
+    x() {
+      alert("closed");
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <l-control id="control-drawer" ref="drawer">
-    <header v-on:mousedown.stop.prevent="close">
-      <div id="handle"></div>
+    <header><!-- v-on:mousedown.stop.prevent="close">-->
+      <!-- <div id="handle"></div> -->
       <h1>{{ $store.state.drawer.details.label }}</h1>
     </header>
     <main>
@@ -77,6 +77,8 @@
     padding: 2rem;
     width: auto;
     margin: 0 auto;
+    overflow: auto;
+    height: 100%;
   }
 }
 </style>
