@@ -312,7 +312,7 @@ export default {
         if (Object.keys(LayersOnMap[layerName]._layers).length === 0) {
           console.debug("\tdrop layer", layerName);
 
-          if (this.clustered) {
+          if (self.clustered) {
             Clusters.removeLayer(LayersOnMap[layerName]);
             self.$refs.map.mapObject.removeLayer(LayersOnMap[layerName]);
           } else {
