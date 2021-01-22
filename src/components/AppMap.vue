@@ -3,6 +3,7 @@
     <l-map
       ref="map"
       :zoom="zoom"
+      :maxZoom="maxZoom"
       :center="center"
       :options="mapOptions"
       style="height: 100%; width: 100%"
@@ -13,6 +14,7 @@
       @click="drawerClosed"
     >
       <l-tile-layer :url="url" :attribution="attribution" ref="tileLayer" />
+      <v-marker-cluster ref="clusterRef"></v-marker-cluster>
 
       <ControlDrawer
         ref="controlDrawer"
@@ -48,6 +50,9 @@
 </template>
 
 <style>
+@import "~leaflet.markercluster/dist/MarkerCluster.css";
+@import "~leaflet.markercluster/dist/MarkerCluster.Default.css";
+
 #map-container {
   z-index: 1;
   position: fixed;
@@ -99,19 +104,26 @@
 
 .leaflet-control-layers-list {
   font-weight: normal;
+  overflow: scroll;
+  max-height: 90%;
 }
 </style>
 
 <script>
 import { latLng, divIcon, latLngBounds, layerGroup, control } from "leaflet";
 import { LMap, LTileLayer, LControl, LControlLayers } from "vue2-leaflet";
+import Vue2LeafletMarkerCluster from "vue2-leaflet-markercluster";
+import "leaflet.markercluster.layersupport";
+
 import { debounce } from "debounce";
+
 import ControlDrawer from "./controls/ControlDrawer";
 
 let MarkersOnMap = {};
 let LayersOnMap = {};
 let LayerNames = {};
 let ControlLayers;
+let Clusters;
 
 export default {
   name: "AppMap",
@@ -121,11 +133,13 @@ export default {
     ControlDrawer,
     LControl,
     LControlLayers,
+    "v-marker-cluster": Vue2LeafletMarkerCluster,
   },
   data() {
     return {
       userMarker: null, // State from browser, not Vuex
       zoom: 8,
+      maxZoom: 16,
       url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution: "",
       center: latLng(47.6008, 19.3605),
@@ -138,12 +152,21 @@ export default {
     };
   },
 
+  props: {
+    clustered: {
+      type: Boolean,
+      default: true,
+    }
+  },
+
   mounted() {
     ControlLayers = control.layers(null);
     ControlLayers.addTo(this.$refs.map.mapObject);
     if (!navigator.geolocation) {
       this.$refs.focusUserButton.style.display = "none";
     }
+    Clusters = L.markerClusterGroup.layerSupport();
+    Clusters.addTo(this.$refs.map.mapObject);
   },
 
   watch: {
@@ -190,6 +213,7 @@ export default {
       console.log(zoom);
       this.$store.commit("mapZoom", zoom);
     },
+
     updateCenter(center) {
       this.$store.commit("mapCenter", center);
     },
@@ -244,10 +268,16 @@ export default {
           if (!LayerNames.hasOwnProperty(newMarkerData[markerId].layer)) {
             console.debug("\tcreate layer for", newMarkerData[markerId].layer);
             LayerNames[newMarkerData[markerId].layer] = true;
-            LayersOnMap[newMarkerData[markerId].layer] = layerGroup();
-            LayersOnMap[newMarkerData[markerId].layer].addTo(
-              self.$refs.map.mapObject
-            );
+            LayersOnMap[newMarkerData[markerId].layer] = layerGroup(); // .layerSupport();
+
+            if (self.clustered) {
+              Clusters.addLayer(LayersOnMap[newMarkerData[markerId].layer]);
+            } else {
+              LayersOnMap[newMarkerData[markerId].layer].addTo(
+                self.$refs.map.mapObject
+              );
+            }
+
             ControlLayers.addOverlay(
               LayersOnMap[newMarkerData[markerId].layer],
               newMarkerData[markerId].layer
@@ -281,7 +311,14 @@ export default {
       Object.keys(LayersOnMap).forEach((layerName) => {
         if (Object.keys(LayersOnMap[layerName]._layers).length === 0) {
           console.debug("\tdrop layer", layerName);
-          self.$refs.map.mapObject.removeLayer(LayersOnMap[layerName]);
+
+          if (this.clustered) {
+            Clusters.removeLayer(LayersOnMap[layerName]);
+            self.$refs.map.mapObject.removeLayer(LayersOnMap[layerName]);
+          } else {
+            self.$refs.map.mapObject.removeLayer(LayersOnMap[layerName]);
+          }
+
           ControlLayers.removeLayer(LayersOnMap[layerName]);
           delete LayersOnMap[layerName];
         }
@@ -322,9 +359,9 @@ export default {
       this.drawerOpen(label);
     },
 
-    focusUser(zoom = 16) {
+    focusUser(zoom) {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.$refs.map.mapObject.setZoom(zoom);
+        this.$refs.map.mapObject.setZoom(zoom || this.maxZoom);
         this.$refs.map.mapObject.panTo([
           position.coords.latitude,
           position.coords.longitude,

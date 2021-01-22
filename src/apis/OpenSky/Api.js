@@ -87,6 +87,14 @@ function _formatForGetBoundBox(json) {
     const id = json.states[i][1].trim();
     const htmlClass = 'opensky_' + (json.states[i][8] ? '0' : (Math.ceil(json.states[i][13] / 1500) + 1));
 
+    json.states[i][2] = json.states[i][2].replace(/China/, 'CCP');
+    json.states[i][2] = json.states[i][2].replace(/United Arab Emirates/, 'UAE');
+    json.states[i][2] = json.states[i][2].replace(/Kingdom of the Netherlands/i, 'NL');
+    json.states[i][2] = json.states[i][2].replace(/United Kingdom/i, 'UK');
+    json.states[i][2] = json.states[i][2].replace(/Czech Republic/i, 'C zechia');
+    json.states[i][2] = json.states[i][2].replace(/bosnia and herzegovina/i, 'Bosnia');
+    json.states[i][2] = json.states[i][2].replace(/Republic of Korea/i, 'S Korea');
+
     rv[id] = {
       lat: json.states[i][6],
       lng: json.states[i][5],
