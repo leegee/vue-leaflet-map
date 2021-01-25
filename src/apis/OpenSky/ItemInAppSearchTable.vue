@@ -21,6 +21,7 @@ span {
   display: inline-block;
   width: calc(100% / 6);
   vertical-align: middle;
+  cursor: pointer;
 }
 .hidden {
   display: none;

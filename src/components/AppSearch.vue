@@ -43,8 +43,8 @@
 .row {
   width: calc(100% - 2rem);
   border-collapse: collapse;
+  margin-left: 1rem;
 }
-
 </style>
 
 <script>
