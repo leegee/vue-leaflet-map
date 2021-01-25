@@ -1,6 +1,7 @@
 <template>
   <l-control id="control-drawer" ref="drawer">
-    <header><!-- v-on:mousedown.stop.prevent="close">-->
+    <header>
+      <!-- v-on:mousedown.stop.prevent="close">-->
       <!-- <div id="handle"></div> -->
       <h1>{{ $store.state.drawer.details.label }}</h1>
     </header>
@@ -19,20 +20,20 @@
 }
 @media (orientation: landscape) {
   #control-drawer {
-    width: 0 mp !important;
+    width: 20vw;
     transition: width 0.3s;
     height: 100%;
     top: 0;
-    left: 0;
+    left: -20vw;
     transform-origin: left;
     margin: 1rem;
     margin: 0;
   }
   #control-drawer.open {
-    width: 20vw;
+    /* right: 20vw; */
+    left: 0;
     transition: width 0.3s;
   }
-
   #handle {
     display: none;
   }

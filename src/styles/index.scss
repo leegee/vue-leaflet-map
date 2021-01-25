@@ -32,6 +32,11 @@ html {
   color: var(--app-fg);
   transform-origin: bottom;
 }
+@media (orientation: landscape) {
+  .fullscreen {
+    width: 50%;
+}}
+
 
 .exit-fullscreen {
   text-decoration: none;

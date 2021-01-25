@@ -29,7 +29,7 @@
 
 <style lang="scss" scoped>
 #search-input {
-  width: calc(100vw - 2rem);
+  width: calc(100% - 2rem);
   border-radius: 1em;
   font-size: 14pt;
   text-align: center;
@@ -41,9 +41,10 @@
 }
 .table,
 .row {
-  width: calc(100vw - 2rem);
+  width: calc(100% - 2rem);
   border-collapse: collapse;
 }
+
 </style>
 
 <script>
