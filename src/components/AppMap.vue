@@ -144,7 +144,7 @@ export default {
       mapOptions: {
         zoomSnap: 0.5,
       },
-      drawerShow: false,
+      highlightMarker: false,
     };
   },
 
@@ -333,15 +333,13 @@ export default {
       }
 
       const latLng = MarkersOnMap[markerId].getLatLng();
-      this.$data.drawerShow = circleMarker(latLng);
-      this.$data.drawerShow.addTo(this.$refs.map.mapObject);
+      this.$data.highlightMarker = circleMarker(latLng);
+      this.$data.highlightMarker.addTo(this.$refs.map.mapObject);
 
       document.querySelector(".leaflet-bottom.leaflet-left").style.display =
         "none";
       document.querySelector(".leaflet-bottom.leaflet-right").style.display =
         "none";
-
-      this.$refs.map.mapObject.setZoom(13);
 
       this.$store.dispatch("drawerOpen", {
         details: MarkersOnMap[markerId].options.fromApi,
@@ -349,6 +347,7 @@ export default {
         zoom: this.$refs.map.mapObject.getZoom(),
       });
 
+      this.$refs.map.mapObject.setZoom(13);
       this.$refs.map.mapObject.panTo([latLng.lat - 0.009, latLng.lng]);
 
       MarkersOnMap[markerId].update();
@@ -360,8 +359,8 @@ export default {
           "block";
         document.querySelector(".leaflet-bottom.leaflet-right").style.display =
           "block";
-        this.$refs.map.mapObject.removeLayer(this.$data.drawerShow);
-        this.$data.drawerShow = false;
+        this.$refs.map.mapObject.removeLayer(this.$data.highlightMarker);
+        this.$data.highlightMarker = false;
         this.$refs.map.mapObject.setZoom(this.$store.state.drawer.lastZoom);
         this.$refs.map.mapObject.panTo(this.$store.state.drawer.lastCenter);
         this.$store.commit("drawerClose");
