@@ -19,13 +19,13 @@
 }
 @media (orientation: landscape) {
   #control-drawer {
-    width: 0;
+    width: 0 mp !important;
     transition: width 0.3s;
     height: 100%;
     top: 0;
     left: 0;
     transform-origin: left;
-    padding: 1rem;
+    margin: 1rem;
     margin: 0;
   }
   #control-drawer.open {
