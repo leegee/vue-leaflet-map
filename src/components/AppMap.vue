@@ -16,7 +16,7 @@
       <l-tile-layer :url="url" :attribution="attribution" ref="tileLayer" />
       <v-marker-cluster ref="clusterRef"></v-marker-cluster>
 
-      <ControlDrawer ref="controlDrawer" :show="drawerShow" />
+      <ControlDrawer ref="controlDrawer" :show="$store.state.drawer.open" />
 
       <l-control position="bottomleft">
         <div class="app-control leaflet-control">
@@ -106,7 +106,7 @@
 </style>
 
 <script>
-import { latLng, divIcon, latLngBounds, layerGroup, control } from "leaflet";
+import { latLng, divIcon, layerGroup, control, circleMarker } from "leaflet";
 import { LMap, LTileLayer, LControl, LControlLayers } from "vue2-leaflet";
 import Vue2LeafletMarkerCluster from "vue2-leaflet-markercluster";
 import "leaflet.markercluster.layersupport";
@@ -170,7 +170,7 @@ export default {
       this.updateMarkers(this, value);
     },
     "$store.state.map.focusMarkerLabel": function (value) {
-      this.focusMarker(this, value);
+      this.focusMarker(value);
     },
   },
 
@@ -193,7 +193,11 @@ export default {
 
     async _updateBounds() {
       const bounds = this.$refs.map.mapObject.getBounds();
-      console.log("AppMap.updateBounds: ", bounds);
+      console.log(
+        "AppMap.updateBounds (%s): ",
+        this.$data.allowUpdates,
+        bounds
+      );
       this.$store.commit("mapUpdateBounds", {
         ne: bounds.getNorthEast(),
         sw: bounds.getSouthWest(),
@@ -206,7 +210,7 @@ export default {
     },
 
     updateZoom(zoom) {
-      console.log(zoom);
+      console.log("Zoom level: ", zoom);
       this.$store.commit("mapZoom", zoom);
     },
 
@@ -259,7 +263,7 @@ export default {
                   "</div>",
               }),
             }
-          ).on("click", (e) => self.drawerOpen(markerId, e));
+          ).on("click", () => self.drawerOpen(markerId));
 
           if (!LayerNames.hasOwnProperty(newMarkerData[markerId].layer)) {
             console.debug("\tcreate layer for", newMarkerData[markerId].layer);
@@ -324,19 +328,30 @@ export default {
     },
 
     drawerOpen(markerId) {
-      this.$data.drawerShow = true; // TODO use store?
+      if (this.$store.state.drawer.open) {
+        return;
+      }
+
+      const latLng = MarkersOnMap[markerId].getLatLng();
+      this.$data.drawerShow = circleMarker(latLng);
+      this.$data.drawerShow.addTo(this.$refs.map.mapObject);
+
+      document.querySelector(".leaflet-bottom.leaflet-left").style.display =
+        "none";
+      document.querySelector(".leaflet-bottom.leaflet-right").style.display =
+        "none";
+
+      this.$refs.map.mapObject.setZoom(13);
+
       this.$store.dispatch("drawerOpen", {
         details: MarkersOnMap[markerId].options.fromApi,
         center: this.$refs.map.mapObject.getCenter(),
         zoom: this.$refs.map.mapObject.getZoom(),
       });
-      document.querySelector(".leaflet-bottom.leaflet-left").style.display =
-        "none";
-      document.querySelector(".leaflet-bottom.leaflet-right").style.display =
-        "none";
-      this.$refs.map.mapObject.setZoom(14);
-      const latLng = MarkersOnMap[markerId].getLatLng();
+
       this.$refs.map.mapObject.panTo([latLng.lat - 0.009, latLng.lng]);
+
+      MarkersOnMap[markerId].update();
     },
 
     drawerClosed() {
@@ -345,13 +360,15 @@ export default {
           "block";
         document.querySelector(".leaflet-bottom.leaflet-right").style.display =
           "block";
+        this.$refs.map.mapObject.removeLayer(this.$data.drawerShow);
         this.$data.drawerShow = false;
         this.$refs.map.mapObject.setZoom(this.$store.state.drawer.lastZoom);
         this.$refs.map.mapObject.panTo(this.$store.state.drawer.lastCenter);
+        this.$store.commit("drawerClose");
       }
     },
 
-    focusMarker(self, label) {
+    focusMarker(label) {
       this.drawerOpen(label);
     },
 
@@ -366,6 +383,7 @@ export default {
     },
 
     updateUser() {
+      // Leaflet has a .locate()
       navigator.geolocation.getCurrentPosition((position) => {
         this.userMarker
           .setLatLng([position.coords.latitude, position.coords.longitude])
@@ -388,10 +406,6 @@ export default {
         ).on("click", (e) => this.drawerOpen(markerId, e));
         this.userMarker.addTo(this.$refs.map.mapObject);
       });
-    },
-
-    x() {
-      alert("closed");
     },
   },
 };

@@ -111,7 +111,7 @@ export default {
       this.$refs.drawer.$el.classList.add("open");
     },
     close: function () {
-      this.$store.commit("drawerClose");
+      // this.$store.commit("drawerClose");
       this.$refs.drawer.$el.classList.remove("open");
       this.$emit("drawerClosed");
     },
