@@ -7,6 +7,17 @@ const { signal } = REQ_CONTROLLER;
 
 const BASE_URL = 'https://opensky-network.org/api';
 
+const COUNTRY_NAMES = new Set();
+
+COUNTRY_NAMES.add(/China/, 'CCP');
+COUNTRY_NAMES.add(/United Arab Emirates/, 'UAE');
+COUNTRY_NAMES.add(/Kingdom of the Netherlands/i, 'NL');
+COUNTRY_NAMES.add(/United Kingdom/i, 'UK');
+COUNTRY_NAMES.add(/Czech Republic/i, 'C zechia');
+COUNTRY_NAMES.add(/bosnia and herzegovina/i, 'Bosnia');
+COUNTRY_NAMES.add(/Republic of Korea/i, 'S Korea');
+COUNTRY_NAMES.add(/The former Yugoslav Republic of Macedonia/i, 'Macedonia');
+
 let RUNNING = false;
 
 export const initialState = {
@@ -67,7 +78,7 @@ export async function getBoundingBox(bounds) {
     if (e.name === "AbortError") {
       console.log('I aborted');
     } else {
-      throw new Error("The API returned an invalid response");
+      throw new Error(e);
     }
   }
 
@@ -87,13 +98,13 @@ function _formatForGetBoundBox(json) {
     const id = json.states[i][1].trim();
     const htmlClass = 'opensky_' + (json.states[i][8] ? '0' : (Math.ceil(json.states[i][13] / 1500) + 1));
 
-    json.states[i][2] = json.states[i][2].replace(/China/, 'CCP');
-    json.states[i][2] = json.states[i][2].replace(/United Arab Emirates/, 'UAE');
-    json.states[i][2] = json.states[i][2].replace(/Kingdom of the Netherlands/i, 'NL');
-    json.states[i][2] = json.states[i][2].replace(/United Kingdom/i, 'UK');
-    json.states[i][2] = json.states[i][2].replace(/Czech Republic/i, 'C zechia');
-    json.states[i][2] = json.states[i][2].replace(/bosnia and herzegovina/i, 'Bosnia');
-    json.states[i][2] = json.states[i][2].replace(/Republic of Korea/i, 'S Korea');
+    COUNTRY:
+    for (let j of COUNTRY_NAMES) {
+      if (json.states[i][2].match(j)) {
+        json.states[i][2] = COUNTRY_NAMES[j];
+        break COUNTRY;
+      }
+    }
 
     rv[id] = {
       lat: json.states[i][6],
