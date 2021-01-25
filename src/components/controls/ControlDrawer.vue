@@ -18,19 +18,18 @@
 }
 @media (orientation: landscape) {
   #control-drawer {
-    width: 20vw;
-    transition: width 0.3s;
+    width: 35%;
+    left: -35%;
+    transition: left 0.3s;
     height: 100%;
     top: 0;
-    left: -20vw;
     transform-origin: left;
     margin: 1rem;
     margin: 0;
   }
   #control-drawer.open {
-    /* right: 20vw; */
     left: 0;
-    transition: width 0.3s;
+    transition: left 0.3s;
   }
 }
 
