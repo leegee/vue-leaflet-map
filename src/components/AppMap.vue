@@ -323,7 +323,7 @@ export default {
       console.debug("LEAVE on map: %d", Object.keys(MarkersOnMap).length);
     },
 
-    drawerOpen(markerId, e) {
+    drawerOpen(markerId) {
       this.$data.drawerShow = true; // TODO use store?
       this.$store.dispatch("drawerOpen", {
         details: MarkersOnMap[markerId].options.fromApi,
