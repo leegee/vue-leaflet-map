@@ -1,8 +1,6 @@
 <template>
   <l-control id="control-drawer" ref="drawer">
     <header>
-      <!-- v-on:mousedown.stop.prevent="close">-->
-      <!-- <div id="handle"></div> -->
       <h1>{{ $store.state.drawer.details.label }}</h1>
     </header>
     <main>
@@ -34,9 +32,6 @@
     left: 0;
     transition: width 0.3s;
   }
-  #handle {
-    display: none;
-  }
 }
 
 @media (orientation: portrait) {
@@ -61,18 +56,6 @@
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     text-align: center;
-  }
-  #handle {
-    opacity: 0.5;
-    background: var(--app-bg);
-    border: 1pt solid var(--app-fg);
-    text-align: center;
-    padding: 1pt;
-    margin: 2pt;
-    max-height: 1pt;
-    border-radius: 4pt;
-    margin-left: 30vw;
-    width: 40vw;
   }
   main {
     padding: 2rem;
