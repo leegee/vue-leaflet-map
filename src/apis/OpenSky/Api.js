@@ -7,16 +7,16 @@ const { signal } = REQ_CONTROLLER;
 
 const BASE_URL = 'https://opensky-network.org/api';
 
-const COUNTRY_NAMES = new Set();
+const COUNTRY_NAMES = new Map();
 
-COUNTRY_NAMES.add(/China/, 'CCP');
-COUNTRY_NAMES.add(/United Arab Emirates/, 'UAE');
-COUNTRY_NAMES.add(/Kingdom of the Netherlands/i, 'NL');
-COUNTRY_NAMES.add(/United Kingdom/i, 'UK');
-COUNTRY_NAMES.add(/Czech Republic/i, 'C zechia');
-COUNTRY_NAMES.add(/bosnia and herzegovina/i, 'Bosnia');
-COUNTRY_NAMES.add(/Republic of Korea/i, 'S Korea');
-COUNTRY_NAMES.add(/The former Yugoslav Republic of Macedonia/i, 'Macedonia');
+COUNTRY_NAMES.set(/China/, 'CCP');
+COUNTRY_NAMES.set(/United Arab Emirates/, 'UAE');
+COUNTRY_NAMES.set(/Kingdom of the Netherlands/i, 'NL');
+COUNTRY_NAMES.set(/United Kingdom/i, 'UK');
+COUNTRY_NAMES.set(/Czech Republic/i, 'C zechia');
+COUNTRY_NAMES.set(/bosnia and herzegovina/i, 'Bosnia');
+COUNTRY_NAMES.set(/Republic of Korea/i, 'S Korea');
+COUNTRY_NAMES.set(/The former Yugoslav Republic of Macedonia/i, 'Macedonia');
 
 let RUNNING = false;
 
