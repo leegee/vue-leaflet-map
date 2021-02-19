@@ -1,15 +1,16 @@
-/**
- * Implementation for https://opensky-network.org/apidoc/rest.html
- */
-
 const REQ_CONTROLLER = new AbortController();
 const { signal } = REQ_CONTROLLER;
 
 const API_TOKEN = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmxlZWdlZSIsImlzcyI6ImFnZW50OmxlZWdlZTo6NDNjNmVjZmYtZGM0Ny00MDE4LTk1NTUtYjNmNDYwMmViNDBjIiwiaWF0IjoxNjEzNzI4MTcyLCJyb2xlIjpbInVzZXJfYXBpX3JlYWQiLCJ1c2VyX2FwaV93cml0ZSJdLCJnZW5lcmFsLXB1cnBvc2UiOnRydWUsInNhbWwiOnt9fQ.gyE81u0x_IMcuLTzomye-PD5x7IeDUBgqVqVFlE8JEzq2OTwIHokzxQiMVn94JGtZiJ0X-ml_OhPzx_MX7Su6A';
 
-const BASE_URL = 'https://opensky-network.org/api';
-
 let RUNNING = false;
+
+export const dbConfig = {
+  "host": "localhost",
+  "user": "root",
+  "password": "password",
+  "database": "ufo"
+};
 
 export const initialState = {
   map: {
@@ -33,7 +34,7 @@ export const initialState = {
 export async function getBoundingBox(bounds) {
   let rv = null;
 
-  console.log('OpenSky.getBoundingBox', bounds.ne, bounds.sw1);
+  console.log('ufo.getBoundingBox', bounds.ne, bounds.sw1);
 
   const params = new URLSearchParams({
     lamin: bounds.sw.lat,
@@ -44,7 +45,7 @@ export async function getBoundingBox(bounds) {
 
   const url = BASE_URL + '/states/all?' + params.toString();
 
-  console.debug('OpenSky.getBoundingBox fetch', url);
+  console.debug('ufo.getBoundingBox fetch', url);
 
   if (RUNNING) {
     // REQ_CONTROLLER.abort();
@@ -77,7 +78,7 @@ export async function getBoundingBox(bounds) {
 }
 
 function _formatForGetBoundBox(json) {
-  console.log('OpenSky._formatForGetBoundBox', json.states);
+  console.log('ufo._formatForGetBoundBox', json.states);
 
   if (json.states === null) {
     return null;
@@ -87,7 +88,7 @@ function _formatForGetBoundBox(json) {
 
   for (let i = 0; i < json.states.length; i++) {
     const id = json.states[i][1].trim();
-    const htmlClass = 'opensky_' + (json.states[i][8] ? '0' : (Math.ceil(json.states[i][13] / 1500) + 1));
+    const htmlClass = 'ufo_' + (json.states[i][8] ? '0' : (Math.ceil(json.states[i][13] / 1500) + 1));
 
     COUNTRY:
     for (let j of COUNTRY_NAMES) {
@@ -103,7 +104,7 @@ function _formatForGetBoundBox(json) {
       label: id,
       rotate: json.states[i][10],
       layer: json.states[i][2],
-      openskyState: json.states[i],
+      ufo: json.states[i],
       htmlClass,
     };
   }
