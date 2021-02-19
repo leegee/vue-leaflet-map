@@ -1,0 +1,238 @@
+{
+  "name": "timothyrenner_ufo-sightings",
+  "title": "UFO Sightings",
+  "description": "Full text and geocoded UFO sighting reports from the National UFO Research Center (NUFORC).\n\n---\n{\"editor\":\"markdown\"}\n---\n# About\n\nThe National UFO Research Center ([NUFORC](http://www.nuforc.org/)) collects and serves over 100,000 reports of UFO sightings. \nThis dataset contains the report content itself including the time, location duration, and other attributes in both the raw form as it is recorded on the NUFORC site as well as a refined, standardized form that also contains lat/lon coordinates.\n\n![I want to believe](http://1.bp.blogspot.com/-fOF1t2r7Fgk/TcW01yvCVrI/AAAAAAAAAA0/ttSOxTge3F8/s1600/ufo.jpg)\n\n## Reports\n\nThe raw reports are line-delimited JSON documents that contain the report information exactly as it appears on the NUFORC site.\nThis is the starting point for the \"cleaner\" version of the dataset.\nThere are quite a few inconsistencies in this dataset in terms of formatting, errors, etc.\n\nThe CSV reports have cleaned state and city names, standardized dates and lat/lon values of the cities in which the sightings occurred.\nIt's easier to work with but has some opinions.\n\n## What's Different\n \nThis dataset appears in a couple of different places here on data.world so it's worth mentioning what makes this one different:\n\n1. All of the reports are present - this is a complete scrape.\n2. The entire report contents are present, including the full text of the report.\n3. The reports are geocoded at the city level. It isn't a complete geocoding, but about 90k / 110k reports have an associated lat/lon.\n4. The \"cleaned\" version of the dataset has a few key standardizations applied like date times, city names, state codes, etc that make it easier to work with (though the raw data is still available too).\n\nOther versions of the dataset to check out:\n\n* [https://data.world/khturner/national-ufo-reporting-center-reports](https://data.world/khturner/national-ufo-reporting-center-reports)\n* [https://data.world/aarranzlopez/ufo-sights-2016-us-and-canada](https://data.world/aarranzlopez/ufo-sights-2016-us-and-canada)\n\n## Code\n\nThis dataset was assembled by scraping the reports from the NUFORC site (done with [scrapy](https://scrapy.org/)), then merged with a city location database to perform the geocoding.\nThe code is available [on GitHub](https://github.com/timothyrenner/nuforc_sightings_data).\n\n## Changelog\n\n**2020-01-04** Refreshed the dataset. This has removed some records, bringing the total number of available sightings down to about 88k. This change came from the NUFORC website, which also has a reduced number of sightings. The city standardization code for joining to the GeoLite database was updated with additional cleaning.\n\n## Inspiration\n\nFor a little inspiration, I made a project that has some basic plots I threw together when I was exploring the dataset.\n\n[https://data.world/timothyrenner/ufo-sighting-basics](https://data.world/timothyrenner/ufo-sighting-basics)\n\n## Other Notes\n\nThe geocoding is possible thanks to MaxMind, who publishes a free database of city locations.\n\nThis product includes GeoLite2 data created by MaxMind, available from\n[http://www.maxmind.com](http://www.maxmind.com).",
+  "homepage": "https://data.world/timothyrenner/ufo-sightings",
+  "license": "Public Domain",
+  "resources": [
+    {
+      "name": "nuforc_reports",
+      "schema": {
+        "fields": [
+          {
+            "name": "summary",
+            "title": "summary",
+            "description": "Summary of the report. Usually the first few sentences.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "summary"
+          },
+          {
+            "name": "city",
+            "title": "city",
+            "description": "The city of the sighting.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "city"
+          },
+          {
+            "name": "state",
+            "title": "state",
+            "description": "The 2 character state code of the sighting.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "state"
+          },
+          {
+            "name": "date_time",
+            "title": "date_time",
+            "description": "The date and time of the sighting in ISO 8601 (local time).",
+            "type": "datetime",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#dateTime",
+            "dwSourceId": "date_time"
+          },
+          {
+            "name": "shape",
+            "title": "shape",
+            "description": "The shape of the sighting",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "shape"
+          },
+          {
+            "name": "duration",
+            "title": "duration",
+            "description": "The duration of the sighting in no particular format.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "duration"
+          },
+          {
+            "name": "stats",
+            "title": "stats",
+            "description": "Summary stats about the sighting (when it occurred, when it was posted, etc.).",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "stats"
+          },
+          {
+            "name": "report_link",
+            "title": "report_link",
+            "description": "A link to the original report on the NUFORC site.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#anyURI",
+            "dwSourceId": "report_link"
+          },
+          {
+            "name": "text",
+            "title": "text",
+            "description": "The text of the sighting report.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "text"
+          },
+          {
+            "name": "posted",
+            "title": "posted",
+            "description": "When the sighting was posted to the NUFORC site.",
+            "type": "datetime",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#dateTime",
+            "dwSourceId": "posted"
+          },
+          {
+            "name": "city_latitude",
+            "title": "city_latitude",
+            "description": "The latitude of the city in which the sighting occurred.",
+            "type": "number",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#decimal",
+            "dwSourceId": "city_latitude"
+          },
+          {
+            "name": "city_longitude",
+            "title": "city_longitude",
+            "description": "The longitude of the city in which the sighting occurred.",
+            "type": "number",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#decimal",
+            "dwSourceId": "city_longitude"
+          },
+          {
+            "name": "city_location",
+            "title": "city_ Location",
+            "description": "The geocoded location of the city in which the sighting occurred",
+            "type": "string",
+            "rdfType": "http://www.opengis.net/ont/OGC-GeoSPARQL/1.0/Point",
+            "dwSourceId": "city_location"
+          }
+        ]
+      },
+      "path": "data/nuforc_reports.csv",
+      "format": "csv"
+    },
+    {
+      "name": "nuforc_reports_2",
+      "schema": {
+        "fields": [
+          {
+            "name": "text",
+            "title": "text",
+            "description": "The text of the sighting report.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "text"
+          },
+          {
+            "name": "stats",
+            "title": "stats",
+            "description": "Summary statistics about the report (when it occurred, when it was posted, etc.).",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "stats"
+          },
+          {
+            "name": "date_time",
+            "title": "date_time",
+            "description": "The date and time the sighting occurred in either MM-DD-YY HH:mm or MM-DD-YY.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "date_time"
+          },
+          {
+            "name": "report_link",
+            "title": "report_link",
+            "description": "A link to the original report on the NUFORC site.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#anyURI",
+            "dwSourceId": "report_link"
+          },
+          {
+            "name": "city",
+            "title": "city",
+            "description": "The city in which the sighting occurred.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "city"
+          },
+          {
+            "name": "state",
+            "title": "state",
+            "description": "The 2 digit state code in which the sighting occurred.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "state"
+          },
+          {
+            "name": "shape",
+            "title": "shape",
+            "description": "The shape of the object.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "shape"
+          },
+          {
+            "name": "duration",
+            "title": "duration",
+            "description": "The duration of the sighting in no particular format.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "duration"
+          },
+          {
+            "name": "summary",
+            "title": "summary",
+            "description": "A summary of the sighting text, usually the first few sentences.",
+            "type": "string",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#string",
+            "dwSourceId": "summary"
+          },
+          {
+            "name": "posted",
+            "title": "posted",
+            "description": "The day the sighting was posted in MM/DD/YY.",
+            "type": "date",
+            "rdfType": "http://www.w3.org/2001/XMLSchema#date",
+            "dwSourceId": "posted"
+          }
+        ]
+      },
+      "path": "data/nuforc_reports_2.csv",
+      "format": "csv"
+    },
+    {
+      "name": "original/nuforc_reports.csv",
+      "description": "The cleaned and geocoded reports from the NUFORC site.",
+      "path": "original/nuforc_reports.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "bytes": 121564466,
+      "keywords": [
+        "clean data"
+      ]
+    },
+    {
+      "name": "original/nuforc_reports.json",
+      "description": "The raw NUFORC reports as scraped from the NUFORC site.",
+      "path": "original/nuforc_reports.json",
+      "format": "json",
+      "mediatype": "application/json",
+      "bytes": 129170904,
+      "keywords": [
+        "raw data"
+      ]
+    }
+  ],
+  "keywords": [
+    "ufo",
+    "paranormal",
+    "geography"
+  ]
+}
