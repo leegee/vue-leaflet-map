@@ -4,11 +4,12 @@ const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const VueLoaderPlugin      = require('vue-loader/lib/plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
-const isDev                = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development';
 
-const IMPLEMENTATION = 'OpenSky';
+// const IMPLEMENTATION = 'OpenSky';
+const IMPLEMENTATION = 'ufo';
 
 module.exports = {
   entry: {
