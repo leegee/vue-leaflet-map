@@ -1,11 +1,10 @@
+
 const REQ_CONTROLLER = new AbortController();
 const { signal } = REQ_CONTROLLER;
 
 let RUNNING = false;
 
 import config from './config';
-
-db.configure(config);
 
 export const initialState = {
   map: {
