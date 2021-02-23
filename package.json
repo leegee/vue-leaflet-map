@@ -2,7 +2,7 @@
   "name": "lee-vue-leaflet",
   "version": "0.0.2",
   "description": "vue/leaflet/webpack 5/modular data feed",
-  "main": "src/index.js",
+  "main": "src/index.mjs",
   "author": "Lee Goddard",
   "license": "MIT",
   "repository": {
@@ -12,7 +12,7 @@
     "start": "cross-env NODE_ENV=development webpack serve --config config/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js",
     "ufo:populate": "cross-env NODE_ENV=development node config/ufo/injest.js",
-    "ufo:serve": "cross-env NODE_ENV=development node config/ufo/server.js"
+    "ufo:serve": "cross-env NODE_ENV=development node src/apis/ufo/data/server.mjs"
   },
   "keywords": [
     "leaflet",

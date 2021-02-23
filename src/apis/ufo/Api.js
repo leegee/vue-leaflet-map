@@ -3,14 +3,9 @@ const { signal } = REQ_CONTROLLER;
 
 let RUNNING = false;
 
-export const dbConfig = {
-  "host": "localhost",
-  "user": "root",
-  "password": "password",
-  "database": "ufo"
-};
+import config from './config';
 
-db.configure(dbConfig);
+db.configure(config);
 
 export const initialState = {
   map: {

@@ -9,7 +9,7 @@ const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const isDev = process.env.NODE_ENV === 'development';
 
 // const IMPLEMENTATION = 'OpenSky';
-const IMPLEMENTATION = 'data-world-ufo-test';
+const IMPLEMENTATION = 'ufo';
 
 module.exports = {
   entry: {

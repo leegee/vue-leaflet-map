@@ -65,7 +65,7 @@ export default {
     componentLoader() {
       return () =>
         import(
-          "@/apis/" + process.env.implementation + "/ItemInAppSearchTable"
+          "../apis/" + process.env.implementation + "/ItemInAppSearchTable"
         );
     },
   },

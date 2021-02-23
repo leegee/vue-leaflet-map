@@ -2,14 +2,14 @@ const csvParser = require('csv-parser');
 const fs = require('fs');
 const db = require('mysql-promise')();
 
-const dbConfig = require('./src/apis/data-world-ufo/Api.mjs').dbConfig;
+const config = require('./src/apis/ufo/Api').config;
 
 const filepath = './config/ufo/nuforc_reports.csv';
 
 let keys;
 let sql;
 
-db.configure(dbConfig);
+db.configure(config);
 
 fs.createReadStream(filepath)
   .on('error', (e) => {
