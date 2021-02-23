@@ -31,13 +31,13 @@ export async function getBoundingBox(bounds) {
   console.log('ufo.getBoundingBox', bounds.ne, bounds.sw1);
 
   const params = new URLSearchParams({
-    lamin: bounds.sw.lat,
-    lomin: bounds.sw.lng,
-    lamax: bounds.ne.lat,
-    lomax: bounds.ne.lng,
+    sw_lat: bounds.sw.lat,
+    sw_lng: bounds.sw.lng,
+    ne_lat: bounds.ne.lat,
+    ne_lng: bounds.ne.lng,
   });
 
-  const url = BASE_URL + '/states/all?' + params.toString();
+  const url = config.http.host + ':' + config.http.port + '?' + params.toString();
 
   console.debug('ufo.getBoundingBox fetch', url);
 
@@ -49,10 +49,11 @@ export async function getBoundingBox(bounds) {
     RUNNING = true;
     console.debug('GET', url);
 
-    const res = await fetch(url, { signal });
+    const res = await fetch(url, { signal, mode: 'no-cors' });
 
     RUNNING = false;
     const json = await res.json();
+
     if (json && json.states !== null) {
       rv = _formatForGetBoundBox(json);
     } else if (json.states !== null) {

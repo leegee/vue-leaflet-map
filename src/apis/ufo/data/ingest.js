@@ -9,7 +9,7 @@ const filepath = './src/apis/ufo/data/nuforc_reports.csv';
 let keys;
 let sql;
 
-db.configure(config);
+db.configure(config.db);
 
 fs.createReadStream(filepath)
   .on('error', (e) => {
@@ -22,25 +22,36 @@ fs.createReadStream(filepath)
 
   .pipe(csvParser())
 
-  .on('data', (row) => {
+  .on('data', async (row) => {
 
-    if (!keys) {
-      keys = Object.keys(row).filter(_ => _ !== 'city_latitude' && _ !== 'city_longitude');
-    }
+    keys = keys || Object.keys(row);
 
     sql = sql || 'INSERT IGNORE INTO sightings SET '
-      + keys.map(_ => '`' + _ + '` = ? ').join(',')
+      + keys.map(_ => {
+        const val =
+          _ === 'city_location' ?
+            'geomfromtext(?)' : '?';
+        return '`' + _ + '` = ' + val;
+      }).join(',')
 
-    const values = Object.keys(row).map(_ => row[_]);
+    if (row.city_location) {
 
-    try {
-      db.query(
-        sql,
-        values
-      );
-    } catch (e) {
-      console.error('ERROR ', sql);
-      process.exit(-1);
+      const values = Object.keys(row).map(_ => row[_]);
+
+      try {
+        await db.query(
+          sql,
+          values
+        );
+      } catch (e) {
+        console.error('ERROR ', e, sql);
+        process.exit(-1);
+      }
+
+      console.warn('OK city_location', row.city, row.state);
+
+    } else {
+      console.warn('No city_location', row.city, row.state);
     }
   });
 

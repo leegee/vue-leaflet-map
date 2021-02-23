@@ -12,7 +12,8 @@
     "start": "cross-env NODE_ENV=development webpack serve --config config/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js",
     "ufo:populate": "cross-env NODE_ENV=development node config/ufo/injest.js",
-    "ufo:serve": "cross-env NODE_ENV=development node src/apis/ufo/data/server.mjs"
+    "ufo:serve": "cross-env NODE_ENV=development node src/apis/ufo/data/server.mjs",
+    "ufo:ingest": "node ./src/apis/ufo/data/ingest.js"
   },
   "keywords": [
     "leaflet",
