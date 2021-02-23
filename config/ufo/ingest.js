@@ -2,9 +2,9 @@ const csvParser = require('csv-parser');
 const fs = require('fs');
 const db = require('mysql-promise')();
 
-const dbconfig = require('../Api').dbConfig;
+const dbConfig = require('./src/apis/data-world-ufo/Api.mjs').dbConfig;
 
-const filepath = './src/apis/data-world-ufo-test/data/nuforc_reports.csv';
+const filepath = './config/ufo/nuforc_reports.csv';
 
 let keys;
 let sql;
@@ -24,13 +24,25 @@ fs.createReadStream(filepath)
 
   .on('data', (row) => {
 
+    if (!keys) {
+      keys = Object.keys(rows);
+      delete keys.city_latitude;
+      delete keys.city_longitude;
+      keys.push('city_lat_lng');
+    }
+
     sql = sql || 'INSERT IGNORE INTO sightings SET '
-      + Object.keys(row).map(_ => '`' + _ + '` = ? ').join(',')
+      + Object.keys(keys).map(_ => '`' + _ + '` = ? ').join(',')
+
+    const values = Object.keys(row).map(_ => row[_]);
+    values.push(
+      POINT(row.city_latitude, city_longitude)
+    );
 
     try {
       db.query(
         sql,
-        Object.keys(row).map(_ => row[_])
+        values
       );
     } catch (e) {
       console.error('ERROR ', sql);

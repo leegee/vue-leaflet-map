@@ -1,8 +1,6 @@
 const REQ_CONTROLLER = new AbortController();
 const { signal } = REQ_CONTROLLER;
 
-const API_TOKEN = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwcm9kLXVzZXItY2xpZW50OmxlZWdlZSIsImlzcyI6ImFnZW50OmxlZWdlZTo6NDNjNmVjZmYtZGM0Ny00MDE4LTk1NTUtYjNmNDYwMmViNDBjIiwiaWF0IjoxNjEzNzI4MTcyLCJyb2xlIjpbInVzZXJfYXBpX3JlYWQiLCJ1c2VyX2FwaV93cml0ZSJdLCJnZW5lcmFsLXB1cnBvc2UiOnRydWUsInNhbWwiOnt9fQ.gyE81u0x_IMcuLTzomye-PD5x7IeDUBgqVqVFlE8JEzq2OTwIHokzxQiMVn94JGtZiJ0X-ml_OhPzx_MX7Su6A';
-
 let RUNNING = false;
 
 export const dbConfig = {
@@ -11,6 +9,8 @@ export const dbConfig = {
   "password": "password",
   "database": "ufo"
 };
+
+db.configure(dbConfig);
 
 export const initialState = {
   map: {
@@ -84,7 +84,7 @@ function _formatForGetBoundBox(json) {
     return null;
   }
 
-  const rv = {};
+  const rv = {}; rr
 
   for (let i = 0; i < json.states.length; i++) {
     const id = json.states[i][1].trim();
