@@ -14,6 +14,8 @@ CREATE TABLE sightings (
   text TEXT,
   posted DATETIME,
   city_lat_lng POINT NOT NULL,
+  city_latitude VARCHAR(10),
+  city_longitude VARCHAR(10),
   city_location VARCHAR(255)
 
   /* v > 5.7 SPATIAL INDEX SPATIAL (city_lat_lng) */
