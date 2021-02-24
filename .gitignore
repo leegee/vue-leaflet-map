@@ -1,4 +1,5 @@
 **/.DS_Store
 /node_modules
 /dist
-/src/apis/ufo/data/*.csv
+/src/apis/ufo/data/nuforc_reports.csv
+/src/apis/ufo/data/nuforc_reports_2.csv

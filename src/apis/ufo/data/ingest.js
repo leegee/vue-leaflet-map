@@ -4,54 +4,60 @@ const db = require('mysql-promise')();
 
 const config = require('../config.js');
 
-const filepath = './src/apis/ufo/data/nuforc_reports.csv';
+const filepaths = [
+  './src/apis/ufo/data/nuforc_reports.csv',
+  './src/apis/ufo/data/nuforc_reports_2.csv'
+];
 
 let keys;
 let sql;
 
 db.configure(config.db);
 
-fs.createReadStream(filepath)
-  .on('error', (e) => {
-    console.error(e);
-  })
+filepaths.forEach(filepath => {
 
-  .on('end', () => {
-    console.log('Done');
-  })
+  fs.createReadStream(filepath)
+    .on('error', (e) => {
+      console.error(e);
+    })
 
-  .pipe(csvParser())
+    .on('end', () => {
+      console.log('Done', filepath);
+    })
 
-  .on('data', async (row) => {
+    .pipe(csvParser())
 
-    keys = keys || Object.keys(row);
+    .on('data', async (row) => {
 
-    sql = sql || 'INSERT IGNORE INTO sightings SET '
-      + keys.map(_ => {
-        const val =
-          _ === 'city_location' ?
-            'geomfromtext(?)' : '?';
-        return '`' + _ + '` = ' + val;
-      }).join(',')
+      keys = keys || Object.keys(row);
 
-    if (row.city_location) {
+      sql = sql || 'INSERT IGNORE INTO sightings SET '
+        + keys.map(_ => {
+          const val =
+            _ === 'city_location' ?
+              'geomfromtext(?)' : '?';
+          return '`' + _ + '` = ' + val;
+        }).join(',')
 
-      const values = Object.keys(row).map(_ => row[_]);
+      if (row.city_location) {
 
-      try {
-        await db.query(
-          sql,
-          values
-        );
-      } catch (e) {
-        console.error('ERROR ', e, sql);
-        process.exit(-1);
+        const values = Object.keys(row).map(_ => row[_]);
+
+        try {
+          await db.query(
+            sql,
+            values
+          );
+        } catch (e) {
+          console.error('ERROR ', e, sql);
+          process.exit(-1);
+        }
+
+        console.warn('OK city_location', row.city, row.state);
+
+      } else {
+        console.warn('No city_location', row.city, row.state);
       }
+    });
 
-      console.warn('OK city_location', row.city, row.state);
-
-    } else {
-      console.warn('No city_location', row.city, row.state);
-    }
-  });
-
+});
