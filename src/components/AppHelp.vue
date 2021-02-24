@@ -30,4 +30,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#help {
+  overflow: auto;
+}
 </style>
