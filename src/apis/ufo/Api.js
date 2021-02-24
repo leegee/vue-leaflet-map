@@ -7,11 +7,14 @@ let RUNNING = false;
 import config from './config';
 
 export const initialState = {
-  map: {
-    zoom: 12,
-    zoomLevelHideLabels: 10,
-    updateMs: 0,
-  }
+  zoom: 8,
+  maxZoom: 12,
+  minZoom: 9,
+  zoomLevelHideLabels: 10,
+  updateMs: 0,
+  center: [37.234332396, -115.80666344],
+  updateMs: 1000 * 60,
+  foo: 'bar'
 };
 
 /**

@@ -4,6 +4,7 @@
       ref="map"
       :zoom="zoom"
       :maxZoom="maxZoom"
+      :minZoom="minZoom"
       :center="center"
       :options="mapOptions"
       style="height: 100%; width: 100%"
@@ -133,17 +134,18 @@ export default {
   },
   data() {
     return {
-      userMarker: null, // State from browser, not Vuex
-      zoom: 8,
-      maxZoom: 16,
-      url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      attribution: "",
-      center: latLng(47.6008, 19.3605),
-      showParagraph: false,
-      leafletMapOptions: {},
+      zoom: this.$store.state.map.zoom || 8,
+      minZoom: this.$store.state.map.minZoom || 1,
+      maxZoom: this.$store.state.map.maxZoom || 16,
+      center: this.$store.state.map.center || latLng(47.600773, 19.360543),
       mapOptions: {
         zoomSnap: 0.5,
       },
+      leafletMapOptions: {},
+      userMarker: null, // State from browser, not Vuex
+      url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      attribution: "",
+      showParagraph: false,
       highlightMarker: false,
     };
   },

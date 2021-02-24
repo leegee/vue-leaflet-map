@@ -21,11 +21,11 @@ COUNTRY_NAMES.set(/The former Yugoslav Republic of Macedonia/i, 'Macedonia');
 let RUNNING = false;
 
 export const initialState = {
-  map: {
-    zoom: 12,
-    zoomLevelHideLabels: 10,
-    updateMs: 0,
-  }
+  zoom: 12,
+  zoomLevelHideLabels: 10,
+  updateMs: 0,
+  maxZoom: 12,
+  minZoom: 2
 };
 
 /**
