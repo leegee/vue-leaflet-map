@@ -9,13 +9,16 @@ All requests should be to the root URL with a query string having the following 
 
 */
 
-import Koa from 'koa';
-import getMysql from 'mysql-promise';
+import Koa from "koa";
+import getMysql from "mysql-promise";
+import cors from "@koa/cors";
 
 const db = getMysql();
-const app = new Koa();
 
-import config from '../config.js';
+import config from "../config.js";
+
+const app = new Koa();
+app.use(cors({ origin: "*" }));
 
 db.configure(config.db);
 
@@ -29,22 +32,26 @@ app.use(async (ctx) => {
   if (q !== null && q.sw_lat !== undefined && !q.sw_lng !== undefined && !q.ne_lat !== undefined && !q.ne_lng !== undefined) {
 
     try {
-      const sql = "SELECT * FROM sightings WHERE MBRContains( GeomFromText( 'POLYGON(("
-        + q.sw_lat + ' ' + q.sw_lng + ', '
-        + q.sw_lat + ' ' + q.ne_lng + ', '
-        + q.ne_lat + ' ' + q.ne_lng + ', '
-        + q.ne_lat + ' ' + q.sw_lng + ', '
-        + "))' ), sightings.city_location)";
+      const sql = "SELECT * FROM sightings WHERE MBRContains( GeomFromText( 'LINESTRING("
+        + q.sw_lng + ' ' + q.sw_lat + ', '
+        + q.sw_lng + ' ' + q.ne_lat + ', '
+        + q.ne_lng + ' ' + q.ne_lat + ', '
+        + q.ne_lng + ' ' + q.sw_lat + ', '
+        + q.sw_lng + ' ' + q.sw_lat
+        + ")' ), sightings.city_location)";
 
       console.log(sql);
+
       await db.query(sql).spread(function (rows) {
-        body.rows = rows;
+        body.results = rows;
+        console.log('Rows:', rows.length);
       });
-    } catch (e) {
+    }
+
+    catch (e) {
       body.status = 500;
       body.msg = JSON.Stringify(e);
     };
-
 
   } else {
     body.status = 400;
@@ -52,7 +59,6 @@ app.use(async (ctx) => {
   }
 
   ctx.body = JSON.stringify(body);
-  console.log(ctx.body);
   // db.end();
 });
 
