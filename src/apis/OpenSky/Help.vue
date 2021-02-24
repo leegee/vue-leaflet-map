@@ -1,5 +1,5 @@
 <template>
-  <p>OpenSKy Flight Test</p>
+  <p>OpenSky Flight Test</p>
 </taemplate>
 
 <script>
