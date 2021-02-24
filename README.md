@@ -6,6 +6,10 @@ In `webpack.common.js`, Set `IMPLEMENTATION` to the name of the sub-directory of
 
 Currently, search is of visible map and filters on `label`.
 
+## UFOs
+
+To use the UFO data, you'll need to create a datasource. Some rough code is supplied to create a rough MySQL entry and a tiny Koa service.
+
 ## Options
 
 The `AppVue` component will cluster unless initialised with the attribute `clustered=false`.
