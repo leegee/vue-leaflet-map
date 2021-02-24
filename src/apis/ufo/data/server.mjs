@@ -40,8 +40,6 @@ app.use(async (ctx) => {
         + q.sw_lng + ' ' + q.sw_lat
         + ")' ), sightings.city_location)";
 
-      console.log(sql);
-
       await db.query(sql).spread(function (rows) {
         body.results = rows.map(_ => {
           if (!_.shape) {
@@ -49,7 +47,7 @@ app.use(async (ctx) => {
           }
           return _;
         });
-        console.log('Rows:', rows.length);
+        console.log('Rows matched:', rows.length);
       });
     }
 

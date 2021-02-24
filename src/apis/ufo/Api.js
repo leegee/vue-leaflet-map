@@ -85,9 +85,9 @@ function _formatForGetBoundBox(json) {
     rv[id] = {
       lat: json.results[i].city_latitude,
       lng: json.results[i].city_longitude,
-      label: json.results[i].ufo.shape,
+      label: json.results[i].shape,
       rotate: 0,
-      layer: json.results[i].ufo.shape,
+      layer: json.results[i].shape,
       ufo: json.results[i],
       htmlClass: 'ufo_' + json.results[i].shape,
     };

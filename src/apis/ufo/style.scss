@@ -1,11 +1,18 @@
 .marker-pin {
   // background: transparent url("./plane.svg") center no-repeat;
   background: red;
+  position: relative;
   min-width: 24pt;
   min-height: 24pt;
-  position: relative;
   left: -12pt;
   top: -12pt;
+  border-radius: 50%;
+  font-size: 12pt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  font-weight: bold;
 }
 
 .marker-label {
@@ -35,47 +42,69 @@
   z-index: 100;
 }
 
-.opensky_0 {
-  opacity: 1;
-  filter: hue-rotate(200deg)
+.ufo_other {
+  background-color: green;
 }
 
-.opensky_1 {
-  opacity: 1;
+.ufo_oval {
+  min-width: 24pt;
+  min-height: 14pt;
 }
 
-.opensky_2 {
-  opacity: 0.9;
+.ufo_oval:after {
+  content: '⭖';
 }
 
-.opensky_3 {
-  opacity: 0.8;
+.ufo_cigar:after {
+  content: '▬';
 }
 
-.opensky_4 {
-  opacity: 0.7;
+.ufo_changing:after,
+.ufo_other:after {
+  content: '?';
 }
 
-.opensky_5 {
-  opacity: 0.6;
+.ufo_triangle:after {
+  content: '▲';
 }
 
-.opensky_6 {
-  opacity: 0.5;
+.ufo_cross:after {
+  content: '✝';
 }
 
-.opensky_7 {
-  opacity: 0.45;
+.ufo_teardrop:after {
+  content: '💧';
 }
 
-.opensky_8 {
-  opacity: 0.4;
+.ufo_disk:after {
+  content: '💿';
 }
 
-.opensky_9 {
-  opacity: 0.35;
+.ufo_chevron:after {
+  content: '>';
+  margin-top: 0.3rem;
 }
 
-.opensky_10 {
-  opacity: 0.3;
+.ufo_sphere:after {
+  content: '◍';
+}
+
+.ufo_egg {
+  width: 12pt;
+  height: 18pt;
+  background-color: green;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+}
+
+
+.ufo_formation:after {
+  content: '❄';
+}
+
+.ufo_fireball:after {
+  content: '☄';
+}
+
+.ufo_light:after {
+  content: '☉';
 }
