@@ -41,6 +41,12 @@
           </button>
         </div>
       </l-control>
+
+      <l-control position="topleft" v-show="$store.state.map.loadingApi">
+        <div id="loading-api" class="app-control leaflet-control">
+          Loading...
+        </div>
+      </l-control>
     </l-map>
     <slot></slot>
   </div>
@@ -103,6 +109,18 @@
   font-weight: normal;
   overflow: scroll;
   max-height: 90%;
+}
+
+#loading-api {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  background: orange;
+  color: white;
+  font-weight: bold;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4pt;
+  border: 1pt solid black;
 }
 </style>
 

@@ -22,6 +22,7 @@ export const store = new Vuex.Store({
       updateMs: 0,
     },
     map: {
+      loadingApi: false,
       zoomLevelHideLabels: 7,
       updateMs: 60 * 1000,
       zoom: null,
@@ -47,6 +48,9 @@ export const store = new Vuex.Store({
     mapUpdateData: (state, { markerData }) => {
       state.markerData = markerData;
     },
+    loadingApi: (state, value) => {
+      state.map.loadingApi = value;
+    },
     mapUpdateBounds: (state, { ne, sw }) => {
       state.map.bounds = { ne, sw };
     },
@@ -67,8 +71,10 @@ export const store = new Vuex.Store({
       context.commit('drawerOpen', payload);
     },
     mapUpdateData: async (context) => {
+      context.commit('loadingApi', true);
       const markerData = await api.getBoundingBox(context.state.map.bounds);
       context.commit('mapUpdateData', { markerData });
+      context.commit('loadingApi', false);
     },
     markerMatch: (context, target) => {
       console.log('enter with ', target);
