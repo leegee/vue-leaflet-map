@@ -1,15 +1,15 @@
 <template>
   <div>
     <p>
-      <a href="https://data.world/timothyrenner/ufo-sightings" target="_blank">
-        Timothy Renner's UFO Sighting data
-      </a>
-    </p>
-    <p>
       Full text and geocoded UFO sighting reports from the National UFO Research
-      Center (NUFORC).
+      Center (NUFORC), processed by
+      <a href="https://data.world/timothyrenner/ufo-sightings" target="_blank">
+        Timothy Renner
+      </a>
+      - which I slurped into a MySQL 5.7 geospatial table becuase I had the DB
+      around.
     </p>
-    <h2>About</h2>
+    <h3>About</h3>
     <p>
       <a target="_blank" href="http://www.nuforc.org"
         >The National UFO Research Center</a
