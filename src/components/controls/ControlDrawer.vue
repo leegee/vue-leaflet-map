@@ -3,7 +3,7 @@
     <header>
       <h1>{{ $store.state.drawer.details.label }}</h1>
     </header>
-    <main>
+    <main id="drawer-content">
       <component :is="componentLoader"></component>
     </main>
   </l-control>
@@ -17,6 +17,13 @@
   position: fixed;
   font-weight: normal;
 }
+
+#drawer-content {
+  overflow: auto;
+  height: auto;
+  max-height: calc(85vh);
+}
+
 @media (orientation: landscape) {
   #control-drawer {
     width: 35%;

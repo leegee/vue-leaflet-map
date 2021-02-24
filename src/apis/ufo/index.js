@@ -44,7 +44,8 @@ export async function getBoundingBox(bounds) {
   console.debug('ufo.getBoundingBox fetch', url);
 
   if (RUNNING) {
-    // REQ_CONTROLLER.abort();
+    REQ_CONTROLLER.abort();
+    RUNNING = false;
   }
 
   try {

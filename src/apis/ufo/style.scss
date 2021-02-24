@@ -93,7 +93,6 @@
 .ufo_egg {
   width: 12pt;
   height: 18pt;
-  background-color: green;
   border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
 }
 
@@ -124,4 +123,8 @@
 
 .ufo_rectangle:after {
   content: '▱';
+}
+
+.ufo_diamond:after {
+  content: '◇';
 }
