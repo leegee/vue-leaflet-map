@@ -5,7 +5,7 @@ const db = require('mysql-promise')();
 const config = require('../config.js');
 
 const filepaths = [
-  './src/apis/ufo/data/nuforc_reports.csv',
+  // './src/apis/ufo/data/nuforc_reports.csv',
   './src/apis/ufo/data/nuforc_reports_2.csv'
 ];
 
@@ -56,7 +56,7 @@ filepaths.forEach(filepath => {
         console.warn('OK city_location', row.city, row.state);
 
       } else {
-        console.warn('No city_location', row.city, row.state);
+        console.warn('No city_location', row.city, row.state, row.city_latitude, row.city_longitude);
       }
     });
 

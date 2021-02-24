@@ -7,7 +7,8 @@
         Timothy Renner
       </a>
       - which I slurped into a MySQL 5.7 geospatial table becuase I had the DB
-      around.
+      around. Despite the claims made below, many entries are lacking
+      co-ordinates.
     </p>
     <h3>About</h3>
     <p>

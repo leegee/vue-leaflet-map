@@ -59,6 +59,7 @@
   content: '▬';
 }
 
+.ufo_unknown:after,
 .ufo_changing:after,
 .ufo_other:after {
   content: '?';
@@ -107,4 +108,20 @@
 
 .ufo_light:after {
   content: '☉';
+}
+
+.ufo_flash:after {
+  content: '🗲';
+}
+
+.ufo_circle:after {
+  content: '○';
+}
+
+.ufo_cylinder:after {
+  content: '▯';
+}
+
+.ufo_rectangle:after {
+  content: '▱';
 }
