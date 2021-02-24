@@ -372,8 +372,12 @@ export default {
         zoom: this.$refs.map.mapObject.getZoom(),
       });
 
-      this.$refs.map.mapObject.setZoom(13);
-      this.$refs.map.mapObject.panTo([latLng.lat - 0.009, latLng.lng]);
+      if (window.matchMedia("(orientation: portrait)").matches) {
+        this.$refs.map.mapObject.setZoom(13);
+        this.$refs.map.mapObject.panTo([latLng.lat - 0.009, latLng.lng]);
+      } else {
+        this.$refs.map.mapObject.panTo([latLng.lat - 0.009, latLng.lng]);
+      }
 
       MarkersOnMap[markerId].update();
     },
