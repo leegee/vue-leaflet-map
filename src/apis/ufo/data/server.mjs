@@ -43,7 +43,12 @@ app.use(async (ctx) => {
       console.log(sql);
 
       await db.query(sql).spread(function (rows) {
-        body.results = rows;
+        body.results = rows.map(_ => {
+          if (!_.shape) {
+            _.shape = 'unspecified';
+          }
+          return _;
+        });
         console.log('Rows:', rows.length);
       });
     }

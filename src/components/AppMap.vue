@@ -212,6 +212,11 @@ export default {
     ),
 
     async _updateBounds() {
+      // Edge, probably HMR-related:
+      if (!this.$refs.map.mapObject) {
+        return;
+      }
+
       const bounds = this.$refs.map.mapObject.getBounds();
       console.log(
         "AppMap.updateBounds (%s): ",
