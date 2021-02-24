@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="row">
-      <span>{{ rowData.label }}</span>
+      <span>{{ rowData.ufo.shape }}</span>
       <span>{{ rowData.lat }}</span>
       <span>{{ rowData.lng }}</span>
-      <span>{{ rowData.openskyState[13] }}</span>
-      <span>{{ rowData.openskyState[2] }}</span>
+      <span>{{ rowData.ufo.city }}</span>
+      <span>{{ rowData.ufo.date_time }}</span>
     </div>
   </div>
 </template>

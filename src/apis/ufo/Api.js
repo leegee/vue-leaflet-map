@@ -49,14 +49,14 @@ export async function getBoundingBox(bounds) {
     RUNNING = true;
     console.debug('GET', url);
 
-    const res = await fetch(url, { signal, mode: 'no-cors' });
+    const res = await fetch(url, { signal });
 
     RUNNING = false;
     const json = await res.json();
 
-    if (json && json.states !== null) {
+    if (json && json.results !== null) {
       rv = _formatForGetBoundBox(json);
-    } else if (json.states !== null) {
+    } else if (json.results === null) {
       console.error(json);
       throw new Error("The API returned no JSON");
     }
@@ -73,59 +73,42 @@ export async function getBoundingBox(bounds) {
 }
 
 function _formatForGetBoundBox(json) {
-  console.log('ufo._formatForGetBoundBox', json.states);
+  console.log('ufo._formatForGetBoundBox', json);
 
-  if (json.states === null) {
-    return null;
-  }
+  const rv = {};
 
-  const rv = {}; rr
-
-  for (let i = 0; i < json.states.length; i++) {
-    const id = json.states[i][1].trim();
-    const htmlClass = 'ufo_' + (json.states[i][8] ? '0' : (Math.ceil(json.states[i][13] / 1500) + 1));
-
-    COUNTRY:
-    for (let j of COUNTRY_NAMES) {
-      if (json.states[i][2].match(j)) {
-        json.states[i][2] = COUNTRY_NAMES[j];
-        break COUNTRY;
-      }
-    }
+  for (let i = 0; i < json.results.length; i++) {
+    const id = i;
 
     rv[id] = {
-      lat: json.states[i][6],
-      lng: json.states[i][5],
-      label: id,
-      rotate: json.states[i][10],
-      layer: json.states[i][2],
-      ufo: json.states[i],
-      htmlClass,
+      lat: json.results[i].city_latitude,
+      lng: json.results[i].city_longitude,
+      label: '',
+      rotate: 0,
+      layer: json.results[i].shape,
+      ufo: json.results[i],
+      htmlClass: 'ufo_' + json.results[i].shape,
     };
   }
 
+  console.log('OK');
   return rv;
 }
 
 /*
-Sample response `state`, added as openskyState
-[
-  0 "4bc842",      transponder
-  1 "PGT1182 ",    callsign
-  2 "Turkey",      countryName
-  3 1610462739,    timePosition
-  4 1610462739,    timeGeneral
-  5 18.923,        lngOrNull
-  6 46.8895,       latOrNull
-  7 11262.36,      altBarometricOrNull
-  8 false,         fromSurfaceBool
-  9 235.51,        velocityMsOrNull
- 10 125.22,        trackingDegreesOrNull
- 11 -0.65,         verticalRateMsOrNull
- 12 null,          recieverIdsOrNull
- 13 11026.14,      altGeometricOrNull
- 14 "1160",        squarkOrNull
- 15 false,         specialPurposeBool
- 16 0              posSource
-],
-  */
+
+city: "Arcade"
+city_latitude: "42.3358"
+city_location: {x: -8.5962, y: 42.3358}
+city_longitude: "-8.5962"
+date_time: "2016-12-04T18:10:00.000Z"
+duration: "5 minutes"
+posted: "2016-12-14T23:00:00.000Z"
+report_link: "http://www.nuforc.org/webreports/131/S131633.html"
+shape: "circle"
+state: "GA"
+stats: "Occurred : 12/4/2016 19:10  (Entered as : 12/4/16 19:10) Reported: 12/5/2016 8:02:27 PM 20:02 Posted: 12/15/2016 Location: Arcade, GA Shape: Circle Duration:5 minutes"
+summary: "Very strange, very bright, flashing light."
+text: "Ver..."
+
+*/
