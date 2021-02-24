@@ -353,9 +353,9 @@ export default {
     },
 
     drawerOpen(markerId) {
-      if (this.$store.state.drawer.open) {
-        return;
-      }
+      // if (this.$store.state.drawer.open) {
+      // return;
+      // }
 
       const latLng = MarkersOnMap[markerId].getLatLng();
       this.$data.highlightMarker = circleMarker(latLng);
