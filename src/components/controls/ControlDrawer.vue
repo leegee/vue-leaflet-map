@@ -15,6 +15,7 @@
   background: var(--app-bg);
   color: var(--app-fg);
   position: fixed;
+  font-weight: normal;
 }
 @media (orientation: landscape) {
   #control-drawer {
@@ -26,6 +27,7 @@
     transform-origin: left;
     margin: 1rem;
     margin: 0;
+    padding: 1rem;
   }
   #control-drawer.open {
     left: 0;
