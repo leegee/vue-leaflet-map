@@ -114,7 +114,12 @@
 #loading-api {
   position: fixed;
   top: 1rem;
+
+  height: 1.2rem;
   left: 50%;
+  width: 5rem;
+  margin-left: -4rem;
+
   background: orange;
   color: white;
   font-weight: bold;
