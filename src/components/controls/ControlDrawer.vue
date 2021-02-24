@@ -27,7 +27,7 @@
 @media (orientation: landscape) {
   #control-drawer {
     width: 35%;
-    left: -35%;
+    left: calc(-35% - 2rem);
     transition: left 0.3s;
     height: 100%;
     top: 0;
