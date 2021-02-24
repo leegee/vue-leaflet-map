@@ -15,7 +15,10 @@
       @click="drawerClosed"
     >
       <l-tile-layer :url="url" :attribution="attribution" ref="tileLayer" />
-      <v-marker-cluster ref="clusterRef"></v-marker-cluster>
+      <v-marker-cluster
+        ref="clusterRef"
+        :options="{ zoomToBoundsOnClick: true }"
+      ></v-marker-cluster>
 
       <ControlDrawer ref="controlDrawer" :show="$store.state.drawer.open" />
 
@@ -28,6 +31,10 @@
             ><button class="leaflet-control">ℹ</button></router-link
           >
         </div>
+      </l-control>
+
+      <l-control position="bottomright" v-if="$store.state.map.useDateFilter">
+        <ControlDate />
       </l-control>
 
       <l-control position="bottomright">
@@ -138,6 +145,7 @@ import "leaflet.markercluster.layersupport";
 import { debounce } from "debounce";
 
 import ControlDrawer from "./controls/ControlDrawer";
+import ControlDate from "./controls/ControlDate";
 
 let MarkersOnMap = {};
 let LayersOnMap = {};
@@ -148,9 +156,10 @@ let Clusters;
 export default {
   name: "AppMap",
   components: {
+    ControlDrawer,
+    ControlDate,
     LMap,
     LTileLayer,
-    ControlDrawer,
     LControl,
     LControlLayers,
     "v-marker-cluster": Vue2LeafletMarkerCluster,
@@ -233,7 +242,7 @@ export default {
         sw: bounds.getSouthWest(),
       });
       try {
-        this.$store.dispatch("mapUpdateData", bounds);
+        this.$store.dispatch("mapUpdateData"); // , bounds
       } catch (e) {
         this.$emit("error", e);
       }

@@ -55,6 +55,10 @@ filepaths.forEach(filepath => {
 
         console.warn('OK city_location', row.city, row.state);
 
+        if (!row.date_time) {
+          console.warn('No date_time for sighting at', row.city, row.state);
+        }
+
       } else {
         console.warn('No city_location', row.city, row.state, row.city_latitude, row.city_longitude);
       }

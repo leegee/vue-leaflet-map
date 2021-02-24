@@ -6,6 +6,8 @@ All requests should be to the root URL with a query string having the following 
     lng_min
     lat_max
     lng_max
+    to_date
+    from_date
 
 */
 
@@ -29,16 +31,23 @@ app.use(async (ctx) => {
 
   const q = ctx.request.query;
 
-  if (q !== null && q.sw_lat !== undefined && !q.sw_lng !== undefined && !q.ne_lat !== undefined && !q.ne_lng !== undefined) {
+  if (q !== null && q.from_date !== undefined && q.to_date !== undefined && q.sw_lat !== undefined && !q.sw_lng !== undefined && !q.ne_lat !== undefined && !q.ne_lng !== undefined) {
+
+    const from_date = '1-1-' + q.from_date;
+    const to_date = '31-12-' + q.to_date;
 
     try {
-      const sql = "SELECT * FROM sightings WHERE MBRContains( GeomFromText( 'LINESTRING("
+      const sql = "SELECT * FROM sightings WHERE "
+        + "(date_time BETWEEN '" + from_date + "' AND '" + to_date + "') AND "
+        + "MBRContains( GeomFromText( 'LINESTRING("
         + q.sw_lng + ' ' + q.sw_lat + ', '
         + q.sw_lng + ' ' + q.ne_lat + ', '
         + q.ne_lng + ' ' + q.ne_lat + ', '
         + q.ne_lng + ' ' + q.sw_lat + ', '
         + q.sw_lng + ' ' + q.sw_lat
         + ")' ), sightings.city_location)";
+
+      console.log(sql);
 
       await db.query(sql).spread(function (rows) {
         body.results = rows.map(_ => {
@@ -52,8 +61,9 @@ app.use(async (ctx) => {
     }
 
     catch (e) {
+      console.log(e);
       body.status = 500;
-      body.msg = JSON.Stringify(e);
+      body.msg = e;
     };
 
   } else {
@@ -62,6 +72,7 @@ app.use(async (ctx) => {
   }
 
   ctx.body = JSON.stringify(body);
+
   // db.end();
 });
 

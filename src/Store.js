@@ -22,6 +22,9 @@ export const store = new Vuex.Store({
       updateMs: 0,
     },
     map: {
+      useDateFilter: false,
+      fromDate: new Date().getFullYear() - 1,
+      toDate: new Date().getFullYear(),
       loadingApi: false,
       zoomLevelHideLabels: 7,
       updateMs: 60 * 1000,
@@ -62,6 +65,7 @@ export const store = new Vuex.Store({
     },
     mapZoom: (state, zoom) => state.map.zoom = zoom,
     mapCenter: (state, center) => state.map.center = center,
+    setDate: (state, year) => state.map.fromDate = state.map.toDate = year,
   },
   actions: {
     focusMarkerByLabel: (context, markerLabel) => {
@@ -72,7 +76,11 @@ export const store = new Vuex.Store({
     },
     mapUpdateData: async (context) => {
       context.commit('loadingApi', true);
-      const markerData = await api.getBoundingBox(context.state.map.bounds);
+      const markerData = await api.getBoundingBox({
+        bounds: context.state.map.bounds,
+        fromDate: context.state.map.fromDate,
+        toDate: context.state.map.toDate,
+      });
       context.commit('mapUpdateData', { markerData });
       context.commit('loadingApi', false);
     },

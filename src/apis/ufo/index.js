@@ -14,6 +14,7 @@ export const initialState = {
   updateMs: 0, // Don't
   center: [37.234332396, -115.80666344], // Area 51 :)
   updateMs: 1000 * 60,
+  useDateFilter: true,
 };
 
 /**
@@ -27,21 +28,24 @@ export const initialState = {
  *     ...
  * }] || null>
  */
-export async function getBoundingBox(bounds) {
+export async function getBoundingBox({ bounds, fromDate, toDate }) {
   let rv = null;
 
   console.log('ufo.getBoundingBox', bounds.ne, bounds.sw1);
+  console.log('ufo.from/to', fromDate, toDate);
 
   const params = new URLSearchParams({
     sw_lat: bounds.sw.lat,
     sw_lng: bounds.sw.lng,
     ne_lat: bounds.ne.lat,
     ne_lng: bounds.ne.lng,
+    to_date: toDate,
+    from_date: fromDate,
   });
 
   const url = config.http.host + ':' + config.http.port + '?' + params.toString();
 
-  console.debug('ufo.getBoundingBox fetch', url);
+  console.info('ufo.getBoundingBox fetch', url);
 
   if (RUNNING) {
     REQ_CONTROLLER.abort();
