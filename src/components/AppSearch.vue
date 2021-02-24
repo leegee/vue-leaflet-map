@@ -73,10 +73,10 @@ export default {
   watch: {
     searchInput: debounce(function (value) {
       this.searchFor = value;
-    }, 100),
+    }, 600),
 
     searchFor: function () {
-      this.$store.dispatch("markerMatch", this.searchFor.toLowerCase());
+      this.$store.dispatch("markerMatch", this.searchFor.trim().toLowerCase());
     },
   },
 
