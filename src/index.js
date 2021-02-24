@@ -12,7 +12,7 @@ import { store, setApi } from './Store';
 
 import('./apis/' + process.env.implementation + '/style.scss');
 
-import('./apis/' + process.env.implementation + '/Api').then(api => {
+import('./apis/' + process.env.implementation + '/index').then(api => {
 
     setApi(api);
 
