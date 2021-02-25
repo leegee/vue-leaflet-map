@@ -15,7 +15,7 @@ let yesLocation = 0;
 let keys;
 let sql;
 
-const COMMIT = true;
+const COMMIT = false;
 
 if (COMMIT) {
   // createDb(fs.readFileSync('src/apis/ufo/data/schema.sql').toString());
@@ -48,22 +48,13 @@ filepaths.forEach(filepath => {
         const values = Object.keys(row).map(_ => row[_]);
 
         if (!row.date_time) {
-          const date = row.text.match(/(\d+)\/(\d+)\/(\d+)/);
-          if (date) {
-            row.date = date[2] + '-' + date[1] + '-' + date[3];
-            yesDate++;
+          const d = findDate(row);
+          if (d) {
+            row.date = d;
           }
-          else {
-            const year = row.text.match(/(\d{4})/);
-            if (year) {
-              row.date = '01-01-' + year[1];
-              yesDate++;
-            }
-            else {
-              noDate++;
-            }
-          }
-        } else {
+        }
+
+        if (row.date_time && row.date_time != '00-00-0000 00:00:00') {
           yesDate++;
         }
 
@@ -83,10 +74,10 @@ filepaths.forEach(filepath => {
 
     .on('end', () => {
       console.log('Done', filepath, "\n",
-        " No location :", noLocation, "\n",
-        "Yes location :", yesLocation, "\n",
-        " No date     :", noDate, "\n",
-        "Yes date     :", yesDate, "\n"
+        " No location       :", noLocation, "\n",
+        "Yes location       :", yesLocation, "\n",
+        "Location no date   :", noDate, "\n",
+        "Location with date :", yesDate, "\n"
       );
       process.exit();
     });
@@ -106,3 +97,36 @@ async function createDb(schema) {
     }
   });
 }
+
+
+function findDate(row) {
+  const dates = [row.stats, row.text];
+  let date;
+
+  while (dates.length) {
+    const d = dates.pop();
+    if (!d) {
+      continue;
+    }
+    date = d.match(/(\d+)\/(\d+)\/(\d+)/);
+    if (date) {
+      row.date = date[2] + '-' + date[1] + '-' + date[3];
+    }
+    else {
+      const year = d.match(/(\d{4})/);
+      if (year) {
+        row.date = '01-01-' + year[1];
+      }
+    }
+  }
+
+  return date;
+}
+
+/*
+
+Occurred : 6/1/1953 21:00 (Entered as : 1953 21;00) Reported: 3/26/2008 11:22:41 AM 11:22 Posted: 3/31/2008 Location: Fresno, CA Shape: Duration:5 minutes
+
+I seem to be the only one of my siblings to recall this event. i do not understand why this is. myself and some of my siblings were outside afterdark and i heard this exstremeley
+
+*/

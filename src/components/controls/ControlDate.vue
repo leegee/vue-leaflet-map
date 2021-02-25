@@ -21,7 +21,7 @@
           Limit to
         </label>
       </span>
-      <span v-show="show"> {{ value }} </span>
+      <span v-show="show"> {{ year }} </span>
     </div>
     <label>1969</label>
     <input
@@ -31,9 +31,9 @@
       min="1969"
       step="1"
       :max="max"
-      :value="value"
+      :value="year"
       @change="changeRange($event.target.value)"
-      :title="value"
+      :title="year"
     />
     <label>Now</label>
   </l-control>
@@ -85,7 +85,7 @@ export default {
   },
   data() {
     return {
-      value: new Date().getFullYear(),
+      year: new Date().getFullYear(),
       max: new Date().getFullYear(),
       show: this.$store.state.map.useDateFilter,
       showUndated: this.$store.state.map.showUndated,
@@ -102,9 +102,9 @@ export default {
       this.$store.commit("showUndated", this.showUndated);
       this.$store.dispatch("mapUpdateData");
     },
-    changeRange(value) {
-      this.value = value;
-      this.$store.commit("setDate", value);
+    changeRange(year) {
+      this.year = year;
+      this.$store.commit("setDate", year);
       this.$store.dispatch("mapUpdateData");
     },
   },
