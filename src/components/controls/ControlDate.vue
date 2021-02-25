@@ -94,7 +94,8 @@ export default {
   methods: {
     toggleShow() {
       this.show = !this.show;
-      this.$store.commit("setDate", undefined);
+      this.$store.commit("setDate", this.show ? this.year : undefined);
+      console.log("calling for an update", this.show);
       this.$store.dispatch("mapUpdateData");
     },
     toggleShowUndated() {

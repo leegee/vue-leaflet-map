@@ -232,17 +232,12 @@ export default {
       }
 
       const bounds = this.$refs.map.mapObject.getBounds();
-      console.log(
-        "AppMap.updateBounds (%s): ",
-        this.$data.allowUpdates,
-        bounds
-      );
       this.$store.commit("mapUpdateBounds", {
         ne: bounds.getNorthEast(),
         sw: bounds.getSouthWest(),
       });
       try {
-        this.$store.dispatch("mapUpdateData"); // , bounds
+        this.$store.dispatch("mapUpdateData");
       } catch (e) {
         this.$emit("error", e);
       }

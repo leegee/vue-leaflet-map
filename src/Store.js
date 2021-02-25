@@ -66,8 +66,11 @@ export const store = new Vuex.Store({
     },
     mapZoom: (state, zoom) => state.map.zoom = zoom,
     mapCenter: (state, center) => state.map.center = center,
-    setDate: (state, year) => state.map.fromDate = state.map.toDate = year,
     showUndated: (state, bool) => state.map.showUndated = bool,
+    setDate: (state, year) => {
+      console.log('** setDate', year);
+      state.map.fromDate = state.map.toDate = year;
+    },
   },
   actions: {
     focusMarkerByLabel: (context, markerLabel) => {
