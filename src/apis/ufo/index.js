@@ -39,9 +39,12 @@ export async function getBoundingBox({ bounds, fromDate, toDate }) {
     sw_lng: bounds.sw.lng,
     ne_lat: bounds.ne.lat,
     ne_lng: bounds.ne.lng,
-    to_date: toDate,
-    from_date: fromDate,
   });
+
+  if (toDate && fromDate) {
+    params.to_date = toDate;
+    params.from_date = fromDate;
+  }
 
   const url = config.http.host + ':' + config.http.port + '?' + params.toString();
 
