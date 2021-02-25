@@ -9,7 +9,7 @@ import config from './config';
 export const initialState = {
   zoom: 8,
   maxZoom: 12,
-  minZoom: 9, // Limit amount of data loaded at once
+  minZoom: 8, // Limit amount of data loaded at once
   zoomLevelHideLabels: 10,
   updateMs: 0, // Don't
   center: [37.234332396, -115.80666344], // Area 51 :)

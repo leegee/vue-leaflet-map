@@ -31,15 +31,17 @@ app.use(async (ctx) => {
 
   const q = ctx.request.query;
 
-  if (q !== null && q.from_date !== undefined && q.to_date !== undefined && q.sw_lat !== undefined && !q.sw_lng !== undefined && !q.ne_lat !== undefined && !q.ne_lng !== undefined) {
-
-    const from_date = '1-1-' + q.from_date;
-    const to_date = '31-12-' + q.to_date;
+  if (q !== null && q.sw_lat !== undefined && !q.sw_lng !== undefined && !q.ne_lat !== undefined && !q.ne_lng !== undefined) {
 
     try {
-      const sql = "SELECT * FROM sightings WHERE "
-        + "(date_time BETWEEN '" + from_date + "' AND '" + to_date + "') AND "
-        + "MBRContains( GeomFromText( 'LINESTRING("
+
+      let sql = "SELECT * FROM sightings WHERE ";
+
+      if (q.from_date !== undefined && q.to_date !== undefined) {
+        sql += "(date_time BETWEEN '1-1-" + q.from_date + "' AND '31-12-" + q.to_date + "') AND ";
+      }
+
+      sql += "MBRContains( GeomFromText( 'LINESTRING("
         + q.sw_lng + ' ' + q.sw_lat + ', '
         + q.sw_lng + ' ' + q.ne_lat + ', '
         + q.ne_lng + ' ' + q.ne_lat + ', '

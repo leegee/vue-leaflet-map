@@ -178,7 +178,7 @@ export default {
       url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution: "",
       showParagraph: false,
-      highlightMarker: false,
+      // highlightMarker: false,
     };
   },
 
@@ -372,8 +372,8 @@ export default {
       // }
 
       const latLng = MarkersOnMap[markerId].getLatLng();
-      this.$data.highlightMarker = circleMarker(latLng);
-      this.$data.highlightMarker.addTo(this.$refs.map.mapObject);
+      // this.$data.highlightMarker = circleMarker(latLng);
+      // this.$data.highlightMarker.addTo(this.$refs.map.mapObject);
 
       document.querySelector(".leaflet-bottom.leaflet-left").style.display =
         "none";
@@ -402,8 +402,8 @@ export default {
           "block";
         document.querySelector(".leaflet-bottom.leaflet-right").style.display =
           "block";
-        this.$refs.map.mapObject.removeLayer(this.$data.highlightMarker);
-        this.$data.highlightMarker = false;
+        // this.$refs.map.mapObject.removeLayer(this.$data.highlightMarker);
+        // this.$data.highlightMarker = false;
         this.$refs.map.mapObject.setZoom(this.$store.state.drawer.lastZoom);
         this.$refs.map.mapObject.panTo(this.$store.state.drawer.lastCenter);
         this.$store.commit("drawerClose");

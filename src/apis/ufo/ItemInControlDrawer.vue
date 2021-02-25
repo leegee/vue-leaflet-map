@@ -24,7 +24,8 @@ export default Vue.component("ItemInControlDrawer", {
 
           createElement(
             "p",
-            "Shape: " + this.$store.state.drawer.details.ufo.shape
+            "Shape: " +
+              (this.$store.state.drawer.details.ufo.shape || "unspecified")
           ),
 
           createElement("p", this.$store.state.drawer.details.ufo.stats),
