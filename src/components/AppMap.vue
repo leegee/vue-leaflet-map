@@ -210,7 +210,10 @@ export default {
 
   methods: {
     loadEnd() {
-      if (this.$store.state.map.updateMs) {
+      if (
+        this.$store.state.map.updateMs &&
+        this.$store.state.map.updateMs > 0
+      ) {
         const self = this;
         setInterval(() => self.updateBounds(), this.$store.state.map.updateMs);
       }

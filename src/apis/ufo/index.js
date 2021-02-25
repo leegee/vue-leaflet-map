@@ -13,7 +13,6 @@ export const initialState = {
   zoomLevelHideLabels: 10,
   updateMs: 0, // Don't
   center: [37.234332396, -115.80666344], // Area 51 :)
-  updateMs: 1000 * 60,
   useDateFilter: true,
 };
 
