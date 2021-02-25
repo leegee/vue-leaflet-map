@@ -23,7 +23,7 @@ let RUNNING = false;
 export const initialState = {
   zoom: 12,
   zoomLevelHideLabels: 10,
-  updateMs: 0,
+  updateMs: 1000 * 10,
   maxZoom: 12,
   minZoom: 2
 };
