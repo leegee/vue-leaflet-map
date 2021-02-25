@@ -28,25 +28,30 @@ export const initialState = {
  *     ...
  * }] || null>
  */
-export async function getBoundingBox({ bounds, fromDate, toDate }) {
+export async function getBoundingBox({ bounds, fromDate, toDate, showUndated }) {
   let rv = null;
 
   console.log('ufo.getBoundingBox', bounds.ne, bounds.sw1);
-  console.log('ufo.from/to', fromDate, toDate);
+  console.log('ufo.from/to/undated', fromDate, toDate, showUndated);
 
-  const params = new URLSearchParams({
+  const params = {
     sw_lat: bounds.sw.lat,
     sw_lng: bounds.sw.lng,
     ne_lat: bounds.ne.lat,
     ne_lng: bounds.ne.lng,
-  });
+  };
 
   if (toDate && fromDate) {
     params.to_date = toDate;
     params.from_date = fromDate;
   }
 
-  const url = config.http.host + ':' + config.http.port + '?' + params.toString();
+  if (showUndated) {
+    params.show_undated = showUndated;
+  }
+
+  const url = config.http.host + ':' + config.http.port + '?' +
+    new URLSearchParams(params).toString();
 
   console.info('ufo.getBoundingBox fetch', url);
 
@@ -89,6 +94,10 @@ function _formatForGetBoundBox(json) {
 
   for (let i = 0; i < json.results.length; i++) {
     const id = i;
+    const klass = 'ufo_' + json.results[i].shape;
+    if (json.results[i].date_time === '0000-00-00 00:00:00') {
+      klass += ' undated';
+    }
 
     rv[id] = {
       lat: json.results[i].city_latitude,
@@ -97,7 +106,7 @@ function _formatForGetBoundBox(json) {
       rotate: 0,
       layer: json.results[i].shape,
       ufo: json.results[i],
-      htmlClass: 'ufo_' + json.results[i].shape,
+      htmlClass: klass,
     };
   }
 

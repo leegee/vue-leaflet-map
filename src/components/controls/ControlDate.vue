@@ -3,7 +3,21 @@
     <div id="current-date">
       <span>
         <label>
-          <input id="show" type="checkbox" @change="toggle" :checked="show" />
+          <input
+            id="showUndated"
+            type="checkbox"
+            @change="toggleShowUndated"
+            :checked="showUndated"
+          />
+          Include undated
+        </label>
+        <label>
+          <input
+            id="show"
+            type="checkbox"
+            @change="toggleShow"
+            :checked="show"
+          />
           Limit to
         </label>
       </span>
@@ -73,13 +87,19 @@ export default {
     return {
       value: new Date().getFullYear(),
       max: new Date().getFullYear(),
-      show: true,
+      show: this.$store.state.map.useDateFilter,
+      showUndated: this.$store.state.map.showUndated,
     };
   },
   methods: {
-    toggle() {
+    toggleShow() {
       this.show = !this.show;
       this.$store.commit("setDate", undefined);
+      this.$store.dispatch("mapUpdateData");
+    },
+    toggleShowUndated() {
+      this.showUndated = !this.showUndated;
+      this.$store.commit("showUndated", this.showUndated);
       this.$store.dispatch("mapUpdateData");
     },
     changeRange(value) {

@@ -1,6 +1,6 @@
 .marker-pin {
   // background: transparent url("./plane.svg") center no-repeat;
-  background: red;
+  background: blue;
   position: relative;
   min-width: 24pt;
   min-height: 24pt;
@@ -13,6 +13,10 @@
   justify-content: center;
   align-self: center;
   font-weight: bold;
+}
+
+.marker-pin.undated {
+  background: red;
 }
 
 .marker-label {

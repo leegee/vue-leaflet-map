@@ -37,8 +37,14 @@ app.use(async (ctx) => {
 
       let sql = "SELECT * FROM sightings WHERE ";
 
+      console.log('***', q.from_date, q.to_date);
+
       if (q.from_date !== undefined && q.to_date !== undefined) {
         sql += "(date_time BETWEEN '1-1-" + q.from_date + "' AND '31-12-" + q.to_date + "') AND ";
+      }
+
+      if (!q.show_undated) {
+        sql += " date_time != 0 AND ";
       }
 
       sql += "MBRContains( GeomFromText( 'LINESTRING("
