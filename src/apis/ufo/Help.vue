@@ -1,5 +1,12 @@
 <template>
   <div>
+    <H2>NUFORC Data</H2>
+    <p>
+      <a target="_blank" href="https://www.kaggle.com/NUFORC/ufo-sightings"
+        >Kaggle</a
+      >
+    </p>
+    <h2>Timothy Renner</h2>
     <p>
       Full text and geocoded UFO sighting reports from the National UFO Research
       Center (NUFORC), processed by

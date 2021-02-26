@@ -9,7 +9,7 @@ import config from './config';
 export const initialState = {
   zoom: 8,
   maxZoom: 12,
-  minZoom: 8, // Limit amount of data loaded at once
+  minZoom: 2, // Limit amount of data loaded at once
   zoomLevelHideLabels: 10,
   updateMs: 0, // Don't
   center: [37.234332396, -115.80666344], // Area 51 :)
@@ -99,8 +99,8 @@ function _formatForGetBoundBox(json) {
     }
 
     rv[id] = {
-      lat: json.results[i].city_latitude,
-      lng: json.results[i].city_longitude,
+      lat: json.results[i].city_location.y,
+      lng: json.results[i].city_location.x,
       label: json.results[i].shape,
       rotate: 0,
       layer: json.results[i].shape,
@@ -113,20 +113,3 @@ function _formatForGetBoundBox(json) {
   return rv;
 }
 
-/*
-
-city: "Arcade"
-city_latitude: "42.3358"
-city_location: {x: -8.5962, y: 42.3358}
-city_longitude: "-8.5962"
-date_time: "2016-12-04T18:10:00.000Z"
-duration: "5 minutes"
-posted: "2016-12-14T23:00:00.000Z"
-report_link: "http://www.nuforc.org/webreports/131/S131633.html"
-shape: "circle"
-state: "GA"
-stats: "Occurred : 12/4/2016 19:10  (Entered as : 12/4/16 19:10) Reported: 12/5/2016 8:02:27 PM 20:02 Posted: 12/15/2016 Location: Arcade, GA Shape: Circle Duration:5 minutes"
-summary: "Very strange, very bright, flashing light."
-text: "Ver..."
-
-*/

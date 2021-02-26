@@ -1,41 +1,38 @@
 <template>
   <l-control id="control-date" ref="date">
-    <div id="current-date">
-      <span>
-        <label>
-          <input
-            id="showUndated"
-            type="checkbox"
-            @change="toggleShowUndated"
-            :checked="showUndated"
-          />
-          Include undated
-        </label>
-        <label>
-          <input
-            id="show"
-            type="checkbox"
-            @change="toggleShow"
-            :checked="show"
-          />
-          Limit to
-        </label>
-      </span>
-      <span v-show="show"> {{ year }} </span>
-    </div>
-    <label>1969</label>
-    <input
-      id="date"
-      :disabled="!show"
-      type="range"
-      min="1969"
-      step="1"
-      :max="max"
-      :value="year"
-      @change="changeRange($event.target.value)"
-      :title="year"
-    />
-    <label>Now</label>
+    <span>
+      <label>
+        <input
+          id="showUndated"
+          type="checkbox"
+          @change="toggleShowUndated"
+          :checked="showUndated"
+        />
+        Include undated
+      </label>
+      <label>
+        <input id="show" type="checkbox" @change="toggleShow" :checked="show" />
+        Limit to
+      </label>
+    </span>
+    <span v-show="show"> {{ year }} </span>
+    <span>
+      <select
+        id="date"
+        :disabled="!show"
+        type="selet"
+        min="1969"
+        step="1"
+        :max="max"
+        :value="year"
+        @change="changeRange($event.target.value)"
+        :title="year"
+      >
+        <option v-for="i in years" :key="i" :seleted="i === year">
+          {{ i }}
+        </option>
+      </select>
+    </span>
   </l-control>
 </template>
 
@@ -55,17 +52,10 @@
 #control-date * {
   border-radius: 4pt;
 }
-#current-date {
-  background: white;
-  color: black;
-  width: 100%;
-  text-align: center;
-}
 #show {
   width: 1rem;
 }
 #date {
-  width: 40vw;
   font-size: 14pt;
 }
 label {
@@ -83,14 +73,22 @@ export default {
   components: {
     LControl,
   },
+
   data() {
+    const max = new Date().getFullYear();
+    const years = Array.from(
+      { length: max - 1969 + 1 },
+      (_, index) => index + 1969
+    );
     return {
-      year: new Date().getFullYear(),
-      max: new Date().getFullYear(),
+      years,
+      year: max,
+      max,
       show: this.$store.state.map.useDateFilter,
       showUndated: this.$store.state.map.showUndated,
     };
   },
+
   methods: {
     toggleShow() {
       this.show = !this.show;

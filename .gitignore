@@ -4,3 +4,5 @@ dist
 src/apis/ufo/data/nuforc_reports.csv
 src/apis/ufo/data/nuforc_reports_2.csv
 config/ufo
+src/apis/ufo/data/kaggle.zip
+src/apis/ufo/data/kaggle/complete.csv
