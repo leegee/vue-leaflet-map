@@ -11,21 +11,16 @@ export default Vue.component("ItemInControlDrawer", {
       : createElement("div", [
           createElement(
             "p",
-            "Date: " + this.$store.state.drawer.details.ufo.date_time
+            "Date: " +
+              this.$store.state.drawer.details.ufo.date_time.substring(0, 10)
           ),
 
           createElement(
             "p",
-            "Position: " +
+            "Latitude, Longitude: " +
               this.$store.state.drawer.details.lat +
               ", " +
               this.$store.state.drawer.details.lng
-          ),
-
-          createElement(
-            "p",
-            "Shape: " +
-              (this.$store.state.drawer.details.ufo.shape || "unspecified")
           ),
 
           createElement("p", this.$store.state.drawer.details.ufo.stats),
