@@ -10,6 +10,8 @@ Currently, search is of visible map and filters on `label`.
 
 To use the UFO data, you'll need to create a datasource. Some rough code is supplied to create a rough MySQL entry and a tiny Koa service.
 
+The Kaggle data is documented in the UFO `Help.vue` - strip the final space from the CSV header
+
 ## Options
 
 The `AppVue` component will cluster unless initialised with the attribute `clustered=false`.

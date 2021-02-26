@@ -38,7 +38,7 @@ app.use(async (ctx) => {
       let sql = "SELECT * FROM sightings WHERE ";
 
       if (q.from_date !== undefined && q.to_date !== undefined) {
-        sql += "(date_time BETWEEN '1-1-" + q.from_date + "' AND '31-12-" + q.to_date + "') AND ";
+        sql += "(date_time BETWEEN '" + q.from_date + "-01-01 00:00:00' AND '" + q.to_date + "-12-31 23:59:59') AND ";
       }
 
       if (!q.show_undated) {

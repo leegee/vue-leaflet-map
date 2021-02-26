@@ -22,7 +22,7 @@
 
       <ControlDrawer ref="controlDrawer" :show="$store.state.drawer.open" />
 
-      <l-control position="bottomleft">
+      <l-control position="bottomright">
         <div class="app-control leaflet-control">
           <router-link to="/search"
             ><button class="leaflet-control">🔍</button></router-link
@@ -37,10 +37,11 @@
         <ControlDate />
       </l-control>
 
-      <l-control position="bottomright">
+      <l-control position="bottomleft">
         <div class="app-control leaflet-control">
           <button
             id="focusUserButton"
+            ref="focusUserButton"
             class="leaflet-control"
             @click="focusUser(17)"
           >
@@ -373,11 +374,6 @@ export default {
       // this.$data.highlightMarker = circleMarker(latLng);
       // this.$data.highlightMarker.addTo(this.$refs.map.mapObject);
 
-      document.querySelector(".leaflet-bottom.leaflet-left").style.display =
-        "none";
-      document.querySelector(".leaflet-bottom.leaflet-right").style.display =
-        "none";
-
       this.$store.dispatch("drawerOpen", {
         details: MarkersOnMap[markerId].options.fromApi,
         center: this.$refs.map.mapObject.getCenter(),
@@ -387,8 +383,16 @@ export default {
       if (window.matchMedia("(orientation: portrait)").matches) {
         this.$refs.map.mapObject.setZoom(13);
         this.$refs.map.mapObject.panTo([latLng.lat - 0.009, latLng.lng]);
+        document.querySelector(".leaflet-bottom.leaflet-left").style.display =
+          "none";
+        document.querySelector(".leaflet-bottom.leaflet-right").style.display =
+          "none";
       } else {
         this.$refs.map.mapObject.panTo([latLng.lat - 0.009, latLng.lng]);
+        document.querySelector(".leaflet-bottom.leaflet-left").style.display =
+          "none";
+        document.querySelector(".leaflet-top.leaflet-left").style.display =
+          "none";
       }
 
       MarkersOnMap[markerId].update();

@@ -6,10 +6,12 @@ const config = require('../config.js');
 const TYPE = 'kaggle';
 const COMMIT = true;
 
-const filepaths =
-  TYPE === 'kaggle' ? ['./src/apis/ufo/data/kaggle/scrubbed.csv'] : [
-    './src/apis/ufo/data/nuforc_reports.csv',
-  ];
+// const filepath = './src/apis/ufo/data/test.csv';
+
+const filepath =
+  TYPE === 'kaggle'
+    ? './src/apis/ufo/data/kaggle/scrubbed.csv'
+    : './src/apis/ufo/data/nuforc_reports.csv';
 
 const keys = [
   "summary", "city", "state", "date_time", "shape", "duration", "stats", "report_link", "text", "posted", "city_latitude", "city_longitude", "city_location"
@@ -34,54 +36,52 @@ async function main() {
     await db.query('DELETE FROM sightings');
   }
 
-  filepaths.forEach(filepath => {
-    let done = 0;
-    let noDate = 0;
-    let yesDate = 0;
-    let noLocation = 0;
-    let yesLocation = 0;
+  let done = 0;
+  let noDate = 0;
+  let yesDate = 0;
+  let noLocation = 0;
+  let yesLocation = 0;
 
-    fs.createReadStream(filepath)
-      .on('error', (e) => {
-        console.error(e);
-      })
+  fs.createReadStream(filepath)
+    .on('error', (e) => {
+      console.error(e);
+    })
 
-      .pipe(csvParser())
+    .pipe(csvParser())
 
-      .on('data', async (row) => {
-        if (row.city_location || TYPE === 'kaggle') {
-          yesLocation++;
+    .on('data', async (row) => {
+      if (row.city_location || TYPE === 'kaggle') {
+        yesLocation++;
 
-          row = rowWithDate(row);
-          if (row.date_time && row.date_time != "00-00-0000 00:00:00") {
-            yesDate++;
-          }
-
-          const values = keys.map(_ => row[_]);
-
-          if (COMMIT) {
-            try {
-              await db.query(sql, values);
-            } catch (e) {
-              console.error(e, values);
-              process.exit(-1);
-            }
-          }
-
-        } else {
-          noLocation++;
+        row = rowWithDate(row);
+        if (row.date_time && row.date_time != "00-00-0000 00:00:00") {
+          yesDate++;
         }
-      })
 
-      .on('end', () => {
-        console.log('Done', filepath, "\n",
-          " No location       :", noLocation, "\n",
-          "Yes location       :", yesLocation, "\n",
-          "Location no date   :", noDate, "\n",
-          "Location with date :", yesDate, "\n"
-        );
-      });
-  });
+        const values = keys.map(_ => row[_]);
+
+        if (COMMIT) {
+          try {
+            await db.query(sql, values);
+          } catch (e) {
+            console.error(e, values);
+            process.exit(-1);
+          }
+        }
+
+      } else {
+        noLocation++;
+      }
+    })
+
+    .on('end', () => {
+      console.log('Done', filepath, "\n",
+        " No location       :", noLocation, "\n",
+        "Yes location       :", yesLocation, "\n",
+        "Location no date   :", noDate, "\n",
+        "Location with date :", yesDate, "\n"
+      );
+    });
 }
 
 async function createDb(schema) {
@@ -139,7 +139,7 @@ function kaggleDate(str) {
 
 function rowWithDate(row) {
   if (TYPE === "kaggle") {
-    row.city_location = 'POINT(' + parseFloat(row['longitude ']) + ' ' + parseFloat(row.latitude) + ')';
+    row.city_location = 'POINT(' + parseFloat(row.longitude) + ' ' + parseFloat(row.latitude) + ')';
     row.duration = row['duration (seconds)'];
     row.text = row['comments'];
     row.date_time = kaggleDate(row.datetime);
