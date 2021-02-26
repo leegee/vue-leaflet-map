@@ -68,7 +68,6 @@ export const store = new Vuex.Store({
     mapCenter: (state, center) => state.map.center = center,
     showUndated: (state, bool) => state.map.showUndated = bool,
     setDate: (state, year) => {
-      console.log('** setDate', year);
       state.map.fromDate = state.map.toDate = year;
     },
   },
