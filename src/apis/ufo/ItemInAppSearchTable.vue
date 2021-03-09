@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <div class="row">
-      <span>{{ rowData.ufo.shape }}</span>
-      <span
-        >{{ rowData.lat }}<br />
-        {{ rowData.lng }}</span
-      >
-      <span>{{ rowData.ufo.city }}</span>
-      <span>{{ rowData.ufo.date_time }}</span>
-    </div>
+  <div class="row">
+    <span>{{ rowData.ufo.shape }}</span>
+    <span>{{ rowData.ufo.date_time }}</span>
+    <span
+      >{{ rowData.lat }}<br />
+      {{ rowData.lng }}</span
+    >
+    <span>{{ rowData.ufo.city }}</span>
   </div>
 </template>
 
@@ -18,14 +16,17 @@
   margin-top: 4pt;
   margin-bottom: 4pt;
   width: 100%;
+  display: flex;
 }
 span {
-  display: inline-block;
   width: calc(100% / 6);
-  vertical-align: middle;
   cursor: pointer;
   padding-right: 1em;
   font-size: 10pt;
+}
+span:last-child {
+  padding-right: 0;
+  align-self: stretch;
 }
 .hidden {
   display: none;

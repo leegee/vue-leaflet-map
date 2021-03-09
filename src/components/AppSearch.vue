@@ -39,11 +39,12 @@
   margin-top: 2rem;
   font-size: 10pt;
 }
-.table,
-.row {
-  width: calc(100% - 2rem);
+.table {
+  width: calc(100% - 1rem);
   border-collapse: collapse;
-  margin-left: 1rem;
+}
+.row {
+  width: 100%;
 }
 </style>
 
