@@ -94,14 +94,19 @@ function _formatForGetBoundBox(json) {
   for (let i = 0; i < json.results.length; i++) {
     const id = i;
     const klass = 'ufo_' + json.results[i].shape;
+    let undated;
     if (json.results[i].date_time === '0000-00-00 00:00:00') {
       klass += ' undated';
+      undated = true;
+    } else {
+      json.results[i].date_time = json.results[i].date_time.replace(/T.+$/, '');
     }
 
     rv[id] = {
-      lat: json.results[i].city_location.y,
-      lng: json.results[i].city_location.x,
-      label: json.results[i].shape,
+      key: i,
+      lat: json.results[i].city_location.y.toFixed(4),
+      lng: json.results[i].city_location.x.toFixed(4),
+      label: (undated ? 'Undated' : json.results[i].date_time) + ' ' + json.results[i].shape,
       rotate: 0,
       layer: json.results[i].shape,
       ufo: json.results[i],

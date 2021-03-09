@@ -107,6 +107,7 @@ function _formatForGetBoundBox(json) {
     }
 
     rv[id] = {
+      key: i,
       lat: json.states[i][6],
       lng: json.states[i][5],
       label: id,

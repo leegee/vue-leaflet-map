@@ -13,7 +13,7 @@
         <div
           class="row"
           v-for="row in $store.state.markerData"
-          v-bind:key="row.label"
+          v-bind:key="row.key"
           @click="rowClicked(row.label)"
         >
           <component

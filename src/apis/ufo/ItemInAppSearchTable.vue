@@ -2,8 +2,10 @@
   <div>
     <div class="row">
       <span>{{ rowData.ufo.shape }}</span>
-      <span>{{ rowData.lat }}</span>
-      <span>{{ rowData.lng }}</span>
+      <span
+        >{{ rowData.lat }}<br />
+        {{ rowData.lng }}</span
+      >
       <span>{{ rowData.ufo.city }}</span>
       <span>{{ rowData.ufo.date_time }}</span>
     </div>
@@ -22,6 +24,8 @@ span {
   width: calc(100% / 6);
   vertical-align: middle;
   cursor: pointer;
+  padding-right: 1em;
+  font-size: 10pt;
 }
 .hidden {
   display: none;
