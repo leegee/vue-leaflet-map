@@ -26,7 +26,8 @@ db.configure(config.db);
 
 app.use(async (ctx) => {
   const body = {
-    status: 200
+    status: 200,
+    results: [],
   };
 
   const q = ctx.request.query;
