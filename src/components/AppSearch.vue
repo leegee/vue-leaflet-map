@@ -2,7 +2,7 @@
   <div id="search" class="fullscreen">
     <header>
       <h1>
-        Search
+        Search this map area
         <router-link to="/" class="exit-fullscreen"></router-link>
       </h1>
     </header>
@@ -85,6 +85,13 @@ export default {
     this.componentLoader().then((comp) => {
       this.component = () => this.componentLoader();
     });
+  },
+
+  activated() {
+    console.log("activated");
+  },
+  deactivated() {
+    console.log("deactivated");
   },
 
   methods: {
