@@ -65,7 +65,7 @@ label {
 }
 </style>
 
-<script>
+<script type='application/javascript'>
 import { LControl } from "vue2-leaflet";
 
 export default {

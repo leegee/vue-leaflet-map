@@ -10,9 +10,9 @@ import App from './App';
 import router from './Router';
 import { store, setApi } from './Store';
 
-import('./apis/' + process.env.implementation + '/style.scss');
+import('./apis/' + process.env.API + '/style.scss');
 
-import('./apis/' + process.env.implementation + '/index').then(api => {
+import('./apis/' + process.env.API + '/index').then(api => {
 
     setApi(api);
 

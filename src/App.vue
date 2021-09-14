@@ -6,7 +6,7 @@
   </AppMap>
 </template>
 
-<script>
+<script type='application/javascript'>
 import AppMap from "@/components/AppMap";
 
 export default {

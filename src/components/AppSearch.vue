@@ -48,7 +48,7 @@
 }
 </style>
 
-<script>
+<script type='application/javascript'>
 import router from "../Router";
 import { debounce } from "debounce";
 
@@ -65,9 +65,7 @@ export default {
   computed: {
     componentLoader() {
       return () =>
-        import(
-          "../apis/" + process.env.implementation + "/ItemInAppSearchTable"
-        );
+        import("../apis/" + process.env.API + "/ItemInAppSearchTable");
     },
   },
 

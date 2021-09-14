@@ -137,7 +137,7 @@
 }
 </style>
 
-<script>
+<script type='application/javascript'>
 import { latLng, divIcon, layerGroup, control, circleMarker } from "leaflet";
 import { LMap, LTileLayer, LControl, LControlLayers } from "vue2-leaflet";
 import Vue2LeafletMarkerCluster from "vue2-leaflet-markercluster";

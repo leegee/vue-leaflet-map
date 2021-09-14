@@ -12,13 +12,13 @@
   </div>
 </template>
 
-<script>
+<script type='application/javascript'>
 export default {
   name: "AppHelp",
 
   computed: {
     componentLoader() {
-      return () => import("@/apis/" + process.env.implementation + "/Help");
+      return () => import("@/apis/" + process.env.API + "/Help");
     },
   },
   mounted() {

@@ -1,4 +1,4 @@
-<script>
+<script type='application/javascript'>
 import Vue from "vue";
 
 export default Vue.component("ItemInControlDrawer", {

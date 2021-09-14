@@ -129,10 +129,10 @@
   </div>
 </template>
 
-<script>
+<script type='application/javascript'>
 export default {
   name: "Help",
 };
 </script>
 
-<style lang="scss" scoped></style>
+

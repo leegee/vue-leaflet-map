@@ -33,7 +33,7 @@ span:last-child {
 }
 </style>
 
-<script>
+<script type='application/javascript'>
 export default {
   name: "ItemInAppSearchTable",
   props: ["rowData"],
