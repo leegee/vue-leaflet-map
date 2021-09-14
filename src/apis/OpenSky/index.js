@@ -39,10 +39,15 @@ export const initialState = {
  *     ...
  * }] || null>
  */
-export async function getBoundingBox(bounds) {
+export async function getBoundingBox({ bounds, _fromDate, _toDate, _showUndated }) {
+
   let rv = null;
 
-  console.log('OpenSky.getBoundingBox', bounds.ne, bounds.sw1);
+  console.log('Enter OpenSky.getBoundingBox', bounds);
+
+  if (!bounds.sw || !bounds.ne) {
+    throw new Error("bounds does not contain sw or ne");
+  }
 
   const params = new URLSearchParams({
     lamin: bounds.sw.lat,
