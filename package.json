@@ -9,11 +9,13 @@
     "url": "git@github.com:leegee/lee-vue-leaflet-wp5-init.git"
   },
   "scripts": {
-    "start": "cross-env API=OpenSky NODE_ENV=development webpack serve --config config/webpack.dev.js",
-    "build": "cross-env API=OpenSky NODE_ENV=production webpack --config config/webpack.prod.js",
-    "ufo:populate": "cross-env NODE_ENV=development node config/ufo/injest.js",
-    "ufo:serve": "cross-env NODE_ENV=development node src/apis/ufo/data/server.mjs",
-    "ufo:ingest": "node ./src/apis/ufo/data/ingest.js"
+    "start:opensky": "cross-env API=OpenSky NODE_ENV=development webpack serve --config config/webpack.dev.js",
+    "build:opensky": "cross-env API=OpenSky NODE_ENV=production webpack --config config/webpack.prod.js",
+    "start:ufo": "cross-env API=ufo NODE_ENV=development webpack serve --config config/webpack.dev.js",
+    "build:ufo": "cross-env API=ufo NODE_ENV=production webpack --config config/webpack.prod.js",
+    "serve:ufo": "cross-env NODE_ENV=development node src/apis/ufo/data/server.mjs",
+    "ingest:ufo": "node ./src/apis/ufo/data/ingest.js",
+    "populate:ufo": "cross-env NODE_ENV=development node src/apis/ufo/data/ingest.js"
   },
   "keywords": [
     "leaflet",
