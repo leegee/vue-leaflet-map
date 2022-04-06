@@ -86,10 +86,10 @@ export default {
   },
 
   activated() {
-    console.log("activated");
+    console.debug("activated");
   },
   deactivated() {
-    console.log("deactivated");
+    console.debug("deactivated");
   },
 
   methods: {

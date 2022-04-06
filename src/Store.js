@@ -8,7 +8,7 @@ let api;
 export function setApi(_api) {
   api = _api;
   store.state.map = Object.assign(store.state.map, api.initialState);
-  console.log("Set initial state:", store.state);
+  console.debug("Set initial state:", store.state);
 }
 
 export const store = new Vuex.Store({
@@ -90,7 +90,7 @@ export const store = new Vuex.Store({
       context.commit('loadingApi', false);
     },
     markerMatch: (context, target) => {
-      console.log('enter with ', target);
+      console.debug('enter with ', target);
       target = target ? target.toLowerCase() : null;
       Object.keys(context.state.markerData).forEach((label) => {
         context.commit('markerHide', {

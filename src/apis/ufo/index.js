@@ -30,8 +30,8 @@ export const initialState = {
 export async function getBoundingBox({ bounds, fromDate, toDate, showUndated }) {
   let rv = null;
 
-  console.log('ufo.getBoundingBox', bounds.ne, bounds.sw1);
-  console.log('ufo.from/to/undated', fromDate, toDate, showUndated);
+  console.debug('ufo.getBoundingBox', bounds.ne, bounds.sw1);
+  console.debug('ufo.from/to/undated', fromDate, toDate, showUndated);
 
   const params = {
     sw_lat: bounds.sw.lat,
@@ -77,7 +77,7 @@ export async function getBoundingBox({ bounds, fromDate, toDate, showUndated }) 
   } catch (e) {
     RUNNING = false;
     if (e.name === "AbortError") {
-      console.log('I aborted');
+      console.debug('I aborted');
     } else {
       throw new Error(e);
     }
@@ -87,7 +87,7 @@ export async function getBoundingBox({ bounds, fromDate, toDate, showUndated }) 
 }
 
 function _formatForGetBoundBox(json) {
-  console.log('ufo._formatForGetBoundBox', json);
+  console.debug('ufo._formatForGetBoundBox', json);
 
   const rv = {};
 
@@ -114,7 +114,6 @@ function _formatForGetBoundBox(json) {
     };
   }
 
-  console.log('OK');
   return rv;
 }
 

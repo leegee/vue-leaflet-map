@@ -1,7 +1,9 @@
 <template>
   <l-control id="control-drawer" ref="drawer">
     <header>
-      <h1>{{ $store.state.drawer.details.label }}</h1>
+      <h1>
+        {{ $store.state.drawer.details.label }}
+      </h1>
     </header>
     <main id="drawer-content">
       <component :is="componentLoader"></component>
@@ -117,8 +119,8 @@ export default {
     open: function () {
       this.$refs.drawer.$el.classList.add("open");
     },
+
     close: function () {
-      // this.$store.commit("drawerClose");
       this.$refs.drawer.$el.classList.remove("open");
       this.$emit("drawerClosed");
     },

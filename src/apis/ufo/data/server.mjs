@@ -54,7 +54,7 @@ app.use(async (ctx) => {
         + q.sw_lng + ' ' + q.sw_lat
         + ")' ), sightings.city_location)";
 
-      console.log(sql);
+      console.debug(sql);
 
       await db.query(sql).spread(function (rows) {
         body.results = rows.map(_ => {
@@ -63,12 +63,12 @@ app.use(async (ctx) => {
           }
           return _;
         });
-        console.log('Rows matched:', rows.length);
+        console.debug('Rows matched:', rows.length);
       });
     }
 
     catch (e) {
-      console.log(e);
+      console.debug(e);
       body.status = 500;
       body.msg = e;
     };
@@ -83,6 +83,6 @@ app.use(async (ctx) => {
   // db.end();
 });
 
-console.log("Listening on", config.http.port);
+console.debug("Listening on", config.http.port);
 
 app.listen(config.http.port);

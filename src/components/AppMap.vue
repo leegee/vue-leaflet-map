@@ -248,7 +248,7 @@ export default {
     },
 
     updateZoom(zoom) {
-      console.log("Zoom level: ", zoom);
+      console.debug("Zoom level: ", zoom);
       this.$store.commit("mapZoom", zoom);
     },
 

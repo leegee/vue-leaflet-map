@@ -43,7 +43,7 @@ export async function getBoundingBox({ bounds, _fromDate, _toDate, _showUndated 
 
   let rv = null;
 
-  console.log('Enter OpenSky.getBoundingBox', bounds);
+  console.debug('Enter OpenSky.getBoundingBox', bounds);
 
   if (!bounds.sw || !bounds.ne) {
     throw new Error("bounds does not contain sw or ne");
@@ -81,7 +81,7 @@ export async function getBoundingBox({ bounds, _fromDate, _toDate, _showUndated 
   } catch (e) {
     RUNNING = false;
     if (e.name === "AbortError") {
-      console.log('I aborted');
+      console.debug('I aborted');
     } else {
       throw new Error(e);
     }
@@ -91,7 +91,7 @@ export async function getBoundingBox({ bounds, _fromDate, _toDate, _showUndated 
 }
 
 function _formatForGetBoundBox(json) {
-  console.log('OpenSky._formatForGetBoundBox', json.states);
+  console.debug('OpenSky._formatForGetBoundBox', json.states);
 
   if (json.states === null) {
     return null;

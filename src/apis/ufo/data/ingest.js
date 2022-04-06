@@ -75,7 +75,7 @@ async function main() {
     })
 
     .on('end', () => {
-      console.log('Done', filepath, "\n",
+      console.debug('Done', filepath, "\n",
         " No location       :", noLocation, "\n",
         "Yes location       :", yesLocation, "\n",
         "Location no date   :", noDate, "\n",
@@ -85,7 +85,7 @@ async function main() {
 }
 
 async function createDb(schema) {
-  console.log(schema.split(/\n{2,}/).length);
+  console.debug(schema.split(/\n{2,}/).length);
 
   schema.split(/\n{2,}/).forEach(async (block) => {
     try {
@@ -93,7 +93,7 @@ async function createDb(schema) {
     } catch (e) {
       console.error(e);
     } finally {
-      console.log('OK ' + block);
+      console.debug('OK ' + block);
     }
   });
 }
