@@ -16,3 +16,4 @@ The Kaggle data is documented in the UFO `Help.vue` - strip the final space from
 
 The `AppVue` component will cluster unless initialised with the attribute `clustered=false`.
 
+If `$store.state.map.updateMs > 0` then `updateBounds` will be called at that interval, otherwise no updates will be requested unless the map is moved.
