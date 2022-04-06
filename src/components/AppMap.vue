@@ -231,7 +231,7 @@ export default {
 
     async _updateBounds() {
       // Edge, probably HMR-related:
-      if (!this.$refs.map.mapObject) {
+      if (!this.$refs.map || !this.$refs.map.mapObject) {
         return;
       }
 
